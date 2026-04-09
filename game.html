@@ -772,6 +772,42 @@ body { display: block; }
 .mn-coming-soon .cs-icon { font-size: 50px; }
 .mn-coming-soon p { font-size: 14px; letter-spacing: 1px; }
 
+/* === TRACK SELECTION OVERLAY === */
+.track-select-overlay {
+  display:none; position:fixed; inset:0; z-index:100;
+  background:rgba(5,8,16,0.88); backdrop-filter:blur(8px);
+  align-items:center; justify-content:center;
+}
+.track-select-overlay.show { display:flex; }
+.track-select-box {
+  background:rgba(22,33,62,0.95); border:1px solid rgba(233,69,96,0.25);
+  border-radius:16px; padding:32px 42px; max-width:720px; text-align:center;
+}
+.ts-title {
+  font-size:15px; font-weight:800; letter-spacing:2.5px; text-transform:uppercase;
+  color:var(--muted); margin-bottom:22px;
+}
+.ts-grid { display:flex; gap:20px; justify-content:center; }
+.ts-card {
+  border-radius:12px; overflow:hidden; cursor:pointer;
+  border:2px solid rgba(255,255,255,0.08); transition:all .2s; width:290px;
+}
+.ts-card:hover {
+  border-color:rgba(233,69,96,0.6); transform:translateY(-4px);
+  box-shadow:0 12px 32px rgba(0,0,0,0.5);
+}
+.ts-card img { width:100%; display:block; }
+.ts-label {
+  padding:10px; font-size:11px; font-weight:700; letter-spacing:1px;
+  color:var(--white); background:rgba(5,8,16,0.65); text-transform:uppercase;
+}
+.ts-back {
+  margin-top:20px; padding:8px 28px; border-radius:8px;
+  border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.05);
+  color:var(--muted); font-size:11px; font-weight:700; cursor:pointer; letter-spacing:.5px;
+}
+.ts-back:hover { background:rgba(255,255,255,0.1); color:var(--white); }
+
 /* === GAME SCREEN === */
 #game-screen { display: none; grid-template-rows: 50fr 50fr; height: 100vh; }
 </style>
@@ -810,6 +846,24 @@ body { display: block; }
     <div class="mn-panel" id="mn-panel-settings">
       <div class="mn-coming-soon"><div class="cs-icon">⚙️</div><p>Settings — Coming Soon</p></div>
     </div>
+  </div>
+</div>
+
+<!-- TRACK SELECTION OVERLAY -->
+<div class="track-select-overlay" id="trackSelectOverlay">
+  <div class="track-select-box">
+    <div class="ts-title">Select Track</div>
+    <div class="ts-grid">
+      <div class="ts-card" onclick="selectTrackAndLaunch('track02')">
+        <img src="Race tracks/pokerRush_raceTrack_02.png" alt="Poker Oval">
+        <div class="ts-label">Poker Oval</div>
+      </div>
+      <div class="ts-card" onclick="selectTrackAndLaunch('track01')">
+        <img src="Race tracks/pokerRush_raceTrack_01.png" alt="Serpentine Circuit">
+        <div class="ts-label">Serpentine Circuit</div>
+      </div>
+    </div>
+    <button class="ts-back" onclick="closeTrackSelect()">Cancel</button>
   </div>
 </div>
 
@@ -962,6 +1016,104 @@ const BASE_LAPS_PER_SEC  = 5 / 180;
 const SPEED_FLOOR        = 0.3;
 const SPEED_CEIL         = 2.0;
 const BET_AMOUNT         = 100;
+
+// ─────────────────────────────────────────────
+// TRACK DEFINITIONS (waypoints in normalised 0-1 coords, clockwise from start/finish)
+// ─────────────────────────────────────────────
+const TRACKS = {
+  track01: {
+    id: 'track01',
+    name: 'Serpentine Circuit',
+    img: 'Race tracks/pokerRush_raceTrack_01.png',
+    waypoints: [
+      [0.484, 0.749],
+      [0.443, 0.754],
+      [0.387, 0.752],
+      [0.344, 0.750],
+      [0.293, 0.754],
+      [0.235, 0.754],
+      [0.172, 0.739],
+      [0.129, 0.662],
+      [0.115, 0.533],
+      [0.115, 0.430],
+      [0.126, 0.330],
+      [0.158, 0.255],
+      [0.214, 0.209],
+      [0.306, 0.211],
+      [0.382, 0.211],
+      [0.467, 0.223],
+      [0.545, 0.240],
+      [0.575, 0.335],
+      [0.587, 0.497],
+      [0.643, 0.544],
+      [0.685, 0.514],
+      [0.699, 0.409],
+      [0.714, 0.307],
+      [0.747, 0.253],
+      [0.787, 0.241],
+      [0.834, 0.258],
+      [0.872, 0.327],
+      [0.885, 0.412],
+      [0.887, 0.508],
+      [0.877, 0.620],
+      [0.840, 0.697],
+      [0.789, 0.744],
+      [0.733, 0.750],
+      [0.679, 0.749],
+      [0.606, 0.747],
+      [0.545, 0.745],
+      [0.484, 0.749],
+    ],
+    roadWidthNorm: 0.038,
+  },
+  track02: {
+    id: 'track02',
+    name: 'Poker Oval',
+    img: 'Race tracks/pokerRush_raceTrack_02.png',
+    waypoints: [
+      [0.490, 0.742],
+      [0.439, 0.745],
+      [0.392, 0.750],
+      [0.331, 0.752],
+      [0.274, 0.754],
+      [0.190, 0.744],
+      [0.136, 0.673],
+      [0.124, 0.566],
+      [0.123, 0.464],
+      [0.131, 0.358],
+      [0.161, 0.270],
+      [0.221, 0.228],
+      [0.280, 0.220],
+      [0.343, 0.221],
+      [0.402, 0.216],
+      [0.473, 0.211],
+      [0.541, 0.209],
+      [0.603, 0.209],
+      [0.661, 0.219],
+      [0.728, 0.229],
+      [0.810, 0.245],
+      [0.868, 0.330],
+      [0.887, 0.456],
+      [0.884, 0.575],
+      [0.847, 0.693],
+      [0.786, 0.735],
+      [0.717, 0.752],
+      [0.656, 0.752],
+      [0.599, 0.752],
+      [0.534, 0.745],
+      [0.490, 0.742],
+    ],
+    roadWidthNorm: 0.032,
+  },
+};
+
+// Preload track images
+const trackImgCache = {};
+Object.values(TRACKS).forEach(t => {
+  const img = new Image();
+  img.src = t.img;
+  trackImgCache[t.id] = img;
+});
 
 const RACERS = [
   { id:'player', name:'You',     initials:'HF', isPlayer:true,  laneFraction:0.37 },
@@ -1411,8 +1563,9 @@ let handHistory    = [];
 // Power-ups
 let puUsed = [false, false, false];
 
-// Active variant
+// Active variant & track
 let activeVariant = 'All American';
+let activeTrack   = TRACKS.track02;
 
 // ─────────────────────────────────────────────
 // DECK / POKER UTILITIES
@@ -1566,112 +1719,205 @@ function resizeCanvas() {
   canvas.height = Math.max(rect.height, 1);
 }
 
-function trackGeom() {
-  const W = canvas.width, H = canvas.height;
-  const cx = W / 2, cy = H / 2;
-  const outerRX = W / 2 - 18, outerRY = H / 2 - 18;
-  const innerRX = outerRX * 0.40, innerRY = outerRY * 0.18;
-  const midRX = (outerRX + innerRX) / 2, midRY = (outerRY + innerRY) / 2;
-  return { W, H, cx, cy, outerRX, outerRY, innerRX, innerRY, midRX, midRY };
+// ─── Catmull-Rom spline helpers ───
+function catmullRomPoint(p0, p1, p2, p3, t) {
+  const t2 = t * t, t3 = t2 * t;
+  return {
+    x: 0.5 * ((2*p1[0]) + (-p0[0]+p2[0])*t + (2*p0[0]-5*p1[0]+4*p2[0]-p3[0])*t2 + (-p0[0]+3*p1[0]-3*p2[0]+p3[0])*t3),
+    y: 0.5 * ((2*p1[1]) + (-p0[1]+p2[1])*t + (2*p0[1]-5*p1[1]+4*p2[1]-p3[1])*t2 + (-p0[1]+3*p1[1]-3*p2[1]+p3[1])*t3),
+  };
+}
+function catmullRomTangent(p0, p1, p2, p3, t) {
+  const t2 = t * t;
+  return {
+    dx: 0.5 * ((-p0[0]+p2[0]) + (4*p0[0]-10*p1[0]+8*p2[0]-2*p3[0])*t + (-3*p0[0]+9*p1[0]-9*p2[0]+3*p3[0])*t2),
+    dy: 0.5 * ((-p0[1]+p2[1]) + (4*p0[1]-10*p1[1]+8*p2[1]-2*p3[1])*t + (-3*p0[1]+9*p1[1]-9*p2[1]+3*p3[1])*t2),
+  };
+}
+function getTrackPoint(track, progress) {
+  const wp = track.waypoints;
+  const N = wp.length;
+  const seg = N - 1;  // number of segments (first == last for closure)
+  const p = ((progress % 1) + 1) % 1;  // normalise to [0,1)
+  const segF = p * seg;
+  const i = Math.min(Math.floor(segF), seg - 1);
+  const localT = segF - i;
+  const p0 = wp[((i - 1) % N + N) % N];
+  const p1 = wp[i];
+  const p2 = wp[(i + 1) % N];
+  const p3 = wp[(i + 2) % N];
+  return catmullRomPoint(p0, p1, p2, p3, localT);
+}
+function getTrackTangent(track, progress) {
+  const wp = track.waypoints;
+  const N = wp.length;
+  const seg = N - 1;
+  const p = ((progress % 1) + 1) % 1;
+  const segF = p * seg;
+  const i = Math.min(Math.floor(segF), seg - 1);
+  const localT = segF - i;
+  const p0 = wp[((i - 1) % N + N) % N];
+  const p1 = wp[i];
+  const p2 = wp[(i + 1) % N];
+  const p3 = wp[(i + 2) % N];
+  return catmullRomTangent(p0, p1, p2, p3, localT);
 }
 
-function ellipsePath(g, rx, ry) {
-  ctx.beginPath();
-  ctx.ellipse(g.cx, g.cy, rx, ry, 0, 0, Math.PI * 2);
+// Returns {x, y, heading} in canvas pixel coordinates
+function getCarPos(progress, track, laneFraction, drawW, drawH) {
+  const pt = getTrackPoint(track, progress);
+  const tg = getTrackTangent(track, progress);
+  // Normalise tangent
+  const len = Math.sqrt(tg.dx * tg.dx + tg.dy * tg.dy) || 1;
+  const nx = -tg.dy / len, ny = tg.dx / len;  // perpendicular (left-hand normal)
+  // Lane offset: 0 = inner edge, 0.5 = centre, 1 = outer edge
+  const offset = (laneFraction - 0.5) * 2 * track.roadWidthNorm;
+  return {
+    x: (pt.x + nx * offset) * drawW,
+    y: (pt.y + ny * offset) * drawH,
+    heading: Math.atan2(tg.dy, tg.dx),
+  };
 }
 
-function getCarPos(progress, g, laneFraction) {
-  const theta = -Math.PI / 2 + progress * Math.PI * 2;
-  const rx = g.innerRX + laneFraction * (g.outerRX - g.innerRX);
-  const ry = g.innerRY + laneFraction * (g.outerRY - g.innerRY);
-  const x  = g.cx + rx * Math.cos(theta);
-  const y  = g.cy + ry * Math.sin(theta);
-  const tx = -rx * Math.sin(theta), ty = ry * Math.cos(theta);
-  return { x, y, heading: Math.atan2(ty, tx) };
+let DEBUG_TRACK = false;   // toggle with W key to show waypoint editor
+
+// ─── Interactive waypoint editor ───
+// Press W to toggle waypoint editor visibility.
+// Drag red dots on canvas. Press E to export coordinates to console.
+// Press A to add a new waypoint. Press X while dragging to delete.
+let _debugDraw = { x: 0, y: 0, w: 1, h: 1 };
+let _dragIdx = -1;
+{
+  canvas.addEventListener('mousedown', e => {
+    if (!DEBUG_TRACK) return;
+    const rect = canvas.getBoundingClientRect();
+    const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    const my = (e.clientY - rect.top) * (canvas.height / rect.height);
+    const dr = _debugDraw;
+    const wp = activeTrack.waypoints;
+    let bestD = Infinity, bestI = -1;
+    for (let i = 0; i < wp.length; i++) {
+      const px = dr.x + wp[i][0] * dr.w;
+      const py = dr.y + wp[i][1] * dr.h;
+      const d = Math.hypot(mx - px, my - py);
+      if (d < bestD) { bestD = d; bestI = i; }
+    }
+    if (bestD < 18) _dragIdx = bestI;
+  });
+  canvas.addEventListener('mousemove', e => {
+    if (_dragIdx < 0) return;
+    const rect = canvas.getBoundingClientRect();
+    const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    const my = (e.clientY - rect.top) * (canvas.height / rect.height);
+    const dr = _debugDraw;
+    const nx = (mx - dr.x) / dr.w;
+    const ny = (my - dr.y) / dr.h;
+    activeTrack.waypoints[_dragIdx] = [+nx.toFixed(3), +ny.toFixed(3)];
+    // Keep first and last in sync (loop closure)
+    const wp = activeTrack.waypoints;
+    if (_dragIdx === 0) wp[wp.length - 1] = [...wp[0]];
+    if (_dragIdx === wp.length - 1) wp[0] = [...wp[wp.length - 1]];
+  });
+  canvas.addEventListener('mouseup', () => { _dragIdx = -1; });
+  canvas.addEventListener('mouseleave', () => { _dragIdx = -1; });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'w' || e.key === 'W') {
+      DEBUG_TRACK = !DEBUG_TRACK;
+      console.log('Waypoint editor: ' + (DEBUG_TRACK ? 'ON' : 'OFF'));
+      return;
+    }
+    if (!DEBUG_TRACK) return;  // remaining keys only active when editor is visible
+    if (e.key === 'e' || e.key === 'E') {
+      // Export current waypoints — copy to clipboard ready to paste into game.html
+      const lines = activeTrack.waypoints.map(([x,y]) => `      [${x.toFixed(3)}, ${y.toFixed(3)}],`);
+      const text = `    waypoints: [\n${lines.join('\n')}\n    ],`;
+      navigator.clipboard.writeText(text).then(() => {
+        alert(`${activeTrack.name} waypoints copied to clipboard!\n\nPaste them into game.html inside the TRACKS.${activeTrack.id} object to save permanently.`);
+      }).catch(() => {
+        // Fallback: log to console if clipboard blocked
+        console.log(`// ${activeTrack.name} waypoints:\n${text}`);
+        alert('Clipboard blocked — waypoints printed to console (F12)');
+      });
+    }
+    if (e.key === 'a' || e.key === 'A') {
+      const wp = activeTrack.waypoints;
+      const insertIdx = wp.length - 1;
+      const prev = wp[insertIdx - 1], next = wp[insertIdx];
+      const mid = [+((prev[0] + next[0]) / 2).toFixed(3), +((prev[1] + next[1]) / 2).toFixed(3)];
+      wp.splice(insertIdx, 0, mid);
+      console.log(`Added waypoint at index ${insertIdx}: [${mid}]. Total: ${wp.length}`);
+    }
+    if (e.key === 'x' || e.key === 'X') {
+      if (_dragIdx >= 0 && activeTrack.waypoints.length > 4) {
+        activeTrack.waypoints.splice(_dragIdx, 1);
+        _dragIdx = -1;
+        console.log(`Deleted waypoint. Total: ${activeTrack.waypoints.length}`);
+      }
+    }
+  });
 }
 
 function renderCanvas(now) {
-  const g = trackGeom();
-  const { W, H, cx, cy } = g;
+  const W = canvas.width, H = canvas.height;
+  const track = activeTrack;
+  const trackImg = trackImgCache[track.id];
 
-  // 1. Background
-  ctx.fillStyle = '#0a1220';
+  // 1. Clear to black
+  ctx.fillStyle = '#000';
   ctx.fillRect(0, 0, W, H);
 
-  // 2. Outer grass
-  ctx.fillStyle = '#0c1a0c';
-  ellipsePath(g, g.outerRX + 14, g.outerRY + 14);
-  ctx.fill();
-
-  // 3. Road surface (even-odd clip)
-  ctx.fillStyle = '#1c2a3c';
-  ctx.beginPath();
-  ctx.ellipse(cx, cy, g.outerRX, g.outerRY, 0, 0, Math.PI * 2);
-  ctx.ellipse(cx, cy, g.innerRX, g.innerRY, 0, 0, Math.PI * 2, true);
-  ctx.fill('evenodd');
-
-  // 4. Outer border
-  ctx.strokeStyle = 'rgba(255,255,255,0.25)';
-  ctx.lineWidth = 2;
-  ellipsePath(g, g.outerRX, g.outerRY);
-  ctx.stroke();
-
-  // 5. Inner border
-  ctx.strokeStyle = 'rgba(255,255,255,0.20)';
-  ctx.lineWidth = 1.5;
-  ellipsePath(g, g.innerRX, g.innerRY);
-  ctx.stroke();
-
-  // 6. Dashed center ellipse
-  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
-  ctx.lineWidth = 1;
-  ctx.setLineDash([12, 12]);
-  ellipsePath(g, g.midRX, g.midRY);
-  ctx.stroke();
-  ctx.setLineDash([]);
-
-  // 7. Infield
-  ctx.fillStyle = '#091408';
-  ellipsePath(g, g.innerRX - 1, g.innerRY - 1);
-  ctx.fill();
-
-  // 8. Logo in track centre
-  if (logoImg.complete && logoImg.naturalWidth > 0) {
-    const maxW = g.innerRX * 2.4;
-    const maxH = g.innerRY * 1.8;
-    const scale = Math.min(maxW / logoImg.naturalWidth, maxH / logoImg.naturalHeight);
-    const lw = logoImg.naturalWidth  * scale;
-    const lh = logoImg.naturalHeight * scale;
-    ctx.globalAlpha = 0.55;
-    ctx.drawImage(logoImg, cx - lw / 2, cy - lh / 2, lw, lh);
-    ctx.globalAlpha = 1;
+  // 2. Draw track image (contain-fit, preserving aspect ratio)
+  let drawX = 0, drawY = 0, drawW = W, drawH = H;
+  if (trackImg && trackImg.complete && trackImg.naturalWidth > 0) {
+    const imgAR = trackImg.naturalWidth / trackImg.naturalHeight;
+    const canvasAR = W / H;
+    if (canvasAR > imgAR) {
+      drawH = H; drawW = H * imgAR;
+      drawX = (W - drawW) / 2; drawY = 0;
+    } else {
+      drawW = W; drawH = W / imgAR;
+      drawX = 0; drawY = (H - drawH) / 2;
+    }
+    ctx.drawImage(trackImg, drawX, drawY, drawW, drawH);
   }
+  _debugDraw = { x: drawX, y: drawY, w: drawW, h: drawH };
 
-  // 9. Checkered start/finish at top (theta = -π/2)
-  const sfAngle  = -Math.PI / 2;
-  const segments = 8;
-  const sqH      = 6;
-  for (let i = 0; i < segments; i++) {
-    const t1 = i / segments, t2 = (i + 1) / segments;
-    const r1 = g.innerRX + (g.outerRX - g.innerRX) * t1;
-    const ry1 = g.innerRY + (g.outerRY - g.innerRY) * t1;
-    const r2 = g.innerRX + (g.outerRX - g.innerRX) * t2;
-    const ry2 = g.innerRY + (g.outerRY - g.innerRY) * t2;
-    const x1 = cx + r1  * Math.cos(sfAngle), y1 = cy + ry1 * Math.sin(sfAngle);
-    const x2 = cx + r2  * Math.cos(sfAngle), y2 = cy + ry2 * Math.sin(sfAngle);
-    // Two columns side by side perpendicular to radial direction
-    const perpX = -Math.sin(sfAngle), perpY = Math.cos(sfAngle);
-    for (let col = 0; col < 2; col++) {
-      const off = (col - 0.5) * sqH;
-      const mx = (x1 + x2) / 2 + perpX * off;
-      const my = (y1 + y2) / 2 + perpY * off;
-      const len = Math.sqrt((x2-x1)**2 + (y2-y1)**2);
-      ctx.fillStyle = (i + col) % 2 === 0 ? '#ffffff' : '#000000';
-      ctx.save();
-      ctx.translate(mx, my);
-      ctx.rotate(Math.atan2(y2 - y1, x2 - x1));
-      ctx.fillRect(-len / 2, -sqH / 2, len, sqH);
-      ctx.restore();
+  // 3. Debug overlay — waypoints, spline, lane edges
+  if (DEBUG_TRACK) {
+    const wp = track.waypoints;
+    // Waypoint index numbers
+    ctx.font = 'bold 10px monospace';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+    for (let i = 0; i < wp.length; i++) {
+      const px = drawX + wp[i][0] * drawW;
+      const py = drawY + wp[i][1] * drawH;
+      // Red dot
+      ctx.fillStyle = (i === 0 || i === wp.length - 1) ? '#0f0' : 'red';
+      ctx.beginPath();
+      ctx.arc(px, py, 5, 0, Math.PI * 2);
+      ctx.fill();
+      // Index label
+      ctx.fillStyle = '#fff';
+      ctx.fillText(i, px, py - 7);
+    }
+    // Green centre spline
+    ctx.strokeStyle = 'lime'; ctx.lineWidth = 2; ctx.beginPath();
+    for (let p = 0; p <= 1; p += 0.002) {
+      const pt = getTrackPoint(track, p);
+      const sx = drawX + pt.x * drawW, sy = drawY + pt.y * drawH;
+      p === 0 ? ctx.moveTo(sx, sy) : ctx.lineTo(sx, sy);
+    }
+    ctx.stroke();
+    // Yellow lane edges
+    ctx.strokeStyle = 'rgba(255,255,0,0.5)'; ctx.lineWidth = 1;
+    for (const lf of [0, 1]) {
+      ctx.beginPath();
+      for (let p = 0; p <= 1; p += 0.002) {
+        const pos = getCarPos(p, track, lf, drawW, drawH);
+        const sx = drawX + pos.x, sy = drawY + pos.y;
+        p === 0 ? ctx.moveTo(sx, sy) : ctx.lineTo(sx, sy);
+      }
+      ctx.stroke();
     }
   }
 
@@ -1679,7 +1925,8 @@ function renderCanvas(now) {
   const sortedForDraw = [...racerState].sort((a, b) => a.distance - b.distance);
   for (const state of sortedForDraw) {
     const progress = state.distance % 1;
-    const pos = getCarPos(progress, g, state.laneFraction);
+    const pos = getCarPos(progress, track, state.laneFraction, drawW, drawH);
+    pos.x += drawX; pos.y += drawY;
     const cS    = 90;
     const cHalf = cS * 0.23;
 
@@ -2473,6 +2720,23 @@ function mnShowPanel(panel) {
   if (tab) tab.classList.add('active');
 }
 
+// ─── Track selection flow ───
+let pendingVariant = null;
+function openTrackSelect(variant) {
+  pendingVariant = variant;
+  document.getElementById('trackSelectOverlay').classList.add('show');
+}
+function closeTrackSelect() {
+  document.getElementById('trackSelectOverlay').classList.remove('show');
+  pendingVariant = null;
+}
+function selectTrackAndLaunch(trackId) {
+  activeTrack = TRACKS[trackId];
+  document.getElementById('trackSelectOverlay').classList.remove('show');
+  launchGame(pendingVariant);
+  pendingVariant = null;
+}
+
 function launchGame(variant) {
   // Cancel any running game loop
   if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
@@ -2544,13 +2808,13 @@ function launchGame(variant) {
   ];
   const grid = document.getElementById('gm-grid');
   grid.innerHTML = MODES.map(m => `
-    <div class="gm-card ${m.available ? 'available' : 'locked'}"${m.available ? ` onclick="launchGame('${m.name}')"` : ''}>
+    <div class="gm-card ${m.available ? 'available' : 'locked'}"${m.available ? ` onclick="openTrackSelect('${m.name}')"` : ''}>
       <div class="gm-img-wrap">
         <img src="${m.img}" alt="${m.name}">
         ${!m.available ? '<div class="gm-lock-ov"><span>🔒</span></div>' : ''}
       </div>
       <div class="gm-foot">
-        <button class="gm-cta ${m.available ? 'play' : 'buy'}"${m.available ? ` onclick="event.stopPropagation();launchGame('${m.name}')"` : ' disabled'}>
+        <button class="gm-cta ${m.available ? 'play' : 'buy'}"${m.available ? ` onclick="event.stopPropagation();openTrackSelect('${m.name}')"` : ' disabled'}>
           ${m.available ? '&#9654; Quick Play' : '🔒 Buy Now'}
         </button>
       </div>
