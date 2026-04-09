@@ -945,7 +945,7 @@ body { display: block; }
 <!-- MENU SCREEN -->
 <div id="menu-screen" class="screen">
   <div class="mn-hdr">
-    <img class="mn-hdr-logo" src="pokerRush_logo_ design01.png" alt="" onclick="mnShowPanel('games')">
+    <img class="mn-hdr-logo" src="Logos/pokerRush_logo_ design01b.png" alt="" onclick="mnShowPanel('games')">
     <img class="mn-hdr-brand-img" src="Logos/pokerRush_logo_ small.png" alt="Poker Rush" onclick="mnShowPanel('games')" style="height:32px;object-fit:contain;cursor:pointer;">
     <div class="mn-hdr-chips">💰 <span id="menuChips">10,000</span> chips</div>
     <div class="player-name-badge" id="menuPlayerNameBadge"></div>
@@ -1365,12 +1365,12 @@ const RACERS = [
 
 // Six car image definitions — 4 are picked at random each race
 const CAR_DEFS = [
-  { file:'cars/pokerRush_car_red.png',    color:'#e94560', grad:'linear-gradient(135deg,#b91c1c,#e94560)' },
-  { file:'cars/pokerRush_car_blue.png',   color:'#3b82f6', grad:'linear-gradient(135deg,#1d4ed8,#3b82f6)' },
-  { file:'cars/pokerRush_car_green.png',  color:'#10b981', grad:'linear-gradient(135deg,#065f46,#10b981)' },
-  { file:'cars/pokerRush_car_orange.png', color:'#f59e0b', grad:'linear-gradient(135deg,#b45309,#f59e0b)' },
-  { file:'cars/pokerRush_car_purple.png', color:'#8b5cf6', grad:'linear-gradient(135deg,#5b21b6,#8b5cf6)' },
-  { file:'cars/pokerRush_car_yellow.png', color:'#eab308', grad:'linear-gradient(135deg,#854d0e,#eab308)' },
+  { file:'Cars/pokerRush_car_red.png',    color:'#e94560', grad:'linear-gradient(135deg,#b91c1c,#e94560)' },
+  { file:'Cars/pokerRush_car_blue.png',   color:'#3b82f6', grad:'linear-gradient(135deg,#1d4ed8,#3b82f6)' },
+  { file:'Cars/pokerRush_car_green.png',  color:'#10b981', grad:'linear-gradient(135deg,#065f46,#10b981)' },
+  { file:'Cars/pokerRush_car_orange.png', color:'#f59e0b', grad:'linear-gradient(135deg,#b45309,#f59e0b)' },
+  { file:'Cars/pokerRush_car_purple.png', color:'#8b5cf6', grad:'linear-gradient(135deg,#5b21b6,#8b5cf6)' },
+  { file:'Cars/pokerRush_car_yellow.png', color:'#eab308', grad:'linear-gradient(135deg,#854d0e,#eab308)' },
 ];
 
 // Preload all six car images immediately
@@ -1383,7 +1383,7 @@ CAR_DEFS.forEach(def => {
 
 // Preload logo
 const logoImg = new Image();
-logoImg.src = 'pokerRush_logo_ design01.png';
+logoImg.src = 'Logos/pokerRush_logo_ design01b.png';
 
 const HAND_SPEED_PCT = {
   'Royal Flush':20, 'Straight Flush':16, 'Four of a Kind':14,
