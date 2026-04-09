@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poker Rush — UI Mockups</title>
+<style>
+  /* ── Reset & base ─────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:    #0f3460;
+    --navy2:   #16213e;
+    --navy3:   #1a1a2e;
+    --red:     #e94560;
+    --red2:    #c73652;
+    --gold:    #f0a500;
+    --gold2:   #d4891a;
+    --green:   #27ae60;
+    --teal:    #00b4d8;
+    --light:   #f4f7fc;
+    --mid:     #dde3ec;
+    --muted:   #8892a4;
+    --white:   #ffffff;
+    --card-bg: #1e2d4a;
+  }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #0a0e1a;
+    color: var(--white);
+    line-height: 1.4;
+  }
+
+  /* ── Nav tabs ─────────────────────────────────────────── */
+  .screen-nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; gap: 2px;
+    background: #050810;
+    padding: 10px 24px 0;
+    border-bottom: 2px solid var(--red);
+  }
+  .screen-nav button {
+    background: transparent; border: none;
+    color: var(--muted); font-size: 13px; font-weight: 600;
+    padding: 10px 22px; cursor: pointer; border-radius: 6px 6px 0 0;
+    transition: all .2s; letter-spacing: .5px; text-transform: uppercase;
+  }
+  .screen-nav button.active { background: var(--navy3); color: var(--white); }
+  .screen-nav button:hover:not(.active) { color: var(--white); }
+
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ── Shared components ────────────────────────────────── */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 6px; border: none; border-radius: 6px;
+    font-weight: 700; cursor: pointer; transition: all .15s;
+    letter-spacing: .4px; text-transform: uppercase; font-size: 12px;
+  }
+  .btn-primary { background: var(--red); color: white; padding: 10px 20px; }
+  .btn-primary:hover { background: var(--red2); transform: translateY(-1px); }
+  .btn-secondary { background: var(--navy); color: white; padding: 10px 20px; border: 1px solid #2a4a7a; }
+  .btn-secondary:hover { background: #1a4a8a; }
+  .btn-ghost { background: transparent; color: var(--muted); padding: 8px 16px; border: 1px solid #2a3a55; }
+  .btn-ghost:hover { color: white; border-color: var(--muted); }
+  .btn-gold { background: var(--gold); color: var(--navy3); padding: 10px 20px; }
+  .btn-gold:hover { background: var(--gold2); }
+  .btn-sm { font-size: 10px; padding: 6px 12px; }
+  .btn-lg { font-size: 14px; padding: 13px 28px; }
+
+  .tag {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 2px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: .5px;
+  }
+  .tag-green  { background: rgba(39,174,96,.2);  color: #4ade80; }
+  .tag-red    { background: rgba(233,69,96,.2);  color: #f87171; }
+  .tag-gold   { background: rgba(240,165,0,.2);  color: #fbbf24; }
+  .tag-teal   { background: rgba(0,180,216,.2);  color: #38bdf8; }
+  .tag-muted  { background: rgba(136,146,164,.15); color: var(--muted); }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     SCREEN 1 — WELCOME / MAIN MENU
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  #welcome {
+    min-height: 100vh;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(233,69,96,.18) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(15,52,96,.5) 0%, transparent 60%),
+      linear-gradient(160deg, #0a0e1a 0%, #12192e 50%, #0d1526 100%);
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    grid-template-rows: auto 1fr auto;
+    min-height: calc(100vh - 50px);
+  }
+
+  /* Header bar */
+  .welcome-header {
+    grid-column: 1/-1;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 40px;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    background: rgba(10,14,26,.6); backdrop-filter: blur(10px);
+  }
+  .welcome-logo {
+    font-size: 26px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase;
+    color: white;
+  }
+  .welcome-logo span { color: var(--red); }
+  .header-right { display: flex; align-items: center; gap: 16px; }
+  .player-chip {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,.06); border-radius: 8px;
+    padding: 6px 14px; border: 1px solid rgba(255,255,255,.08);
+  }
+  .avatar-sm {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--red), var(--navy));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+  }
+  .chip-bal { font-size: 12px; color: var(--gold); font-weight: 700; }
+  .chip-bal span { color: var(--muted); font-weight: 400; font-size: 10px; margin-right: 4px; }
+
+  /* Hero left */
+  .welcome-hero {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 60px 60px 60px 80px;
+  }
+  .hero-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--red); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block; width: 24px; height: 2px; background: var(--red);
+  }
+  .hero-title {
+    font-size: 64px; font-weight: 900; line-height: 1.05; letter-spacing: -1px;
+    text-transform: uppercase;
+  }
+  .hero-title .line2 { color: var(--red); }
+  .hero-sub {
+    font-size: 15px; color: var(--muted); max-width: 460px;
+    margin: 20px 0 36px; line-height: 1.7;
+  }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* Stats bar */
+  .hero-stats {
+    display: flex; gap: 36px; margin-top: 48px;
+    padding-top: 32px; border-top: 1px solid rgba(255,255,255,.06);
+  }
+  .stat-item {}
+  .stat-num { font-size: 22px; font-weight: 800; color: var(--white); }
+  .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+  /* Side panel — leaderboard */
+  .welcome-sidebar {
+    background: rgba(15,20,36,.8);
+    border-left: 1px solid rgba(255,255,255,.06);
+    display: flex; flex-direction: column;
+    padding: 32px 24px;
+    gap: 0;
+  }
+  .sidebar-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--red); margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .leaderboard-list { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .lb-row {
+    display: grid; grid-template-columns: 22px 32px 1fr 70px 50px;
+    align-items: center; gap: 8px;
+    padding: 8px 10px; border-radius: 6px;
+    transition: background .15s; cursor: default;
+  }
+  .lb-row:hover { background: rgba(255,255,255,.04); }
+  .lb-row.top3 { background: rgba(240,165,0,.05); }
+  .lb-rank { font-size: 11px; font-weight: 700; color: var(--muted); text-align: center; }
+  .lb-rank.gold { color: var(--gold); }
+  .lb-rank.silver { color: #94a3b8; }
+  .lb-rank.bronze { color: #cd7f32; }
+  .lb-avatar {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: white;
+  }
+  .lb-name { font-size: 12px; font-weight: 600; color: var(--white); }
+  .lb-rep { font-size: 11px; color: var(--gold); font-weight: 700; text-align: right; }
+  .lb-badge { text-align: right; }
+
+  /* Bottom nav */
+  .welcome-footer {
+    grid-column: 1/-1;
+    display: flex; align-items: center; gap: 6px;
+    padding: 16px 40px;
+    background: rgba(10,14,26,.8);
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+  .nav-btn {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 20px; border-radius: 8px;
+    background: transparent; border: 1px solid rgba(255,255,255,.08);
+    color: var(--muted); font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all .15s; text-transform: uppercase; letter-spacing: .5px;
+  }
+  .nav-btn:hover, .nav-btn.active { background: rgba(255,255,255,.06); color: white; border-color: rgba(255,255,255,.15); }
+  .nav-icon { font-size: 16px; }
+  .nav-sep { width: 1px; height: 32px; background: rgba(255,255,255,.08); margin: 0 4px; }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     SCREEN 2 — MATCHMAKING ROOM
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  #matchmaking {
+    min-height: calc(100vh - 50px);
+    background: linear-gradient(160deg, #0a0e1a 0%, #10182e 100%);
+    display: grid;
+    grid-template-rows: auto 1fr;
+  }
+
+  .mm-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 32px;
+    background: rgba(15,52,96,.25);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  .mm-header-left { display: flex; align-items: center; gap: 20px; }
+  .mm-logo { font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; }
+  .mm-logo span { color: var(--red); }
+  .page-title { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+  .sep { color: rgba(255,255,255,.2); }
+
+  .mm-body {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  /* Left — race list */
+  .mm-left {
+    display: flex; flex-direction: column;
+    padding: 24px 28px;
+    gap: 16px;
+    overflow-y: auto;
+  }
+  .mm-toolbar {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .mm-search {
+    flex: 1; min-width: 180px;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 6px; color: white; font-size: 12px;
+    padding: 8px 14px; outline: none;
+  }
+  .mm-search::placeholder { color: var(--muted); }
+  .filter-chip {
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 20px; color: var(--muted); font-size: 11px;
+    padding: 5px 12px; cursor: pointer; transition: all .15s;
+  }
+  .filter-chip.on { background: rgba(233,69,96,.15); border-color: var(--red); color: var(--red); }
+
+  .race-list { display: flex; flex-direction: column; gap: 8px; }
+  .race-card {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 10px; padding: 14px 18px;
+    cursor: pointer; transition: all .15s;
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: start; gap: 12px;
+    position: relative; overflow: hidden;
+  }
+  .race-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: var(--muted); border-radius: 3px 0 0 3px;
+  }
+  .race-card.live::before  { background: var(--green); }
+  .race-card.open::before  { background: var(--teal); }
+  .race-card.soon::before  { background: var(--gold); }
+  .race-card:hover, .race-card.selected {
+    background: rgba(15,52,96,.3); border-color: rgba(15,52,96,.6);
+  }
+  .race-card.selected { border-color: var(--teal); }
+  .rc-title { font-size: 13px; font-weight: 700; color: white; margin-bottom: 6px; }
+  .rc-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .rc-players {
+    display: flex; gap: 4px; margin-top: 8px;
+  }
+  .rc-player-dot {
+    width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700; color: white;
+    border: 2px solid rgba(255,255,255,.15);
+  }
+  .rc-player-dot.empty {
+    background: rgba(255,255,255,.05); border-style: dashed;
+    color: var(--muted); font-size: 11px;
+  }
+  .rc-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .rc-timer { font-size: 18px; font-weight: 800; color: var(--gold); letter-spacing: -0.5px; }
+  .rc-timer-label { font-size: 9px; color: var(--muted); text-align: right; text-transform: uppercase; letter-spacing: .5px; }
+
+  /* Right panel — race detail + create */
+  .mm-right {
+    border-left: 1px solid rgba(255,255,255,.06);
+    display: flex; flex-direction: column;
+    background: rgba(10,14,26,.5);
+  }
+  .mm-right-tabs {
+    display: flex; border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  .mm-tab {
+    flex: 1; padding: 13px; text-align: center;
+    font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent;
+    transition: all .15s;
+  }
+  .mm-tab.active { color: white; border-bottom-color: var(--red); }
+
+  .mm-panel { padding: 24px 20px; flex: 1; overflow-y: auto; }
+  .mm-panel.hidden { display: none; }
+
+  /* Race detail panel */
+  .rd-header { margin-bottom: 20px; }
+  .rd-title { font-size: 16px; font-weight: 800; color: white; margin-bottom: 8px; }
+  .rd-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .rd-section { margin-bottom: 20px; }
+  .rd-section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .rd-section-label::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,.06); }
+
+  .player-roster { display: flex; flex-direction: column; gap: 6px; }
+  .roster-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 10px; border-radius: 6px;
+    background: rgba(255,255,255,.03);
+  }
+  .roster-row.empty { opacity: .4; border: 1px dashed rgba(255,255,255,.1); background: transparent; }
+  .roster-num { font-size: 10px; color: var(--muted); width: 16px; }
+  .roster-av {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700;
+  }
+  .roster-name { font-size: 12px; font-weight: 600; flex: 1; }
+  .roster-rep { font-size: 10px; color: var(--gold); }
+
+  /* Bet section */
+  .bet-box {
+    background: rgba(240,165,0,.07); border: 1px solid rgba(240,165,0,.2);
+    border-radius: 8px; padding: 14px;
+  }
+  .bet-title { font-size: 11px; font-weight: 700; color: var(--gold); margin-bottom: 12px; text-transform: uppercase; letter-spacing: .5px; }
+  .bet-type-row {
+    display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap;
+  }
+  .bet-type-btn {
+    flex: 1; min-width: 80px;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+    color: var(--muted); border-radius: 6px; padding: 7px 8px;
+    font-size: 10px; font-weight: 700; cursor: pointer; text-align: center;
+    transition: all .15s; text-transform: uppercase;
+  }
+  .bet-type-btn.active { background: rgba(240,165,0,.15); border-color: var(--gold); color: var(--gold); }
+  .bet-input-row { display: flex; gap: 8px; align-items: center; }
+  .bet-input {
+    flex: 1; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+    border-radius: 6px; color: white; font-size: 14px; font-weight: 700;
+    padding: 8px 12px; outline: none;
+  }
+  .bet-presets { display: flex; gap: 4px; margin-top: 8px; }
+  .bet-preset {
+    flex: 1; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+    color: var(--muted); border-radius: 4px; font-size: 10px; font-weight: 700;
+    padding: 4px; cursor: pointer; text-align: center; transition: all .15s;
+  }
+  .bet-preset:hover { background: rgba(240,165,0,.1); color: var(--gold); }
+
+  /* Create race form */
+  .form-row { margin-bottom: 16px; }
+  .form-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .form-select, .form-input-r {
+    width: 100%; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 6px; color: white; font-size: 12px;
+    padding: 9px 12px; outline: none; appearance: none;
+  }
+  .form-select option { background: #12192e; }
+  .toggle-row {
+    display: flex; gap: 6px;
+  }
+  .toggle-btn {
+    flex: 1; padding: 8px; text-align: center; border-radius: 6px;
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+    color: var(--muted); font-size: 11px; font-weight: 700; cursor: pointer;
+    transition: all .15s;
+  }
+  .toggle-btn.active { background: rgba(39,174,96,.15); border-color: var(--green); color: #4ade80; }
+  .toggle-btn.active.off { background: rgba(233,69,96,.12); border-color: var(--red); color: #f87171; }
+  .range-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-top: 4px; }
+  .form-range { width: 100%; accent-color: var(--red); margin-top: 6px; }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     SCREEN 3 — GAME SCREEN
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  #game {
+    min-height: calc(100vh - 50px);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    background: #080c16;
+  }
+
+  /* ── Race panel (top 55%) ─────────────────────── */
+  .race-panel {
+    position: relative;
+    background:
+      linear-gradient(180deg, #0a1220 0%, #0d1a2e 40%, #081015 100%);
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    overflow: hidden;
+    border-bottom: 2px solid rgba(255,255,255,.06);
+    min-height: 340px;
+  }
+
+  /* Track area */
+  .track-area {
+    position: relative; overflow: hidden; padding: 16px 20px;
+  }
+
+  /* Race HUD row */
+  .race-hud {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .race-timer-box {
+    background: rgba(233,69,96,.15); border: 1px solid rgba(233,69,96,.3);
+    border-radius: 8px; padding: 6px 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .race-time { font-size: 20px; font-weight: 900; color: var(--red); font-variant-numeric: tabular-nums; }
+  .race-time-label { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .race-lap-badge {
+    background: rgba(240,165,0,.15); border: 1px solid rgba(240,165,0,.3);
+    border-radius: 6px; padding: 5px 12px;
+    font-size: 11px; font-weight: 700; color: var(--gold);
+  }
+  .race-variant-badge {
+    background: rgba(0,180,216,.1); border: 1px solid rgba(0,180,216,.25);
+    border-radius: 6px; padding: 5px 12px;
+    font-size: 10px; font-weight: 700; color: var(--teal); letter-spacing: .5px; text-transform: uppercase;
+  }
+
+  /* Track visualization */
+  .track-viz {
+    position: relative; height: 200px;
+    background: rgba(255,255,255,.02);
+    border-radius: 12px; overflow: hidden;
+    border: 1px solid rgba(255,255,255,.05);
+  }
+  /* Road */
+  .track-road {
+    position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%);
+    height: 70px;
+    background: linear-gradient(180deg, #1a2234 0%, #22304a 50%, #1a2234 100%);
+    border-top: 2px dashed rgba(255,255,255,.1);
+    border-bottom: 2px dashed rgba(255,255,255,.1);
+  }
+  /* Lane dividers */
+  .lane-divider {
+    position: absolute; left: 0; right: 0; top: 50%;
+    height: 1px; background: repeating-linear-gradient(90deg, rgba(255,255,255,.15) 0, rgba(255,255,255,.15) 20px, transparent 20px, transparent 40px);
+  }
+  /* Player lanes */
+  .player-lanes {
+    position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%);
+    height: 70px; display: flex; flex-direction: column;
+  }
+  .player-lane {
+    flex: 1; display: flex; align-items: center;
+    padding: 0 12px;
+    position: relative;
+  }
+  /* Car */
+  .car {
+    position: absolute;
+    width: 44px; height: 18px;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8px; font-weight: 700; color: white;
+    transition: left .4s cubic-bezier(.25,.8,.25,1);
+    box-shadow: 0 0 12px currentColor;
+  }
+  .car::after {
+    content: '';
+    position: absolute; left: -20px; top: 50%; transform: translateY(-50%);
+    width: 20px; height: 2px;
+    background: linear-gradient(90deg, transparent, currentColor);
+    opacity: .4;
+  }
+
+  /* Standings */
+  .standings-column {
+    background: rgba(0,0,0,.3); padding: 16px 14px;
+    border-left: 1px solid rgba(255,255,255,.05);
+    display: flex; flex-direction: column; gap: 4px;
+    overflow: hidden;
+  }
+  .standings-title {
+    font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 8px;
+  }
+  .standing-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 8px; border-radius: 6px;
+    transition: background .15s;
+  }
+  .standing-row.me { background: rgba(233,69,96,.1); border: 1px solid rgba(233,69,96,.2); }
+  .standing-pos {
+    font-size: 14px; font-weight: 900; width: 20px; text-align: center;
+  }
+  .standing-pos.p1 { color: var(--gold); }
+  .standing-pos.p2 { color: #94a3b8; }
+  .standing-pos.p3 { color: #cd7f32; }
+  .standing-pos.other { color: var(--muted); }
+  .standing-av {
+    width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700; flex-shrink: 0;
+  }
+  .standing-info { flex: 1; min-width: 0; }
+  .standing-name { font-size: 10px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .standing-speed {
+    font-size: 9px; display: flex; align-items: center; gap: 3px;
+  }
+  .speed-up { color: #4ade80; }
+  .speed-dn { color: #f87171; }
+
+  /* ── Poker panel (bottom 45%) ─────────────────── */
+  .poker-panel {
+    background: linear-gradient(180deg, #0c1424 0%, #0a1020 100%);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0;
+    border-top: 1px solid rgba(233,69,96,.15);
+    min-height: 240px;
+  }
+
+  /* Poker main */
+  .poker-main {
+    padding: 20px 28px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .poker-top {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .poker-info { display: flex; align-items: center; gap: 16px; }
+  .poker-balance {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.04); border-radius: 6px; padding: 6px 12px;
+  }
+  .balance-icon { font-size: 14px; }
+  .balance-val { font-size: 16px; font-weight: 800; color: var(--gold); }
+  .balance-label { font-size: 9px; color: var(--muted); text-transform: uppercase; }
+  .bet-val { font-size: 11px; color: var(--muted); }
+  .bet-val strong { color: white; }
+
+  .hand-result {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hand-result-badge {
+    background: rgba(39,174,96,.15); border: 1px solid rgba(39,174,96,.3);
+    border-radius: 6px; padding: 5px 12px;
+    font-size: 12px; font-weight: 800; color: #4ade80;
+  }
+  .hand-result-badge.loss {
+    background: rgba(233,69,96,.12); border-color: rgba(233,69,96,.3); color: #f87171;
+  }
+  .speed-change {
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; gap: 4px;
+  }
+
+  /* Cards */
+  .cards-row {
+    display: flex; gap: 10px; align-items: flex-end;
+  }
+  .card {
+    width: 70px; height: 100px; border-radius: 8px;
+    background: white; color: #1a1a2e;
+    display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+    padding: 6px 7px; cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,.4);
+    transition: all .15s; position: relative;
+    font-weight: 800; font-size: 15px;
+    user-select: none;
+  }
+  .card:hover { transform: translateY(-6px); }
+  .card.held {
+    transform: translateY(-10px);
+    box-shadow: 0 0 0 2px var(--red), 0 8px 20px rgba(233,69,96,.3);
+  }
+  .card.held::after {
+    content: 'HOLD'; position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+    font-size: 9px; font-weight: 800; color: var(--red); letter-spacing: 1px;
+    background: rgba(233,69,96,.15); padding: 2px 6px; border-radius: 3px;
+    border: 1px solid rgba(233,69,96,.3);
+  }
+  .card.red-suit { color: #dc2626; }
+  .card-rank { align-self: flex-start; }
+  .card-suit { font-size: 24px; line-height: 1; }
+  .card-rank-bot { align-self: flex-end; transform: rotate(180deg); }
+
+  .draw-area {
+    display: flex; align-items: center; gap: 12px; margin-top: 8px;
+  }
+
+  /* Double down overlay */
+  .double-down-prompt {
+    background: rgba(240,165,0,.08); border: 1px solid rgba(240,165,0,.25);
+    border-radius: 10px; padding: 14px 18px;
+    display: flex; align-items: center; gap: 16px;
+    flex-wrap: wrap;
+  }
+  .dd-label { font-size: 11px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: .5px; }
+  .dd-desc { font-size: 11px; color: var(--muted); }
+  .dd-btns { display: flex; gap: 8px; }
+  .dd-btn {
+    padding: 7px 16px; border-radius: 6px; border: none;
+    font-size: 11px; font-weight: 800; cursor: pointer; transition: all .15s;
+    text-transform: uppercase; letter-spacing: .5px;
+  }
+  .dd-red  { background: rgba(220,38,38,.2); color: #f87171; border: 1px solid rgba(220,38,38,.3); }
+  .dd-black { background: rgba(30,30,60,.6); color: #c4c4e0; border: 1px solid rgba(100,100,160,.3); }
+  .dd-cash { background: rgba(240,165,0,.15); color: var(--gold); border: 1px solid rgba(240,165,0,.3); }
+  .dd-btn:hover { transform: translateY(-2px); filter: brightness(1.2); }
+  .dd-attempt { font-size: 10px; color: var(--muted); }
+  .dd-attempt span { color: var(--gold); font-weight: 700; }
+
+  /* Power-up panel (right side of game) */
+  .powerup-panel {
+    width: 160px;
+    background: rgba(0,0,0,.3);
+    border-left: 1px solid rgba(255,255,255,.05);
+    padding: 16px 12px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .pu-title {
+    font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 4px;
+  }
+  .pu-slot {
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 8px; padding: 10px 10px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .pu-slot.active-slot { border-color: rgba(0,180,216,.3); background: rgba(0,180,216,.06); }
+  .pu-slot.empty-slot { opacity: .4; border-style: dashed; }
+  .pu-icon { font-size: 22px; text-align: center; }
+  .pu-name { font-size: 10px; font-weight: 700; color: white; text-align: center; }
+  .pu-desc { font-size: 9px; color: var(--muted); text-align: center; line-height: 1.4; }
+  .pu-activate {
+    width: 100%; padding: 6px; border-radius: 4px; border: none;
+    background: rgba(0,180,216,.2); color: var(--teal);
+    font-size: 10px; font-weight: 700; cursor: pointer; text-transform: uppercase;
+    transition: all .15s; letter-spacing: .5px;
+  }
+  .pu-activate:hover { background: rgba(0,180,216,.35); }
+  .pu-activate.used { background: rgba(255,255,255,.04); color: var(--muted); cursor: not-allowed; }
+
+  /* History ticker */
+  .hand-history {
+    width: 140px; padding: 16px 12px;
+    border-left: 1px solid rgba(255,255,255,.05);
+    background: rgba(0,0,0,.2);
+    display: flex; flex-direction: column; gap: 4px;
+    overflow: hidden;
+  }
+  .hh-title {
+    font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 6px;
+  }
+  .hh-row {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 10px; padding: 4px 6px; border-radius: 4px;
+    background: rgba(255,255,255,.03);
+  }
+  .hh-hand { color: white; font-weight: 600; }
+  .hh-delta { font-weight: 700; }
+  .hh-delta.pos { color: #4ade80; }
+  .hh-delta.neg { color: #f87171; }
+
+  /* Annotation overlay */
+  .annotation {
+    position: absolute; background: rgba(233,69,96,.9); color: white;
+    font-size: 10px; font-weight: 700; padding: 4px 9px; border-radius: 4px;
+    pointer-events: none; white-space: nowrap; letter-spacing: .3px;
+  }
+  .annotation::before {
+    content: '';
+    position: absolute; border: 5px solid transparent;
+  }
+  .annotation.bottom::before { border-top-color: rgba(233,69,96,.9); top: 100%; left: 50%; transform: translateX(-50%); }
+  .annotation.top::before { border-bottom-color: rgba(233,69,96,.9); bottom: 100%; left: 50%; transform: translateX(-50%); }
+  .annotation.right::before { border-left-color: rgba(233,69,96,.9); top: 50%; transform: translateY(-50%); left: 100%; }
+
+</style>
+</head>
+<body>
+
+<!-- ── Screen Tabs ───────────────────────────────────────────── -->
+<nav class="screen-nav">
+  <button class="active" onclick="showScreen('welcome', this)">① Welcome Screen</button>
+  <button onclick="showScreen('matchmaking', this)">② Matchmaking Room</button>
+  <button onclick="showScreen('game', this)">③ Game Screen</button>
+</nav>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     SCREEN 1 — WELCOME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="welcome" class="screen active">
+  <div id="welcome" style="display:grid; grid-template-columns:1fr 380px; grid-template-rows:auto 1fr auto; min-height:calc(100vh - 50px); background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(233,69,96,.18) 0%, transparent 60%), linear-gradient(160deg, #0a0e1a 0%, #12192e 50%, #0d1526 100%);">
+
+    <!-- Header -->
+    <header class="welcome-header">
+      <div class="welcome-logo">POKER <span>RUSH</span></div>
+      <div class="header-right">
+        <div class="player-chip">
+          <div class="avatar-sm">HF</div>
+          <div>
+            <div style="font-size:11px; font-weight:700; color:white;">HugoF</div>
+            <div class="chip-bal"><span>CHIPS</span>127,500</div>
+          </div>
+        </div>
+        <span class="tag tag-gold">⭐ 4,280 REP</span>
+        <button class="btn btn-ghost btn-sm">⚙ Settings</button>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <main class="welcome-hero">
+      <div class="hero-eyebrow">Speed Poker Racing</div>
+      <h1 class="hero-title">
+        PLAY FAST.<br>
+        <span class="line2">RACE FASTER.</span>
+      </h1>
+      <p class="hero-sub">
+        Your poker hands control your speed. Win big at the table, pull ahead on the track. Real-time multiplayer with 2–6 players.
+      </p>
+      <div class="hero-cta">
+        <button class="btn btn-primary btn-lg">⚡ Quick Play</button>
+        <button class="btn btn-secondary btn-lg">🎲 Choose Game Mode</button>
+        <button class="btn btn-ghost btn-lg">🏁 Matchmaking Room</button>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">8</div>
+          <div class="stat-label">Poker Variants</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">6</div>
+          <div class="stat-label">Max Players</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3–5<span style="font-size:14px;color:var(--muted)">min</span></div>
+          <div class="stat-label">Race Duration</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" style="color:var(--green)">●&nbsp;<span style="font-size:16px">243</span></div>
+          <div class="stat-label">Online Now</div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Sidebar — leaderboard -->
+    <aside class="welcome-sidebar">
+      <div class="sidebar-title">
+        🏆 Top 20 Leaderboard
+        <span class="tag tag-muted">Global</span>
+      </div>
+      <div class="leaderboard-list">
+        <div class="lb-row top3">
+          <div class="lb-rank gold">1</div>
+          <div class="lb-avatar" style="background:linear-gradient(135deg,#f0a500,#d4891a)">MK</div>
+          <div><div class="lb-name">MaxKing</div><span class="tag tag-gold" style="font-size:8px">PRO</span></div>
+          <div class="lb-rep">42,100</div>
+          <div class="lb-badge"><span class="tag tag-gold" style="font-size:8px">👑</span></div>
+        </div>
+        <div class="lb-row top3">
+          <div class="lb-rank silver">2</div>
+          <div class="lb-avatar" style="background:linear-gradient(135deg,#6366f1,#4338ca)">RQ</div>
+          <div><div class="lb-name">RiverQueen</div><span class="tag tag-muted" style="font-size:8px">PRO</span></div>
+          <div class="lb-rep">38,450</div>
+          <div class="lb-badge"></div>
+        </div>
+        <div class="lb-row top3">
+          <div class="lb-rank bronze">3</div>
+          <div class="lb-avatar" style="background:linear-gradient(135deg,#ef4444,#b91c1c)">AX</div>
+          <div><div class="lb-name">AceX</div><span class="tag tag-muted" style="font-size:8px">PRO</span></div>
+          <div class="lb-rep">31,200</div>
+          <div class="lb-badge"></div>
+        </div>
+        <div style="height:1px;background:rgba(255,255,255,.05);margin:6px 0;"></div>
+        <div class="lb-row">
+          <div class="lb-rank">4</div>
+          <div class="lb-avatar" style="background:linear-gradient(135deg,#10b981,#065f46)">DV</div>
+          <div><div class="lb-name">DeuceViper</div><span class="tag tag-teal" style="font-size:8px">ADV</span></div>
+          <div class="lb-rep">28,900</div>
+          <div class="lb-badge"></div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-rank">5</div>
+          <div class="lb-avatar" style="background:linear-gradient(135deg,#f59e0b,#92400e)">JB</div>
+          <div><div class="lb-name">JokerBoss</div><span class="tag tag-teal" style="font-size:8px">ADV</span></div>
+          <div class="lb-rep">24,750</div>
+          <div class="lb-badge"></div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-rank">6</div>
+          <div class="lb-avatar" style="background:linear-gradient(135deg,#8b5cf6,#5b21b6)">SH</div>
+          <div><div class="lb-name">SlickHand</div><span class="tag tag-teal" style="font-size:8px">ADV</span></div>
+          <div class="lb-rep">21,300</div>
+          <div class="lb-badge"></div>
+        </div>
+        <div class="lb-row" style="background:rgba(233,69,96,.06); border:1px solid rgba(233,69,96,.2); border-radius:6px;">
+          <div class="lb-rank" style="color:var(--red)">14</div>
+          <div class="lb-avatar" style="background:linear-gradient(135deg,var(--red),var(--navy))">HF</div>
+          <div><div class="lb-name" style="color:var(--red)">HugoF <span style="color:var(--muted);font-weight:400;font-size:10px">(you)</span></div><span class="tag tag-teal" style="font-size:8px">ADV</span></div>
+          <div class="lb-rep">9,840</div>
+          <div class="lb-badge"></div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-rank">15</div>
+          <div class="lb-avatar" style="background:linear-gradient(135deg,#64748b,#334155)">PP</div>
+          <div><div class="lb-name">PocketPair</div><span class="tag tag-muted" style="font-size:8px">ADV</span></div>
+          <div class="lb-rep">9,200</div>
+          <div class="lb-badge"></div>
+        </div>
+        <div style="margin-top:auto; padding-top:12px;">
+          <button class="btn btn-ghost" style="width:100%; font-size:11px;">View Full Leaderboard →</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Footer nav -->
+    <footer class="welcome-footer">
+      <button class="nav-btn active"><span class="nav-icon">🏠</span> Home</button>
+      <button class="nav-btn"><span class="nav-icon">👤</span> Profile</button>
+      <button class="nav-btn"><span class="nav-icon">🎮</span> Play</button>
+      <button class="nav-btn"><span class="nav-icon">🏁</span> Matchmaking</button>
+      <div class="nav-sep"></div>
+      <button class="nav-btn"><span class="nav-icon">🏆</span> Leaderboard</button>
+      <button class="nav-btn"><span class="nav-icon">🛒</span> Shop</button>
+    </footer>
+
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     SCREEN 2 — MATCHMAKING ROOM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="matchmaking" class="screen">
+  <!-- Header -->
+  <header class="mm-header">
+    <div class="mm-header-left">
+      <div class="mm-logo">POKER <span>RUSH</span></div>
+      <span style="color:rgba(255,255,255,.2)">|</span>
+      <span class="page-title">Matchmaking Room</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span class="tag tag-green">● 14 races live</span>
+      <span class="tag tag-teal">● 38 open lobbies</span>
+      <div class="player-chip">
+        <div class="avatar-sm">HF</div>
+        <div class="chip-bal"><span>CHIPS</span>127,500</div>
+      </div>
+      <button class="btn btn-ghost btn-sm">← Back</button>
+    </div>
+  </header>
+
+  <div class="mm-body">
+    <!-- Race list -->
+    <div class="mm-left">
+      <div class="mm-toolbar">
+        <input class="mm-search" placeholder="🔍  Search races, players..." />
+        <div class="filter-chip on">All</div>
+        <div class="filter-chip">Live</div>
+        <div class="filter-chip">Open</div>
+        <div class="filter-chip">Newbie</div>
+        <div class="filter-chip">Pro</div>
+        <button class="btn btn-primary btn-sm">+ Create Race</button>
+      </div>
+
+      <div class="race-list">
+
+        <!-- Live race -->
+        <div class="race-card live selected" onclick="selectRace(this)">
+          <div>
+            <div class="rc-title">Triple Double Blitz #441</div>
+            <div class="rc-meta">
+              <span class="tag tag-red">● LIVE</span>
+              <span class="tag tag-muted">6 Players</span>
+              <span class="tag tag-teal">Pro</span>
+              <span class="tag tag-gold">⚡ Power-ups ON</span>
+            </div>
+            <div style="font-size:10px;color:var(--muted);">Triple Double Bonus Poker · Desert Circuit</div>
+            <div class="rc-players" style="margin-top:8px;">
+              <div class="rc-player-dot" style="background:linear-gradient(135deg,#e94560,#9b1d30)">MK</div>
+              <div class="rc-player-dot" style="background:linear-gradient(135deg,#6366f1,#4338ca)">RQ</div>
+              <div class="rc-player-dot" style="background:linear-gradient(135deg,#10b981,#065f46)">AX</div>
+              <div class="rc-player-dot" style="background:linear-gradient(135deg,#f59e0b,#92400e)">JB</div>
+              <div class="rc-player-dot" style="background:linear-gradient(135deg,#8b5cf6,#5b21b6)">DV</div>
+              <div class="rc-player-dot" style="background:linear-gradient(135deg,#0891b2,#0c4a6e)">PP</div>
+            </div>
+          </div>
+          <div class="rc-right">
+            <div class="rc-timer">1:42</div>
+            <div class="rc-timer-label">remaining</div>
+            <button class="btn btn-gold btn-sm" style="margin-top:4px;">💰 Bet</button>
+          </div>
+        </div>
+
+        <!-- Open lobby -->
+        <div class="race-card open" onclick="selectRace(this)">
+          <div>
+            <div class="rc-title">Loose Deuces Showdown</div>
+            <div class="rc-meta">
+              <span class="tag tag-teal">● OPEN</span>
+              <span class="tag tag-muted">4 / 6 Players</span>
+              <span class="tag tag-teal">Advanced</span>
+              <span class="tag tag-muted">Power-ups OFF</span>
+            </div>
+            <div style="font-size:10px;color:var(--muted);">Loose Deuces · Night City Track</div>
+            <div class="rc-players" style="margin-top:8px;">
+              <div class="rc-player-dot" style="background:linear-gradient(135deg,#ef4444,#b91c1c)">SL</div>
+              <div class="rc-player-dot" style="background:linear-gradient(135deg,#0ea5e9,#075985)">TX</div>
+              <div class="rc-player-dot" style="background:linear-gradient(135deg,#a855f7,#6b21a8)">NK</div>
+              <div class="rc-player-dot" style="background:linear-gradient(135deg,#84cc16,#3f6212)">GR</div>
+              <div class="rc-player-dot empty">+</div>
+              <div class="rc-player-dot empty">+</div>
+            </div>
+          </div>
+          <div class="rc-right">
+            <div class="rc-timer" style="color:var(--teal);">OPEN</div>
+            <div class="rc-timer-label">2 slots left</div>
+            <button class="btn btn-primary btn-sm" style="margin-top:4px;">Join</button>
+          </div>
+        </div>
+
+        <!-- Scheduled -->
+        <div class="race-card soon" onclick="selectRace(this)">
+          <div>
+            <div class="rc-title">All American Qualifier</div>
+            <div class="rc-meta">
+              <span class="tag tag-gold">⏳ SOON</span>
+              <span class="tag tag-muted">3 Players</span>
+              <span class="tag tag-muted">Newbie</span>
+            </div>
+            <div style="font-size:10px;color:var(--muted);">All American · Coastal Speedway</div>
+          </div>
+          <div class="rc-right">
+            <div class="rc-timer" style="color:var(--gold);font-size:14px;">in 3:20</div>
+            <div class="rc-timer-label">starts soon</div>
+            <button class="btn btn-gold btn-sm" style="margin-top:4px;">💰 Bet Early</button>
+          </div>
+        </div>
+
+        <div class="race-card open" onclick="selectRace(this)">
+          <div>
+            <div class="rc-title">Double Bonus Sprint #88</div>
+            <div class="rc-meta">
+              <span class="tag tag-teal">● OPEN</span>
+              <span class="tag tag-muted">2 / 4 Players</span>
+              <span class="tag tag-gold">Pro</span>
+              <span class="tag tag-gold">⚡ Power-ups ON</span>
+            </div>
+            <div style="font-size:10px;color:var(--muted);">Double Bonus Draw Poker · Mountain Pass</div>
+          </div>
+          <div class="rc-right">
+            <div class="rc-timer" style="color:var(--teal);">OPEN</div>
+            <div class="rc-timer-label">2 slots left</div>
+            <button class="btn btn-primary btn-sm" style="margin-top:4px;">Join</button>
+          </div>
+        </div>
+
+        <div class="race-card" onclick="selectRace(this)">
+          <div>
+            <div class="rc-title">Joker's Wild Cup</div>
+            <div class="rc-meta">
+              <span class="tag tag-muted">FILLING</span>
+              <span class="tag tag-muted">1 / 5 Players</span>
+              <span class="tag tag-teal">Advanced</span>
+            </div>
+            <div style="font-size:10px;color:var(--muted);">Double Joker Poker · Downtown Circuit</div>
+          </div>
+          <div class="rc-right">
+            <div class="rc-timer" style="color:var(--muted);font-size:13px;">WAITING</div>
+            <div class="rc-timer-label">4 slots left</div>
+            <button class="btn btn-primary btn-sm" style="margin-top:4px;">Join</button>
+          </div>
+        </div>
+
+      </div><!-- race-list -->
+    </div><!-- mm-left -->
+
+    <!-- Right panel -->
+    <div class="mm-right">
+      <div class="mm-right-tabs">
+        <div class="mm-tab active" onclick="switchTab(this,'race-detail')">Race Detail</div>
+        <div class="mm-tab" onclick="switchTab(this,'create-race')">+ Create Race</div>
+        <div class="mm-tab" onclick="switchTab(this,'my-profile')">My Profile</div>
+      </div>
+
+      <!-- Race Detail -->
+      <div class="mm-panel" id="race-detail">
+        <div class="rd-header">
+          <div class="rd-title">Triple Double Blitz #441</div>
+          <div class="rd-meta">
+            <span class="tag tag-red">● LIVE</span>
+            <span class="tag tag-teal">Pro</span>
+            <span class="tag tag-gold">⚡ Power-ups</span>
+            <span class="tag tag-muted">5:00 race</span>
+          </div>
+        </div>
+
+        <div class="rd-section">
+          <div class="rd-section-label">Players</div>
+          <div class="player-roster">
+            <div class="roster-row">
+              <div class="roster-num">1</div>
+              <div class="roster-av" style="background:linear-gradient(135deg,#f0a500,#d4891a)">MK</div>
+              <div class="roster-name">MaxKing</div>
+              <div class="roster-rep">42,100 rep</div>
+              <span class="tag tag-gold" style="font-size:8px">👑 #1</span>
+            </div>
+            <div class="roster-row">
+              <div class="roster-num">2</div>
+              <div class="roster-av" style="background:linear-gradient(135deg,#6366f1,#4338ca)">RQ</div>
+              <div class="roster-name">RiverQueen</div>
+              <div class="roster-rep">38,450 rep</div>
+              <span class="tag tag-muted" style="font-size:8px">#2</span>
+            </div>
+            <div class="roster-row">
+              <div class="roster-num">3</div>
+              <div class="roster-av" style="background:linear-gradient(135deg,#ef4444,#b91c1c)">AX</div>
+              <div class="roster-name">AceX</div>
+              <div class="roster-rep">31,200 rep</div>
+              <span class="tag tag-muted" style="font-size:8px">#3</span>
+            </div>
+            <div class="roster-row">
+              <div class="roster-num">4</div>
+              <div class="roster-av" style="background:linear-gradient(135deg,#f59e0b,#92400e)">JB</div>
+              <div class="roster-name">JokerBoss</div>
+              <div class="roster-rep">24,750 rep</div>
+            </div>
+            <div class="roster-row">
+              <div class="roster-num">5</div>
+              <div class="roster-av" style="background:linear-gradient(135deg,#8b5cf6,#5b21b6)">DV</div>
+              <div class="roster-name">DeuceViper</div>
+              <div class="roster-rep">28,900 rep</div>
+            </div>
+            <div class="roster-row">
+              <div class="roster-num">6</div>
+              <div class="roster-av" style="background:linear-gradient(135deg,#0891b2,#0c4a6e)">PP</div>
+              <div class="roster-name">PocketPair</div>
+              <div class="roster-rep">9,200 rep</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rd-section">
+          <div class="rd-section-label">Place a Bet</div>
+          <div class="bet-box">
+            <div class="bet-title">💰 Race Betting</div>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:10px;">Pick the winner(s). Bet pays on correct prediction.</div>
+            <div class="bet-type-row">
+              <div class="bet-type-btn active">1st Place</div>
+              <div class="bet-type-btn">1st + 2nd</div>
+              <div class="bet-type-btn">Top 3</div>
+            </div>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:8px;">Pick winner:</div>
+            <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;">
+              <div class="bet-type-btn active" style="flex:none;padding:6px 10px;">MaxKing</div>
+              <div class="bet-type-btn" style="flex:none;padding:6px 10px;">RiverQueen</div>
+              <div class="bet-type-btn" style="flex:none;padding:6px 10px;">AceX</div>
+              <div class="bet-type-btn" style="flex:none;padding:6px 10px;">JokerBoss</div>
+            </div>
+            <div class="bet-input-row">
+              <input class="bet-input" value="5,000" />
+              <button class="btn btn-gold btn-sm">Place Bet</button>
+            </div>
+            <div class="bet-presets">
+              <div class="bet-preset">1k</div>
+              <div class="bet-preset">5k</div>
+              <div class="bet-preset">10k</div>
+              <div class="bet-preset">25k</div>
+              <div class="bet-preset">ALL IN</div>
+            </div>
+          </div>
+        </div>
+      </div><!-- race-detail -->
+
+      <!-- Create Race -->
+      <div class="mm-panel hidden" id="create-race">
+        <div style="font-size:13px;font-weight:800;color:white;margin-bottom:20px;">Configure Your Race</div>
+
+        <div class="form-row">
+          <div class="form-label">Poker Variant</div>
+          <select class="form-select">
+            <option>Random</option>
+            <option selected>Triple Double Bonus Poker</option>
+            <option>All American</option>
+            <option>Loose Deuces</option>
+            <option>Bonus Draw Poker</option>
+            <option>Double Joker Poker</option>
+            <option>Double Bonus Draw Poker</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-label">Number of Racers</div>
+          <div class="toggle-row">
+            <div class="toggle-btn">2</div>
+            <div class="toggle-btn">3</div>
+            <div class="toggle-btn active">4</div>
+            <div class="toggle-btn">5</div>
+            <div class="toggle-btn">6</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-label">Skill Level</div>
+          <div class="toggle-row">
+            <div class="toggle-btn">Newbie</div>
+            <div class="toggle-btn active">Advanced</div>
+            <div class="toggle-btn">Pro</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-label">Power-Ups</div>
+          <div class="toggle-row" style="gap:8px;">
+            <div class="toggle-btn active" style="flex:1">⚡ Enabled</div>
+            <div class="toggle-btn off" style="flex:1">Disabled</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-label">Race Duration</div>
+          <input type="range" class="form-range" min="3" max="5" value="4" step="1" />
+          <div class="range-labels"><span>3 min</span><span style="color:white;font-weight:700;">4 min</span><span>5 min</span></div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-label">Race Track</div>
+          <select class="form-select">
+            <option>Random</option>
+            <option selected>Desert Circuit</option>
+            <option>Night City Track</option>
+            <option>Coastal Speedway</option>
+            <option>Mountain Pass</option>
+            <option>Downtown Circuit</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-label">Start Time</div>
+          <div class="toggle-row" style="gap:8px;">
+            <div class="toggle-btn active" style="flex:1">Now</div>
+            <div class="toggle-btn" style="flex:2">Schedule...</div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="width:100%;padding:13px;font-size:13px;margin-top:8px;">🚦 Create & Start Race</button>
+        <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:8px;">Blank fields will be assigned randomly</div>
+      </div>
+
+      <!-- My Profile -->
+      <div class="mm-panel hidden" id="my-profile">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+          <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--red),var(--navy));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;">HF</div>
+          <div>
+            <div style="font-size:16px;font-weight:800;">HugoF</div>
+            <div style="display:flex;gap:6px;margin-top:4px;"><span class="tag tag-teal">Advanced</span><span class="tag tag-gold">4,280 REP</span></div>
+          </div>
+        </div>
+        <div style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Racing Queue Profile</div>
+        <div style="background:rgba(255,255,255,.04);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:8px;font-size:11px;color:var(--muted);">
+          <div style="display:flex;justify-content:space-between;"><span>Preferred players</span><span style="color:white;font-weight:700;">4–6</span></div>
+          <div style="display:flex;justify-content:space-between;"><span>Power-ups</span><span style="color:#4ade80;font-weight:700;">Enabled</span></div>
+          <div style="display:flex;justify-content:space-between;"><span>Skill level</span><span style="color:var(--teal);font-weight:700;">Advanced</span></div>
+          <div style="display:flex;justify-content:space-between;"><span>Default variant</span><span style="color:white;font-weight:700;">Triple Double</span></div>
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:16px;">⚡ Enter Matchmaking Queue</button>
+      </div>
+
+    </div><!-- mm-right -->
+  </div><!-- mm-body -->
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     SCREEN 3 — GAME SCREEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="game" class="screen">
+
+  <!-- Race panel -->
+  <div class="race-panel">
+    <div class="track-area">
+      <!-- HUD -->
+      <div class="race-hud">
+        <div class="race-timer-box">
+          <div>
+            <div class="race-time">2:18</div>
+            <div class="race-time-label">Race Time</div>
+          </div>
+        </div>
+        <div class="race-lap-badge">LAP 2 / 3</div>
+        <div class="race-variant-badge">Triple Double Bonus</div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span class="tag tag-green">● LIVE</span>
+          <span class="tag tag-gold">⚡ Power-ups ON</span>
+          <span style="font-size:11px;color:var(--muted);">6 Players</span>
+        </div>
+      </div>
+
+      <!-- Track visualization -->
+      <div class="track-viz" style="position:relative;">
+        <!-- Sky gradient -->
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,#0a1525 0%,#0d2040 40%,#1a2a1a 100%);"></div>
+        <!-- Stars -->
+        <div style="position:absolute;inset:0;background-image:radial-gradient(1px 1px at 15% 20%, white, transparent),radial-gradient(1px 1px at 75% 15%, white, transparent),radial-gradient(1px 1px at 40% 10%, white, transparent),radial-gradient(1px 1px at 90% 30%, rgba(255,255,255,.6), transparent),radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,.4), transparent);"></div>
+        <!-- Road -->
+        <div class="track-road" style="top:calc(50% - 10px);">
+          <div class="lane-divider" style="top:33%;"></div>
+          <div class="lane-divider" style="top:66%;"></div>
+        </div>
+
+        <!-- Cars - positioned by % representing race progress -->
+        <div style="position:absolute;left:0;right:0;top:calc(50% - 42px);height:84px;display:flex;flex-direction:column;">
+          <!-- Lane 1: MaxKing (leader) -->
+          <div style="flex:1;position:relative;">
+            <div class="car" style="left:72%;background:linear-gradient(90deg,#d4891a,#f0a500);color:#1a1a2e;">MK</div>
+          </div>
+          <!-- Lane 2: HugoF (you) -->
+          <div style="flex:1;position:relative;">
+            <div class="car" style="left:61%;background:linear-gradient(90deg,#b91c1c,#e94560);border:2px solid white;">HF</div>
+          </div>
+          <!-- Lane 3: RiverQueen -->
+          <div style="flex:1;position:relative;">
+            <div class="car" style="left:67%;background:linear-gradient(135deg,#4338ca,#6366f1);">RQ</div>
+          </div>
+        </div>
+
+        <!-- Second row of lanes -->
+        <div style="position:absolute;left:0;right:0;top:calc(50% + 10px);height:84px;display:flex;flex-direction:column;">
+          <div style="flex:1;position:relative;">
+            <div class="car" style="left:55%;background:linear-gradient(135deg,#065f46,#10b981);">AX</div>
+          </div>
+          <div style="flex:1;position:relative;">
+            <div class="car" style="left:48%;background:linear-gradient(135deg,#5b21b6,#8b5cf6);">DV</div>
+          </div>
+          <div style="flex:1;position:relative;">
+            <div class="car" style="left:40%;background:linear-gradient(135deg,#0c4a6e,#0891b2);">PP</div>
+          </div>
+        </div>
+
+        <!-- Speed indicators floating -->
+        <div style="position:absolute;left:74%;top:28%;font-size:10px;color:#4ade80;font-weight:800;text-shadow:0 0 6px #4ade80;">▲+8%</div>
+        <div style="position:absolute;left:63%;top:40%;font-size:10px;color:#f87171;font-weight:800;text-shadow:0 0 6px #f87171;">▼-3%</div>
+        <div style="position:absolute;left:69%;top:34%;font-size:10px;color:#4ade80;font-weight:800;text-shadow:0 0 6px #4ade80;">▲+4%</div>
+
+        <!-- Finish line indicator -->
+        <div style="position:absolute;right:12%;top:0;bottom:0;width:2px;background:repeating-linear-gradient(180deg,white 0,white 6px,transparent 6px,transparent 12px);opacity:.3;"></div>
+        <div style="position:absolute;right:12%;top:6px;font-size:8px;color:rgba(255,255,255,.5);font-weight:700;letter-spacing:.5px;">FINISH</div>
+      </div>
+    </div>
+
+    <!-- Standings column -->
+    <div class="standings-column">
+      <div class="standings-title">Standings</div>
+      <div class="standing-row">
+        <div class="standing-pos p1">1</div>
+        <div class="standing-av" style="background:linear-gradient(135deg,#f0a500,#d4891a)">MK</div>
+        <div class="standing-info">
+          <div class="standing-name">MaxKing</div>
+          <div class="standing-speed"><span class="speed-up">▲ +148%</span></div>
+        </div>
+      </div>
+      <div class="standing-row">
+        <div class="standing-pos p2">2</div>
+        <div class="standing-av" style="background:linear-gradient(135deg,#6366f1,#4338ca)">RQ</div>
+        <div class="standing-info">
+          <div class="standing-name">RiverQueen</div>
+          <div class="standing-speed"><span class="speed-up">▲ +134%</span></div>
+        </div>
+      </div>
+      <div class="standing-row me">
+        <div class="standing-pos p3">3</div>
+        <div class="standing-av" style="background:linear-gradient(135deg,#e94560,#9b1d30)">HF</div>
+        <div class="standing-info">
+          <div class="standing-name" style="color:var(--red)">HugoF ★</div>
+          <div class="standing-speed"><span class="speed-dn">▼ +112%</span></div>
+        </div>
+      </div>
+      <div class="standing-row">
+        <div class="standing-pos other">4</div>
+        <div class="standing-av" style="background:linear-gradient(135deg,#065f46,#10b981)">AX</div>
+        <div class="standing-info">
+          <div class="standing-name">AceX</div>
+          <div class="standing-speed"><span style="color:var(--muted)">+98%</span></div>
+        </div>
+      </div>
+      <div class="standing-row">
+        <div class="standing-pos other">5</div>
+        <div class="standing-av" style="background:linear-gradient(135deg,#5b21b6,#8b5cf6)">DV</div>
+        <div class="standing-info">
+          <div class="standing-name">DeuceViper</div>
+          <div class="standing-speed"><span class="speed-dn">▼ +87%</span></div>
+        </div>
+      </div>
+      <div class="standing-row">
+        <div class="standing-pos other">6</div>
+        <div class="standing-av" style="background:linear-gradient(135deg,#0c4a6e,#0891b2)">PP</div>
+        <div class="standing-info">
+          <div class="standing-name">PocketPair</div>
+          <div class="standing-speed"><span class="speed-dn">▼ +62%</span></div>
+        </div>
+      </div>
+
+      <div style="margin-top:auto;padding-top:10px;border-top:1px solid rgba(255,255,255,.05);">
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Prize Pool</div>
+        <div style="font-size:12px;color:var(--gold);font-weight:800;">75,000 chips</div>
+        <div style="font-size:9px;color:var(--muted);">3 raffle tickets (1st)</div>
+      </div>
+    </div>
+  </div><!-- race-panel -->
+
+  <!-- Poker panel -->
+  <div class="poker-panel">
+    <div class="poker-main">
+      <!-- Top info bar -->
+      <div class="poker-top">
+        <div class="poker-info">
+          <div class="poker-balance">
+            <div class="balance-icon">🪙</div>
+            <div>
+              <div class="balance-val">127,500</div>
+              <div class="balance-label">Chips</div>
+            </div>
+          </div>
+          <div class="bet-val">Bet: <strong>500</strong></div>
+          <div style="font-size:10px;color:var(--muted);">Hand #47</div>
+        </div>
+        <div class="hand-result">
+          <div class="hand-result-badge">TWO PAIR ✓</div>
+          <div class="speed-change" style="color:#4ade80;">▲ +4% speed</div>
+          <div style="font-size:10px;color:var(--muted);">+1,000 chips</div>
+        </div>
+      </div>
+
+      <!-- Double down prompt -->
+      <div class="double-down-prompt">
+        <div>
+          <div class="dd-label">Double Down?</div>
+          <div class="dd-desc">Guess the next card's color to double your speed points</div>
+          <div class="dd-attempt">Attempt <span>1</span> / 3 · Current: +4% → could become <span>+8%</span></div>
+        </div>
+        <div class="dd-btns">
+          <button class="dd-btn dd-red">🔴 Red</button>
+          <button class="dd-btn dd-black">⚫ Black</button>
+          <button class="dd-btn dd-cash">💰 Cash Out +4%</button>
+        </div>
+      </div>
+
+      <!-- Cards -->
+      <div class="cards-row">
+        <div class="card held"><div class="card-rank">A</div><div class="card-suit">♠</div><div class="card-rank-bot">A</div></div>
+        <div class="card held"><div class="card-rank">A</div><div class="card-suit">♥</div><div class="card-rank-bot">A</div></div>
+        <div class="card"><div class="card-rank red-suit">K</div><div class="card-suit" style="color:#dc2626;">♥</div><div class="card-rank-bot red-suit">K</div></div>
+        <div class="card held"><div class="card-rank red-suit">K</div><div class="card-suit" style="color:#dc2626;">♦</div><div class="card-rank-bot red-suit">K</div></div>
+        <div class="card"><div class="card-rank">7</div><div class="card-suit">♣</div><div class="card-rank-bot">7</div></div>
+
+        <div style="margin-left:12px;display:flex;flex-direction:column;gap:8px;justify-content:flex-end;">
+          <button class="btn btn-primary" style="font-size:13px;padding:12px 28px;">Draw Cards</button>
+          <div style="font-size:9px;color:var(--muted);text-align:center;">Tap cards to hold · Hold all = stand</div>
+        </div>
+      </div>
+
+    </div><!-- poker-main -->
+
+    <!-- Power-up panel -->
+    <div class="powerup-panel">
+      <div class="pu-title">Power-Ups</div>
+
+      <div class="pu-slot active-slot">
+        <div class="pu-icon">⚡</div>
+        <div class="pu-name">Nitro Burst</div>
+        <div class="pu-desc">+15% speed for 20s</div>
+        <button class="pu-activate">Activate</button>
+      </div>
+
+      <div class="pu-slot">
+        <div class="pu-icon">🛡️</div>
+        <div class="pu-name">Speed Lock</div>
+        <div class="pu-desc">Freeze speed for 15s</div>
+        <button class="pu-activate">Activate</button>
+      </div>
+
+      <div class="pu-slot">
+        <div class="pu-icon">🎯</div>
+        <div class="pu-name">Double Pts</div>
+        <div class="pu-desc">Next win = 2× speed pts</div>
+        <button class="pu-activate used">Used</button>
+      </div>
+    </div>
+
+    <!-- Hand history -->
+    <div class="hand-history">
+      <div class="hh-title">History</div>
+      <div class="hh-row"><span class="hh-hand">Two Pair</span><span class="hh-delta pos">+4%</span></div>
+      <div class="hh-row"><span class="hh-hand">Loss</span><span class="hh-delta neg">-3%</span></div>
+      <div class="hh-row"><span class="hh-hand">Flush</span><span class="hh-delta pos">+10%</span></div>
+      <div class="hh-row"><span class="hh-hand">Loss</span><span class="hh-delta neg">-4.5%</span></div>
+      <div class="hh-row"><span class="hh-hand">Three of K</span><span class="hh-delta pos">+6%</span></div>
+      <div class="hh-row"><span class="hh-hand">Pair</span><span class="hh-delta pos">+2%</span></div>
+      <div class="hh-row"><span class="hh-hand">Pair ×DD</span><span class="hh-delta pos">+4%</span></div>
+      <div class="hh-row"><span class="hh-hand">Loss</span><span class="hh-delta neg">-1.5%</span></div>
+      <div style="margin-top:auto;padding-top:8px;border-top:1px solid rgba(255,255,255,.05);">
+        <div style="font-size:9px;color:var(--muted);">Net this race</div>
+        <div style="font-size:13px;font-weight:800;color:#4ade80;">+17.5%</div>
+      </div>
+    </div>
+
+  </div><!-- poker-panel -->
+</section>
+
+<script>
+  function showScreen(id, btn) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.screen-nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function switchTab(tab, panelId) {
+    const right = tab.closest('.mm-right');
+    right.querySelectorAll('.mm-tab').forEach(t => t.classList.remove('active'));
+    right.querySelectorAll('.mm-panel').forEach(p => { p.classList.add('hidden'); p.classList.remove('active'); });
+    tab.classList.add('active');
+    const panel = document.getElementById(panelId);
+    panel.classList.remove('hidden');
+    panel.classList.add('active');
+  }
+
+  function selectRace(card) {
+    document.querySelectorAll('.race-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    // Switch to Race Detail tab
+    const rightPanel = document.querySelector('.mm-right');
+    rightPanel.querySelectorAll('.mm-tab').forEach(t => t.classList.remove('active'));
+    rightPanel.querySelectorAll('.mm-panel').forEach(p => { p.classList.add('hidden'); });
+    rightPanel.querySelector('.mm-tab').classList.add('active');
+    document.getElementById('race-detail').classList.remove('hidden');
+  }
+
+  // Card hold toggle
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => card.classList.toggle('held'));
+  });
+</script>
+</body>
+</html>

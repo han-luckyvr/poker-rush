@@ -1,0 +1,135 @@
+Speed video poker with Bonus racing game
+
+General:
+
+The game starts with a welcome screen where the players manage their profile, buy, sell, equip power ups for the racing game
+
+They can also see a top 20 leaderboard, enter matchmaking waiting room or they can also hit play to enter the game mode screen or they can also hit Quick Play which puts them in the matchmaking queue
+
+can choose the poker game type they can play:
+
+- Triple double bonus poker
+- All american
+- Loose Deuces
+- Bonus draw poker
+- Double joker poker
+- Double bonus draw poker
+- Double double draw poker
+- Triple double draw poker
+
+Once they've selected the game type, we go to the next screen and they start playing
+
+
+Matchmaking room menu:
+
+Players can create their own race:
+- Choose the poker game type (Default, random
+- Choose the amount of racers: min 2 to max 6 players
+- They can toggle power ups Enabled or Disabled
+- They can choose the racing time: minimum 3 minutes to a maximum of 5 minutes. When the time is over, it triggers the final lap moment
+- They can choose the race visual
+- They can choose the level (Newbie, Advanced or Pro)
+- They can set the time of the race or choose "now" (which will assign random players based on their race criteria)
+- They can hit the schedule / start button (If fields above are left blank, system assigns a random value)
+
+Players can edit their Profile (username, default poker game type), they can their poker stats and their racing stats, Equip / Unequip power ups, define their racing profile for the random queue (Amount of players, powerups Enabled/Disabled and their level)
+
+Players can hit the "Enter matchmaking" button
+
+Players can also bet on an upcoming race in the list
+
+Player can hit back to game mode button
+
+ 
+
+Poker games:
+
+Vertical Split screen with the poker gameplay elements at the bottom and the race display at the top. On the right side of the race panel, we see the power up panel (3 slots) with a activate button next to each slot
+
+
+2 to 6 players can be part of a race, but each individual player plays their own individual poker session
+
+Before the race start, you can bet on the potential winner(s)
+
+New players get a 10k bankroll. When out of chips, they can buy more, wait for the daily chip drop or reset their profile and start over
+
+
+Fast pace hands that influence the players vehicles
+
+
+Every wins and loses affect the speed of the players vehicles.
+
+
+Wins point system is based on the same chart as poker.
+
+
+Pair gives 1 point
+
+2 pairs give 2 points
+
+3 of a kind give 3 points
+
+Etc.
+
+
+Each point earned increase the players car speed by 2%
+
+
+Any losses decrease the players car speed by 3%
+
+
+You can try to double down on wins by guessing a red or a black card at the end of each hands. You can double down up to 3 times or cash out after the 1st or 2nd successful guess for winning hands
+
+
+You can mitigate loses impact by half using the same system. you can guess only once after a losing hand. Good guess mitigates by 50% the loss influence, but a bad guess makes the % negative influence go to 4.5% instead of 3%.
+
+
+In parallel, you also have an initial bankroll and win / lose chips when playing.
+
+
+With chips, in between races, you can purchase power ups that can be used while racing
+
+
+Each race last 3 to 5 minutes + a final lap
+
+
+Winning a race gives players reputation points, chips grand prize and raffle ticket(s) to earn new power ups
+
+Losing a race remove some players reputation points
+
+Race Winning schemes:
+
+2 players:
+
+- Winner gets 100 "rep" points ; 25k chips and 1 raffle ticket + Race bet (1st place)
+- Loser gets "rep" points reduced by 50 points  + Race bet 
+
+3 players:
+
+- #1 gets 125 "rep" points" ; 40k chips and 1 raffle ticket + Race bet (1st place)
+- #2 gets 25 "rep" points" ; 5k chips and 0 raffle ticket + Race bet (1st place)
+- #3 gets -50 "rep" points" ; 0 chips and 0 raffle ticket + Race bet (1st place)
+
+4 players: 
+
+- #1 gets 150 "rep" points" ; 50k chips and 1 raffle ticket + Race bet (1st and 2nd place)
+- #2 gets 25 "rep" points" ; 10k chips and 0 raffle ticket + Race bet (1st and 2nd place)
+- #3 gets 10 "rep" points" ; 2k chips and 0 raffle ticket + Race bet (1st and 2nd place)
+- #4 gets -50 "rep" points" ; 0 chips and 0 raffle ticket + Race bet (1st and 2nd place)
+
+5 players:
+
+- #1 gets 175 "rep" points" ; 60k chips and 2 raffle tickets + Race bet (1st, 2nd and 3rd place)
+- #2 gets 75 "rep" points" ; 15k chips and 1 raffle ticket + Race bet (1st, 2nd and 3rd place)
+- #3 gets 15 "rep" points" ; 5k chips and 0 raffle ticket + Race bet (1st, 2nd and 3rd place)
+- #4 gets 0 "rep" points" ; 0 chips and 0 raffle ticket + Race bet (1st, 2nd and 3rd place)
+- #5 gets -50 "rep" points" ; 0 chips and 0 raffle ticket + Race bet (1st, 2nd and 3rd place)
+
+6 players:
+
+- #1 gets 200 "rep" points" ; 75k chips and 3 raffle tickets + Race bet (1st, 2nd and 3rd place)
+- #2 gets 100 "rep" points" ; 25k chips and 2 raffle ticket + Race bet (1st, 2nd and 3rd place)
+- #3 gets 50 "rep" points" ; 10k chips and 1 raffle ticket + Race bet (1st, 2nd and 3rd place)
+- #4 gets 10 "rep" points" ; 0 chips and 0 raffle ticket + Race bet (1st, 2nd and 3rd place)
+- #5 gets -25 "rep" points" ; 0 chips and 0 raffle ticket + Race bet (1st, 2nd and 3rd place)
+- #6 gets -50 "rep" points" ; 0 chips and 0 raffle ticket + Race bet (1st, 2nd and 3rd place)

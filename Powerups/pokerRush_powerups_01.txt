@@ -1,0 +1,5 @@
+Power-Up Card
+
+Speed Boost
+
+Increases vehicle speed by 5% for 2 seconds
