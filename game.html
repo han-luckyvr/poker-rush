@@ -159,6 +159,7 @@ body { display: block; }
 }
 .pay-variant-img {
   width: 100%; display: block; border-radius: 6px; margin-bottom: 6px;
+  flex-shrink: 10; min-height: 20px; object-fit: contain;
 }
 .pay-table-title {
   font-size: 14px;
@@ -169,6 +170,7 @@ body { display: block; }
   text-align: center;
   margin-bottom: 4px;
   opacity: 0.9;
+  flex-shrink: 0;
 }
 .pay-row {
   display: flex;
@@ -177,6 +179,7 @@ body { display: block; }
   padding: 3px 7px;
   border-radius: 4px;
   transition: background 0.2s;
+  flex-shrink: 0;
 }
 .pay-row.active {
   background: rgba(233,69,96,0.22);
@@ -234,6 +237,52 @@ body { display: block; }
   background: rgba(240,165,0,0.1); border: 1px solid rgba(240,165,0,0.25);
   border-radius: 5px; padding: 3px 10px;
 }
+.player-name-badge {
+  font-size: 13px; font-weight: 700; color: var(--teal);
+  background: rgba(0,180,216,0.1); border: 1px solid rgba(0,180,216,0.25);
+  border-radius: 5px; padding: 3px 10px; white-space: nowrap;
+}
+/* Name prompt overlay */
+#namePrompt {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(6,11,22,0.88); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+}
+.name-prompt-box {
+  background: var(--navy2); border: 1px solid rgba(0,180,216,0.3);
+  border-radius: 14px; padding: 36px 40px; text-align: center;
+  display: flex; flex-direction: column; gap: 16px; min-width: 300px;
+}
+.name-prompt-title {
+  font-size: 22px; font-weight: 900; color: var(--white);
+  letter-spacing: 1px; text-transform: uppercase;
+}
+.name-prompt-sub {
+  font-size: 13px; color: var(--muted);
+}
+.name-prompt-input {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(0,180,216,0.35);
+  border-radius: 8px; padding: 10px 14px; color: var(--white);
+  font-size: 15px; font-weight: 600; text-align: center; outline: none;
+  transition: border-color 0.15s;
+}
+.name-prompt-input:focus { border-color: rgba(0,180,216,0.7); }
+.name-prompt-btn {
+  background: rgba(0,180,216,0.15); border: 1px solid rgba(0,180,216,0.4);
+  color: var(--teal); font-size: 14px; font-weight: 700; padding: 10px;
+  border-radius: 8px; cursor: pointer; transition: background 0.15s;
+}
+.name-prompt-btn:hover { background: rgba(0,180,216,0.28); }
+#toast {
+  position: fixed; top: 32px; left: 50%; transform: translateX(-50%);
+  background: rgba(15,25,50,0.95); border: 1px solid rgba(0,180,216,0.35);
+  border-radius: 10px; padding: 12px 24px;
+  font-size: 14px; font-weight: 600; color: var(--white);
+  pointer-events: none; z-index: 9998;
+  opacity: 0; transition: opacity 0.3s ease;
+  white-space: nowrap;
+}
+#toast.show { opacity: 1; }
 .hand-result-area {
   margin-left: auto; text-align: right;
   display: flex; flex-direction: column; align-items: flex-end; gap: 1px;
@@ -839,6 +888,18 @@ body { display: block; }
 </head>
 <body>
 
+<div id="toast"></div>
+
+<!-- NAME PROMPT -->
+<div id="namePrompt" style="display:none">
+  <div class="name-prompt-box">
+    <div class="name-prompt-title">Welcome to Poker Rush</div>
+    <div class="name-prompt-sub">Enter your name to get started</div>
+    <input class="name-prompt-input" id="nameInput" type="text" maxlength="20" placeholder="Your name…" autocomplete="off">
+    <button class="name-prompt-btn" onclick="submitPlayerName()">Let's Race ▶</button>
+  </div>
+</div>
+
 <!-- WELCOME SCREEN -->
 <div id="welcome-screen" class="screen">
   <img class="wlc-img" src="Splash/pokerRush_splash01.png" alt="Poker Rush" id="heroImg">
@@ -851,6 +912,7 @@ body { display: block; }
     <img class="mn-hdr-logo" src="pokerRush_logo_ design01.png" alt="" onclick="mnShowPanel('games')">
     <img class="mn-hdr-brand-img" src="Logos/pokerRush_logo_ small.png" alt="Poker Rush" onclick="mnShowPanel('games')" style="height:32px;object-fit:contain;cursor:pointer;">
     <div class="mn-hdr-chips">💰 <span id="menuChips">10,000</span> chips</div>
+    <div class="player-name-badge" id="menuPlayerNameBadge"></div>
     <div class="mn-tabs">
       <button class="mn-tab" data-panel="profile"      onclick="mnShowPanel('profile')">Player Profile</button>
       <button class="mn-tab" data-panel="marketplace"  onclick="mnShowPanel('marketplace')">Marketplace</button>
@@ -915,6 +977,7 @@ body { display: block; }
     <div class="poker-panel-hdr">
       <div class="poker-title" id="pokerTitle">VIDEO POKER</div>
       <div class="chips-display" id="chipsDisplay">10,000 chips</div>
+      <div class="player-name-badge" id="playerNameBadge"></div>
       <div class="hand-result-area">
         <div class="hand-result-badge" id="handResultBadge"></div>
         <div class="speed-change-text" id="speedChangeText"></div>
@@ -1057,6 +1120,62 @@ function startBGMusic() {
   bg.volume = 0.30;
   bg.play().catch(() => {});
 }
+
+// ─────────────────────────────────────────────
+// PLAYER NAME
+// ─────────────────────────────────────────────
+const PLAYER_NAME_KEY = 'pokerRush_playerName';
+
+function showToast(msg, duration = 3000, anchorEl = null) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  if (anchorEl) {
+    const rect = anchorEl.getBoundingClientRect();
+    el.style.top       = (rect.top - 8) + 'px';
+    el.style.left      = (rect.left + rect.width / 2) + 'px';
+    el.style.transform = 'translate(-50%, -100%)';
+  } else {
+    el.style.top       = '32px';
+    el.style.left      = '50%';
+    el.style.transform = 'translateX(-50%)';
+  }
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), duration);
+}
+
+function setPlayerName(name) {
+  localStorage.setItem(PLAYER_NAME_KEY, name);
+  const label = '👤 ' + name;
+  document.getElementById('playerNameBadge').textContent = label;
+  document.getElementById('menuPlayerNameBadge').textContent = label;
+}
+
+function submitPlayerName() {
+  const input = document.getElementById('nameInput');
+  const name  = input.value.trim() || 'Player';
+  playSoundUI('Audio/ButtonSelect.mp3');
+  document.getElementById('namePrompt').style.display = 'none';
+  setPlayerName(name);
+}
+
+(function initChipsDisplay() {
+  const menuEl = document.getElementById('menuChips');
+  if (menuEl) menuEl.textContent = parseInt(localStorage.getItem('pokerRush_chips') || '10000').toLocaleString();
+})();
+
+(function initPlayerName() {
+  const stored = localStorage.getItem(PLAYER_NAME_KEY);
+  if (stored) {
+    setPlayerName(stored);
+    setTimeout(() => showToast(`👋 Welcome back, ${stored}!`, 4500), 500);
+  } else {
+    document.getElementById('namePrompt').style.display = 'flex';
+    // Allow pressing Enter to confirm
+    document.getElementById('nameInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') submitPlayerName();
+    });
+  }
+})();
 
 // ─────────────────────────────────────────────
 // CONSTANTS
@@ -1493,8 +1612,8 @@ let racerState = RACERS.map(r => ({
 }));
 let playerState = racerState.find(r => r.isPlayer);
 
-let chips      = 10000;
-const startChips = 10000;
+let chips      = parseInt(localStorage.getItem('pokerRush_chips') || '10000');
+let startChips = chips;
 let raceTimer  = RACE_DURATION;
 let raceOver   = false;
 let finalLap   = false;
@@ -1977,7 +2096,11 @@ function updateLapBadge() {
 }
 
 function updateChipsDisplay() {
-  document.getElementById('chipsDisplay').textContent = chips.toLocaleString() + ' chips';
+  const fmt = chips.toLocaleString();
+  document.getElementById('chipsDisplay').textContent = fmt + ' chips';
+  const menuEl = document.getElementById('menuChips');
+  if (menuEl) menuEl.textContent = fmt;
+  localStorage.setItem('pokerRush_chips', chips);
 }
 
 function updateHandHistory() {
@@ -2112,6 +2235,10 @@ function drawCards() {
     chips += chipWin;
     updateChipsDisplay();
     showResultBadge(currentResult, speedDelta, chipWin);
+    if (chipWin > 0) {
+      playSoundUI('Audio/PokerChips.mp3');
+      showToast(`💰 +${chipWin.toLocaleString()} chips`, 4500, document.querySelector('.poker-main'));
+    }
 
     // Apply double pts on wins
     let finalDelta = speedDelta;
@@ -2678,7 +2805,7 @@ function launchGame(variant) {
     _lastDelta:0, _lastSpeedUpdate:0, finishedAt:0, finishPos:0,
   }));
   playerState     = racerState.find(r => r.isPlayer);
-  chips           = 10000;
+  startChips      = chips;
   raceTimer       = 0;
   raceOver        = false;
   finalLap        = false;
