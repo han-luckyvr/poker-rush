@@ -1143,11 +1143,29 @@ function showToast(msg, duration = 3000, anchorEl = null) {
   setTimeout(() => el.classList.remove('show'), duration);
 }
 
+function makeInitials(name) {
+  const words = name.trim().split(/\s+/);
+  return words.length >= 2
+    ? (words[0][0] + words[1][0]).toUpperCase()
+    : name.slice(0, 2).toUpperCase();
+}
+
 function setPlayerName(name) {
   localStorage.setItem(PLAYER_NAME_KEY, name);
   const label = '👤 ' + name;
   document.getElementById('playerNameBadge').textContent = label;
   document.getElementById('menuPlayerNameBadge').textContent = label;
+  // Keep racer data in sync (RACERS may be in TDZ during early init)
+  try {
+    RACERS[0].name     = name;
+    RACERS[0].initials = makeInitials(name);
+  } catch(e) {}
+  try {
+    if (playerState) {
+      playerState.name     = name;
+      playerState.initials = makeInitials(name);
+    }
+  } catch(e) {}
 }
 
 function submitPlayerName() {
@@ -1187,7 +1205,7 @@ const SPEED_CEIL         = 2.0;
 const BET_AMOUNT         = 100;
 
 const RACERS = [
-  { id:'player', name:'You',     initials:'HF', isPlayer:true,  laneFraction:0.37 },
+  { id:'player', name: localStorage.getItem(PLAYER_NAME_KEY) || 'You', initials: makeInitials(localStorage.getItem(PLAYER_NAME_KEY) || 'You'), isPlayer:true,  laneFraction:0.37 },
   { id:'bot1',   name:'MaxKing', initials:'MK', isPlayer:false, laneFraction:0.90 },
   { id:'bot2',   name:'RiverQ',  initials:'RQ', isPlayer:false, laneFraction:0.10 },
   { id:'bot3',   name:'AceX',    initials:'AX', isPlayer:false, laneFraction:0.63 },
@@ -1991,7 +2009,8 @@ function renderCanvas(now) {
     ctx.font = `bold ${state.isPlayer ? 10 : 9}px Segoe UI, system-ui, sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'bottom';
-    ctx.fillText(state.initials, pos.x, pos.y - cHalf - 2);
+    const labelText = state.isPlayer ? state.initials + ' (You)' : state.initials;
+    ctx.fillText(labelText, pos.x, pos.y - cHalf - 2);
     ctx.restore();
 
     // ─── DEBUFF SKULL — floats above car name ───
