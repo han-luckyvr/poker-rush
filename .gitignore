@@ -1,2 +1,4 @@
 # Claude Code local settings
 .claude/
+node_modules/
+/.vite

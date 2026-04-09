@@ -22,13 +22,12 @@ body { display: block; }
 
 /* ===== RACE PANEL ===== */
 .race-panel {
-  display: grid;
-  grid-template-columns: 1fr 200px;
+  display: flex;
   background: var(--navy3);
   overflow: hidden;
   min-height: 0;
 }
-.track-area { display: flex; flex-direction: column; overflow: hidden; min-height: 0; position: relative; }
+.track-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0; position: relative; }
 .race-hud {
   display: flex; align-items: center; gap: 8px;
   padding: 6px 10px;
@@ -100,8 +99,11 @@ body { display: block; }
 
 /* ===== STANDINGS ===== */
 .standings-column {
-  background: rgba(22,33,62,0.9); border-left: 1px solid rgba(233,69,96,0.15);
-  display: flex; flex-direction: column; overflow: hidden; min-height: 0;
+  position: absolute; top: 44px; left: 8px; z-index: 10;
+  background: rgba(15,22,48,0.82); border: 1px solid rgba(233,69,96,0.18);
+  border-radius: 8px; backdrop-filter: blur(6px);
+  display: flex; flex-direction: column; overflow: hidden;
+  min-width: 160px;
 }
 .standings-title {
   padding: 9px 10px; font-size: 14px; font-weight: 700;
@@ -136,8 +138,7 @@ body { display: block; }
 
 /* ===== POKER PANEL ===== */
 .poker-panel {
-  display: grid;
-  grid-template-columns: 210px 1fr 840px 108px;
+  display: flex;
   border-top: 1px solid rgba(233,69,96,.15);
   background: var(--navy2);
   overflow: hidden;
@@ -146,6 +147,7 @@ body { display: block; }
 
 /* Pay table sidebar */
 .pay-table {
+  flex: 0 0 210px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -153,9 +155,11 @@ body { display: block; }
   background: rgba(0,0,0,0.25);
   border-right: 1px solid rgba(233,69,96,.15);
   gap: 3px;
+  overflow: hidden; min-height: 0;
 }
 .pay-variant-img {
   width: 100%; display: block; border-radius: 6px; margin-bottom: 6px;
+  flex-shrink: 10; min-height: 20px; object-fit: contain;
 }
 .pay-table-title {
   font-size: 14px;
@@ -166,6 +170,7 @@ body { display: block; }
   text-align: center;
   margin-bottom: 4px;
   opacity: 0.9;
+  flex-shrink: 0;
 }
 .pay-row {
   display: flex;
@@ -174,6 +179,7 @@ body { display: block; }
   padding: 3px 7px;
   border-radius: 4px;
   transition: background 0.2s;
+  flex-shrink: 0;
 }
 .pay-row.active {
   background: rgba(233,69,96,0.22);
@@ -209,11 +215,11 @@ body { display: block; }
 .pay-speed.pos { color: #4ade80; }
 .pay-speed.neg { color: #f87171; }
 .poker-main {
+  flex: 1 1 0; min-width: 0;
   display: flex; flex-direction: column;
   overflow: hidden; position: relative; min-height: 0;
   border-right: 2px solid rgba(255,255,255,0.08);
   background: rgba(15,25,50,0.25);
-  padding-bottom: 88px;
 }
 .poker-panel-hdr {
   display: flex; align-items: center; gap: 10px;
@@ -231,6 +237,52 @@ body { display: block; }
   background: rgba(240,165,0,0.1); border: 1px solid rgba(240,165,0,0.25);
   border-radius: 5px; padding: 3px 10px;
 }
+.player-name-badge {
+  font-size: 13px; font-weight: 700; color: var(--teal);
+  background: rgba(0,180,216,0.1); border: 1px solid rgba(0,180,216,0.25);
+  border-radius: 5px; padding: 3px 10px; white-space: nowrap;
+}
+/* Name prompt overlay */
+#namePrompt {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(6,11,22,0.88); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+}
+.name-prompt-box {
+  background: var(--navy2); border: 1px solid rgba(0,180,216,0.3);
+  border-radius: 14px; padding: 36px 40px; text-align: center;
+  display: flex; flex-direction: column; gap: 16px; min-width: 300px;
+}
+.name-prompt-title {
+  font-size: 22px; font-weight: 900; color: var(--white);
+  letter-spacing: 1px; text-transform: uppercase;
+}
+.name-prompt-sub {
+  font-size: 13px; color: var(--muted);
+}
+.name-prompt-input {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(0,180,216,0.35);
+  border-radius: 8px; padding: 10px 14px; color: var(--white);
+  font-size: 15px; font-weight: 600; text-align: center; outline: none;
+  transition: border-color 0.15s;
+}
+.name-prompt-input:focus { border-color: rgba(0,180,216,0.7); }
+.name-prompt-btn {
+  background: rgba(0,180,216,0.15); border: 1px solid rgba(0,180,216,0.4);
+  color: var(--teal); font-size: 14px; font-weight: 700; padding: 10px;
+  border-radius: 8px; cursor: pointer; transition: background 0.15s;
+}
+.name-prompt-btn:hover { background: rgba(0,180,216,0.28); }
+#toast {
+  position: fixed; top: 32px; left: 50%; transform: translateX(-50%);
+  background: rgba(15,25,50,0.95); border: 1px solid rgba(0,180,216,0.35);
+  border-radius: 10px; padding: 12px 24px;
+  font-size: 14px; font-weight: 600; color: var(--white);
+  pointer-events: none; z-index: 9998;
+  opacity: 0; transition: opacity 0.3s ease;
+  white-space: nowrap;
+}
+#toast.show { opacity: 1; }
 .hand-result-area {
   margin-left: auto; text-align: right;
   display: flex; flex-direction: column; align-items: flex-end; gap: 1px;
@@ -374,7 +426,11 @@ body { display: block; }
 
 /* Stake info & buttons */
 .dd-stake-info { font-size: 11px; color: var(--muted); text-align: center; }
-.dd-buttons { display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.dd-hand-name {
+  font-size: 15px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--gold); text-align: center; margin: 2px 0 6px;
+}
+.dd-buttons { display: flex; gap: 10px; align-items: center; justify-content: center; }
 .dd-choice-btn {
   width: 88px; height: 60px; border-radius: 10px; border: 2px solid;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -395,11 +451,23 @@ body { display: block; }
 }
 .dd-cashout-btn:hover { background: rgba(240,165,0,0.22); }
 .dd-cashout-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.dd-accept-btn {
+  background: rgba(233,69,96,0.1); border: 1px solid rgba(233,69,96,0.35);
+  color: var(--red); padding: 8px 14px; border-radius: 8px;
+  font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.13s;
+}
+.dd-accept-btn:hover { background: rgba(233,69,96,0.22); }
+.dd-accept-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* Cards */
+.poker-content {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; min-height: 0; overflow: visible;
+}
 .cards-area {
   display: flex; gap: 12px; justify-content: center;
-  flex: 1; align-items: center; min-height: 0; overflow: hidden;
+  align-items: center; min-height: 0; overflow: visible;
+  padding: 14px 16px 0;
 }
 .card {
   flex: 1; max-width: 180px; min-width: 96px;
@@ -419,6 +487,14 @@ body { display: block; }
   background: rgba(255,255,255,0.04); border: 2px dashed rgba(255,255,255,0.1); cursor: default;
 }
 .card.empty:hover { transform: none; box-shadow: none; }
+.card.facedown {
+  background: linear-gradient(135deg, #0f3460, #16213e);
+  border-color: rgba(240,165,0,0.4); cursor: default;
+  background-image: repeating-linear-gradient(
+    45deg, transparent, transparent 6px,
+    rgba(255,255,255,0.03) 6px, rgba(255,255,255,0.03) 12px);
+}
+.card.facedown:hover { transform: none; box-shadow: none; }
 .card.joker { background: linear-gradient(135deg,#1a1a2e,#16213e); border-color: #fbbf24; }
 .card.joker .card-tl, .card.joker .card-br { color: #fbbf24; font-size: clamp(10px,1.2vw,14px); letter-spacing: -0.5px; }
 .card.joker .card-center { font-size: clamp(32px,5vw,60px); }
@@ -442,7 +518,7 @@ body { display: block; }
   padding: 2px 12px; border-radius: 6px 6px 0 0; letter-spacing: 0.5px;
 }
 
-.action-btn-row { display: flex; justify-content: center; margin-top: 6px; flex-shrink: 0; }
+.action-btn-row { display: flex; justify-content: center; margin-top: 16px; flex-shrink: 0; }
 #mainActionBtn {
   background: none; border: none; padding: 0;
   cursor: pointer; transition: opacity 0.2s, transform 0.1s;
@@ -454,19 +530,52 @@ body { display: block; }
 
 /* ===== POWER-UPS / HAZARDS SECTION ===== */
 .powerup-section {
+  flex: 0 0 auto; width: 840px;
   display: flex; flex-direction: column;
   border-left: 2px solid rgba(255,255,255,0.08);
   border-right: 1px solid rgba(255,255,255,0.07);
   background: rgba(5,8,20,0.35);
   overflow: hidden; min-height: 0;
+  transition: width 0.3s ease; cursor: pointer;
 }
 .powerup-section-hdr {
-  padding: 12px 20px;
+  display: none;
+  padding: 8px 0;
   background: rgba(0,0,0,0.3);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
   font-size: 17px; font-weight: 800; color: var(--white);
   letter-spacing: 1px; text-transform: uppercase; flex-shrink: 0;
+  user-select: none; align-items: center; justify-content: center;
+  flex-direction: column; gap: 10px; height: 100%;
 }
+.powerup-section.collapsed { width: 36px; }
+.powerup-section.collapsed .powerup-panel { display: none; }
+.powerup-section.collapsed .powerup-section-hdr {
+  display: flex; flex-shrink: 0;
+  padding: 10px 0 6px; gap: 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.pu-toggle { font-size: 14px; color: var(--muted); transition: transform 0.25s; }
+.powerup-section.collapsed .pu-toggle { transform: rotate(-90deg); }
+.pu-hdr-label { display: none; }
+.pu-collapsed-label {
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--muted); white-space: nowrap;
+}
+.pu-count {
+  flex-shrink: 0; display: flex; align-items: center; gap: 4px;
+  padding: 3px 10px; font-size: 10px; font-weight: 600; color: var(--muted);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.powerup-section.collapsed .pu-count {
+  flex: 1; flex-direction: column; justify-content: center;
+  padding: 0; border: none;
+  font-size: 18px; font-weight: 900; color: var(--gold);
+  letter-spacing: 0;
+}
+.pu-count-short { display: none; }
+.powerup-section.collapsed .pu-count-full { display: none; }
+.powerup-section.collapsed .pu-count-short { display: block; }
 .powerup-panel {
   display: flex; flex-direction: row; /* HORIZONTAL */
   padding: 14px; gap: 14px;
@@ -526,6 +635,7 @@ body { display: block; }
 
 /* ===== HAND HISTORY ===== */
 .hand-history {
+  flex: 0 0 108px;
   border-left: 1px solid rgba(255,255,255,0.07);
   display: flex; flex-direction: column; padding: 8px 6px;
   overflow: hidden; min-height: 0;
@@ -778,10 +888,22 @@ body { display: block; }
 </head>
 <body>
 
+<div id="toast"></div>
+
+<!-- NAME PROMPT -->
+<div id="namePrompt" style="display:none">
+  <div class="name-prompt-box">
+    <div class="name-prompt-title">Welcome to Poker Rush</div>
+    <div class="name-prompt-sub">Enter your name to get started</div>
+    <input class="name-prompt-input" id="nameInput" type="text" maxlength="20" placeholder="Your name…" autocomplete="off">
+    <button class="name-prompt-btn" onclick="submitPlayerName()">Let's Race ▶</button>
+  </div>
+</div>
+
 <!-- WELCOME SCREEN -->
 <div id="welcome-screen" class="screen">
   <img class="wlc-img" src="Splash/pokerRush_splash01.png" alt="Poker Rush" id="heroImg">
-  <img class="wlc-start-img" src="UI assets/pokerRush_UI_startButton.png" alt="Start" onclick="showScreen('menu')">
+  <img class="wlc-start-img" src="UI assets/pokerRush_UI_startButton.png" alt="Start" onclick="startBGMusic();playSoundUI('Audio/ButtonSelect.mp3');showScreen('menu')">
 </div>
 
 <!-- MENU SCREEN -->
@@ -790,6 +912,7 @@ body { display: block; }
     <img class="mn-hdr-logo" src="pokerRush_logo_ design01.png" alt="" onclick="mnShowPanel('games')">
     <img class="mn-hdr-brand-img" src="Logos/pokerRush_logo_ small.png" alt="Poker Rush" onclick="mnShowPanel('games')" style="height:32px;object-fit:contain;cursor:pointer;">
     <div class="mn-hdr-chips">💰 <span id="menuChips">10,000</span> chips</div>
+    <div class="player-name-badge" id="menuPlayerNameBadge"></div>
     <div class="mn-tabs">
       <button class="mn-tab" data-panel="profile"      onclick="mnShowPanel('profile')">Player Profile</button>
       <button class="mn-tab" data-panel="marketplace"  onclick="mnShowPanel('marketplace')">Marketplace</button>
@@ -824,7 +947,7 @@ body { display: block; }
     <div id="raceVfxFlash" class="race-vfx-flash"></div>
     <div class="race-hud">
       <button class="hud-forfeit" onclick="forfeitRace()">⚑ Forfeit Race</button>
-      <div class="hud-timer" id="raceTimer">3:00</div>
+      <div class="hud-timer" id="raceTimer">0:00</div>
       <div class="hud-progress">
         <div class="hud-progress-label">Race Progress</div>
         <div class="hud-progress-track">
@@ -837,10 +960,10 @@ body { display: block; }
       <button class="hud-back" onclick="backToMenu()">&#9664; Main Menu</button>
     </div>
     <canvas id="raceCanvas"></canvas>
-  </div>
-  <div class="standings-column">
-    <div class="standings-title">Standings</div>
-    <div class="standings-list" id="standingsList"></div>
+    <div class="standings-column">
+      <div class="standings-title">Standings</div>
+      <div class="standings-list" id="standingsList"></div>
+    </div>
   </div>
 </div>
 
@@ -854,6 +977,7 @@ body { display: block; }
     <div class="poker-panel-hdr">
       <div class="poker-title" id="pokerTitle">VIDEO POKER</div>
       <div class="chips-display" id="chipsDisplay">10,000 chips</div>
+      <div class="player-name-badge" id="playerNameBadge"></div>
       <div class="hand-result-area">
         <div class="hand-result-badge" id="handResultBadge"></div>
         <div class="speed-change-text" id="speedChangeText"></div>
@@ -885,6 +1009,8 @@ body { display: block; }
 
       <div class="dd-stake-info" id="ddStakeInfo"></div>
 
+      <div class="dd-hand-name" id="ddHandName"></div>
+
       <div class="dd-buttons" id="ddButtons">
         <button class="dd-choice-btn dd-red-btn" id="ddRedBtn" onclick="ddGuess('red')">
           <span class="dd-btn-icon">♥</span>
@@ -894,22 +1020,27 @@ body { display: block; }
           <span class="dd-btn-icon">♠</span>
           <span class="dd-btn-label">BLACK</span>
         </button>
-        <button class="dd-cashout-btn" id="ddCashoutBtn" onclick="ddCashout()">
-          💰 Cash Out +<span id="ddCashoutAmt">0</span>%
-        </button>
       </div>
+      <button class="dd-cashout-btn" id="ddCashoutBtn" onclick="ddCashout()">
+        💰 Cash Out +<span id="ddCashoutAmt">0</span>%
+      </button>
+      <button class="dd-accept-btn" id="ddAcceptBtn" onclick="ddAcceptPenalty()">
+        ✕ Take Penalty (<span id="ddAcceptAmt"></span>% speed)
+      </button>
     </div>
 
-    <div class="cards-area" id="cardsArea"></div>
-
-    <div class="action-btn-row">
-      <button id="mainActionBtn" onclick="handleMainAction()"><img id="mainActionImg" src="UI assets/pokerRush_UI_dealButton.png" alt="Deal"></button>
+    <div class="poker-content">
+      <div class="cards-area" id="cardsArea"></div>
+      <div class="action-btn-row">
+        <button id="mainActionBtn" onclick="handleMainAction()"><img id="mainActionImg" src="UI assets/pokerRush_UI_dealButton.png" alt="Deal"></button>
+      </div>
     </div>
   </div>
 
   <!-- Power-Up / Hazard Section -->
-  <div class="powerup-section">
-    <div class="powerup-section-hdr">⚡ Power-Ups &amp; Hazards</div>
+  <div class="powerup-section" onclick="togglePowerupSection()">
+    <div class="powerup-section-hdr"><span class="pu-collapsed-label">⚡ Power-Ups</span><span class="pu-toggle">▾</span></div>
+    <div class="pu-count" id="puCount"></div>
     <div class="powerup-panel" id="powerupPanel"></div>
   </div>
 
@@ -930,7 +1061,7 @@ body { display: block; }
     <div class="race-over-pos" id="raceOverPos"></div>
     <div class="final-standings" id="finalStandings"></div>
     <div class="chips-result" id="chipsResult"></div>
-    <button class="play-again-btn" onclick="showScreen('menu')">&#9664; Back to Menu</button>
+    <button class="play-again-btn" onclick="playSoundUI('Audio/ButtonSelect.mp3');showScreen('menu')">&#9664; Back to Menu</button>
   </div>
 </div>
 
@@ -953,6 +1084,98 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
     return this;
   };
 }
+
+// ─────────────────────────────────────────────
+// AUDIO
+// ─────────────────────────────────────────────
+let _audioCtx = null;
+const _audioBufs = {};
+
+function _getAudioCtx() {
+  if (!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return _audioCtx;
+}
+
+async function playSoundUI(src) {
+  try {
+    const ctx = _getAudioCtx();
+    if (!_audioBufs[src]) {
+      const res = await fetch(src);
+      const ab  = await res.arrayBuffer();
+      _audioBufs[src] = await ctx.decodeAudioData(ab);
+    }
+    const node = ctx.createBufferSource();
+    node.buffer = _audioBufs[src];
+    node.playbackRate.value = 0.95 + Math.random() * 0.10; // ±5% pitch
+    node.connect(ctx.destination);
+    node.start();
+  } catch(e) { /* audio blocked or unavailable */ }
+}
+
+let _bgStarted = false;
+function startBGMusic() {
+  if (_bgStarted) return;
+  _bgStarted = true;
+  const bg = document.getElementById('bgMusic');
+  bg.volume = 0.30;
+  bg.play().catch(() => {});
+}
+
+// ─────────────────────────────────────────────
+// PLAYER NAME
+// ─────────────────────────────────────────────
+const PLAYER_NAME_KEY = 'pokerRush_playerName';
+
+function showToast(msg, duration = 3000, anchorEl = null) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  if (anchorEl) {
+    const rect = anchorEl.getBoundingClientRect();
+    el.style.top       = (rect.top - 8) + 'px';
+    el.style.left      = (rect.left + rect.width / 2) + 'px';
+    el.style.transform = 'translate(-50%, -100%)';
+  } else {
+    el.style.top       = '32px';
+    el.style.left      = '50%';
+    el.style.transform = 'translateX(-50%)';
+  }
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), duration);
+}
+
+function setPlayerName(name) {
+  localStorage.setItem(PLAYER_NAME_KEY, name);
+  const label = '👤 ' + name;
+  document.getElementById('playerNameBadge').textContent = label;
+  document.getElementById('menuPlayerNameBadge').textContent = label;
+}
+
+function submitPlayerName() {
+  const input = document.getElementById('nameInput');
+  const name  = input.value.trim() || 'Player';
+  playSoundUI('Audio/ButtonSelect.mp3');
+  document.getElementById('namePrompt').style.display = 'none';
+  setPlayerName(name);
+}
+
+(function initChipsDisplay() {
+  const menuEl = document.getElementById('menuChips');
+  if (menuEl) menuEl.textContent = parseInt(localStorage.getItem('pokerRush_chips') || '10000').toLocaleString();
+})();
+
+(function initPlayerName() {
+  const stored = localStorage.getItem(PLAYER_NAME_KEY);
+  if (stored) {
+    setPlayerName(stored);
+    setTimeout(() => showToast(`👋 Welcome back, ${stored}!`, 4500), 500);
+  } else {
+    document.getElementById('namePrompt').style.display = 'flex';
+    // Allow pressing Enter to confirm
+    document.getElementById('nameInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') submitPlayerName();
+    });
+  }
+})();
 
 // ─────────────────────────────────────────────
 // CONSTANTS
@@ -1389,8 +1612,8 @@ let racerState = RACERS.map(r => ({
 }));
 let playerState = racerState.find(r => r.isPlayer);
 
-let chips      = 10000;
-const startChips = 10000;
+let chips      = parseInt(localStorage.getItem('pokerRush_chips') || '10000');
+let startChips = chips;
 let raceTimer  = RACE_DURATION;
 let raceOver   = false;
 let finalLap   = false;
@@ -1847,12 +2070,13 @@ function updateStandings() {
 }
 
 function updateTimer() {
-  const m = Math.floor(raceTimer / 60);
-  const s = Math.floor(raceTimer % 60);
+  const elapsed = raceTimer;
+  const m = Math.floor(elapsed / 60);
+  const s = Math.floor(elapsed % 60);
   document.getElementById('raceTimer').textContent = `${m}:${s.toString().padStart(2,'0')}`;
   const fill = document.getElementById('raceProgressFill');
   if (fill) {
-    const pct = finalLap ? 100 : ((RACE_DURATION - raceTimer) / RACE_DURATION) * 100;
+    const pct = finalLap ? 100 : (elapsed / RACE_DURATION) * 100;
     fill.style.width = pct + '%';
     if (finalLap) fill.classList.add('final');
     else fill.classList.remove('final');
@@ -1872,7 +2096,11 @@ function updateLapBadge() {
 }
 
 function updateChipsDisplay() {
-  document.getElementById('chipsDisplay').textContent = chips.toLocaleString() + ' chips';
+  const fmt = chips.toLocaleString();
+  document.getElementById('chipsDisplay').textContent = fmt + ' chips';
+  const menuEl = document.getElementById('menuChips');
+  if (menuEl) menuEl.textContent = fmt;
+  localStorage.setItem('pokerRush_chips', chips);
 }
 
 function updateHandHistory() {
@@ -1907,6 +2135,11 @@ function renderCards() {
       area.appendChild(div);
       continue;
     }
+    if (card.revealing) {
+      div.className = 'card facedown';
+      area.appendChild(div);
+      continue;
+    }
     if (card.rank === 'W') {
       div.className = 'card joker' + (card.held ? ' held' : '');
       div.innerHTML = `
@@ -1922,7 +2155,7 @@ function renderCards() {
         <div class="card-br${red}">${card.rank}</div>`;
     }
     if (phase === 'deal') {
-      div.addEventListener('click', () => { card.held = !card.held; renderCards(); });
+      div.addEventListener('click', () => { card.held = !card.held; playSoundUI('Audio/CardSelect.mp3'); renderCards(); });
     }
     area.appendChild(div);
   }
@@ -1937,59 +2170,99 @@ function handleMainAction() {
 }
 
 function dealCards() {
+  playSoundUI('Audio/CardSelect.mp3');
   deck = shuffle(buildDeckForVariant(activeVariant));
-  hand = deck.splice(0, 5).map(c => ({ ...c, held: false }));
-  phase = 'deal';
+  hand = deck.splice(0, 5).map(c => ({ ...c, held: false, revealing: true }));
+  phase = 'dealing';
   chips -= BET_AMOUNT;
   updateChipsDisplay();
   hideResultBadge();
   hideDDOverlay();
   highlightPayRow('');
   renderCards();
-  document.getElementById('mainActionImg').src = 'UI assets/pokerRush_UI_drawCardsButton.png';
+  document.getElementById('mainActionBtn').style.visibility = 'hidden';
+
+  const STEP = 130;
+  hand.forEach((_, idx) => {
+    setTimeout(() => {
+      hand[idx].revealing = false;
+      renderCards();
+      playSoundUI('Audio/CardSelect.mp3');
+      if (idx === 4) {
+        phase = 'deal';
+        const btn = document.getElementById('mainActionBtn');
+        btn.style.visibility = '';
+        btn.querySelector('img').src = 'UI assets/pokerRush_UI_drawCardsButton.png';
+        renderCards();
+      }
+    }, STEP * (idx + 1));
+  });
 }
 
 function drawCards() {
-  // Replace un-held cards
+  document.getElementById('mainActionBtn').style.visibility = 'hidden';
+
+  // Mark un-held slots as revealing (face-down) and draw replacement cards
+  const replacedIdx = [];
   for (let i = 0; i < 5; i++) {
-    if (!hand[i].held) hand[i] = { ...deck.splice(0, 1)[0], held: false };
+    if (!hand[i].held) {
+      hand[i] = { ...deck.splice(0, 1)[0], held: false, revealing: true };
+      replacedIdx.push(i);
+    }
   }
   renderCards();
 
-  const evaluator  = EVALUATORS[activeVariant] || evaluateHand;
-  currentResult    = evaluator(hand);
-  const cfg        = VARIANTS[activeVariant];
-  const payRow     = cfg && cfg.payRows.find(r => r.hand === currentResult);
-  const speedDelta = payRow ? payRow.speed  : (HAND_SPEED_PCT[currentResult] ?? -2);
-  const chipMult   = payRow ? payRow.chips  : (HAND_CHIP_MULT[currentResult] ?? 0);
-  const chipWin    = chipMult * BET_AMOUNT;
+  // Flip each replaced card face-up one by one
+  const STEP = 130;
+  replacedIdx.forEach((idx, order) => {
+    setTimeout(() => {
+      hand[idx].revealing = false;
+      renderCards();
+      playSoundUI('Audio/CardSelect.mp3');
+    }, STEP * (order + 1));
+  });
 
-  chips += chipWin;
-  updateChipsDisplay();
-  showResultBadge(currentResult, speedDelta, chipWin);
+  // Evaluate after all cards are revealed
+  setTimeout(() => {
+    const evaluator  = EVALUATORS[activeVariant] || evaluateHand;
+    currentResult    = evaluator(hand);
+    const cfg        = VARIANTS[activeVariant];
+    const payRow     = cfg && cfg.payRows.find(r => r.hand === currentResult);
+    const speedDelta = payRow ? payRow.speed  : (HAND_SPEED_PCT[currentResult] ?? -2);
+    const chipMult   = payRow ? payRow.chips  : (HAND_CHIP_MULT[currentResult] ?? 0);
+    const chipWin    = chipMult * BET_AMOUNT;
 
-  // Apply double pts on wins
-  let finalDelta = speedDelta;
-  if (doublePtsActive && speedDelta > 0) {
-    finalDelta = speedDelta * 2;
-    doublePtsActive = false;
-    const pu2 = document.getElementById('pu2');
-    pu2.classList.remove('active-boost');
-    pu2.classList.add('used');
-    pu2.querySelector('.pu-btn').disabled = true;
-  }
-  pendingDelta = finalDelta;
-  ddAttempt    = 0;
+    chips += chipWin;
+    updateChipsDisplay();
+    showResultBadge(currentResult, speedDelta, chipWin);
+    if (chipWin > 0) {
+      playSoundUI('Audio/PokerChips.mp3');
+      showToast(`💰 +${chipWin.toLocaleString()} chips`, 4500, document.querySelector('.poker-main'));
+    }
 
-  document.getElementById('mainActionBtn').style.display = 'none';
+    // Apply double pts on wins
+    let finalDelta = speedDelta;
+    if (doublePtsActive && speedDelta > 0) {
+      finalDelta = speedDelta * 2;
+      doublePtsActive = false;
+      const pu2 = document.getElementById('pu2');
+      pu2.classList.remove('active-boost');
+      pu2.classList.add('used');
+      pu2.querySelector('.pu-btn').disabled = true;
+    }
+    pendingDelta = finalDelta;
+    ddAttempt    = 0;
 
-  if (speedDelta > 0) {
-    phase = 'doubledown';
-    setTimeout(() => showDDOverlay(false), 500);
-  } else {
-    phase = 'mitigate';
-    setTimeout(() => showDDOverlay(true), 500);
-  }
+    if (speedDelta > 0) {
+      playSoundUI('Audio/HandWin.mp3');
+      phase = 'doubledown';
+      setTimeout(() => showDDOverlay(false), 500);
+    } else {
+      playSoundUI('Audio/HandLose.mp3');
+      phase = 'mitigate';
+      setTimeout(() => showDDOverlay(true), 500);
+    }
+  }, STEP * replacedIdx.length + 80);
 }
 
 function highlightPayRow(result) {
@@ -2035,15 +2308,17 @@ function resetDDModal() {
   document.getElementById('ddModal').classList.remove('wrong-flash');
   document.getElementById('ddResultText').classList.remove('show');
   document.getElementById('ddParticles').innerHTML = '';
-  document.getElementById('ddRedBtn').disabled   = false;
-  document.getElementById('ddBlackBtn').disabled = false;
+  document.getElementById('ddRedBtn').disabled    = false;
+  document.getElementById('ddBlackBtn').disabled  = false;
   document.getElementById('ddCashoutBtn').disabled = false;
+  document.getElementById('ddAcceptBtn').disabled  = false;
   // Re-enable transition after reset is painted
   requestAnimationFrame(() => requestAnimationFrame(() => { inner.style.transition = ''; }));
 }
 
 function showDDOverlay(isMitigate) {
   resetDDModal();
+  document.getElementById('ddHandName').textContent = currentResult || '';
   const modal = document.getElementById('ddModal');
   document.getElementById('ddTitle').textContent = isMitigate ? 'Mitigate the Loss?' : 'Double Down?';
   document.getElementById('ddTitle').className   = 'dd-modal-title' + (isMitigate ? ' mit' : '');
@@ -2052,6 +2327,8 @@ function showDDOverlay(isMitigate) {
     : 'Guess the color of the next card to double your speed bonus';
   document.getElementById('ddCashoutBtn').style.display = isMitigate ? 'none' : '';
   document.getElementById('ddCashoutAmt').textContent   = pendingDelta;
+  document.getElementById('ddAcceptBtn').style.display  = isMitigate ? '' : 'none';
+  document.getElementById('ddAcceptAmt').textContent    = pendingDelta;
   document.getElementById('ddStakeInfo').innerHTML = isMitigate
     ? `Current penalty: <span style="color:var(--red)">−2%</span> speed`
     : `Attempt <strong style="color:white">${ddAttempt+1}</strong>/3 &nbsp;·&nbsp; `
@@ -2099,10 +2376,12 @@ function spawnParticles(won) {
 }
 
 function ddGuess(guess) {
+  playSoundUI('Audio/ButtonSelect.mp3');
   // Disable buttons immediately to prevent double-click
   document.getElementById('ddRedBtn').disabled   = true;
   document.getElementById('ddBlackBtn').disabled = true;
   document.getElementById('ddCashoutBtn').disabled = true;
+  document.getElementById('ddAcceptBtn').disabled  = true;
 
   const drawnCard  = shuffle(buildDeck())[0];
   const actualColor = isRed(drawnCard.suit) ? 'red' : 'black';
@@ -2125,6 +2404,7 @@ function ddGuess(guess) {
     const msgEl    = document.getElementById('ddResultMsg');
 
     if (won) {
+      playSoundUI('Audio/HandWin.mp3');
       revealEl.classList.add('correct-glow');
       iconEl.textContent  = '✓';
       iconEl.style.color  = '#4ade80';
@@ -2137,6 +2417,7 @@ function ddGuess(guess) {
       }
       spawnParticles(true);
     } else {
+      playSoundUI('Audio/HandLose.mp3');
       revealEl.classList.add('wrong-glow');
       wrapEl.classList.add('wrong-shake');
       modalEl.classList.add('wrong-flash');
@@ -2187,6 +2468,12 @@ function resolveDDGuess(won, isMitigate) {
 }
 
 function ddCashout() {
+  playSoundUI('Audio/Speedup.mp3');
+  finishHand();
+}
+
+function ddAcceptPenalty() {
+  playSoundUI('Audio/ButtonSelect.mp3');
   finishHand();
 }
 
@@ -2199,7 +2486,7 @@ function finishHand() {
   hand  = [];
   renderCards();
   const btn = document.getElementById('mainActionBtn');
-  btn.style.display = '';
+  btn.style.visibility = '';
   btn.querySelector('img').src = 'UI assets/pokerRush_UI_dealButton.png';
   // Auto-deal after a short pause so the result registers visually
   setTimeout(() => { if (phase === 'idle') dealCards(); }, 1200);
@@ -2208,6 +2495,24 @@ function finishHand() {
 // ─────────────────────────────────────────────
 // POWER-UPS / HAZARDS
 // ─────────────────────────────────────────────
+function togglePowerupSection() {
+  playSoundUI('Audio/ButtonSelect.mp3');
+  document.querySelector('.powerup-section').classList.toggle('collapsed');
+}
+
+function updatePuCount() {
+  const remaining = puUsed.filter(u => !u).length;
+  const total     = puUsed.length;
+  const el = document.getElementById('puCount');
+  if (el) {
+    el.innerHTML =
+      `<span class="pu-count-full">⚡ ${remaining} / ${total} remaining</span>` +
+      `<span class="pu-count-short">${remaining}</span>`;
+  }
+  const label = document.querySelector('.pu-collapsed-label');
+  if (label) label.textContent = `⚡ Power-Ups · ${remaining}`;
+}
+
 function dealPowerupCards() {
   // Pick 3 random unique cards from the pool
   const shuffled = [...CARD_POOL].sort(() => Math.random() - 0.5);
@@ -2221,14 +2526,17 @@ function dealPowerupCards() {
       <div class="pu-footer">
         <div class="pu-name">${card.name}</div>
         <div class="pu-desc">${card.desc}</div>
-        <button class="pu-btn" onclick="activatePowerup(${i})"><img src="UI assets/${card.type === 'hazard' ? 'pokerRush_UI_deployButton.png' : 'pokerRush_UI_activateButton.png'}" alt="${card.type === 'hazard' ? 'Deploy' : 'Activate'}"></button>
+        <button class="pu-btn" onclick="event.stopPropagation(); activatePowerup(${i})"><img src="UI assets/${card.type === 'hazard' ? 'pokerRush_UI_deployButton.png' : 'pokerRush_UI_activateButton.png'}" alt="${card.type === 'hazard' ? 'Deploy' : 'Activate'}"></button>
       </div>
     </div>`).join('');
+  updatePuCount();
 }
 
 function activatePowerup(idx) {
   if (puUsed[idx] || raceOver) return;
+  playSoundUI('Audio/Powerup.mp3');
   puUsed[idx] = true;
+  updatePuCount();
 
   const card = equippedCards[idx];
   const slot = document.getElementById(`pu${idx}`);
@@ -2324,6 +2632,7 @@ function triggerRaceFlash(isHazard) {
 // ─────────────────────────────────────────────
 function endRace() {
   raceOver = true;
+  playSoundUI('Audio/RaceComplete.mp3');
   document.getElementById('raceStatus').textContent = 'Finished';
 
   const sorted  = [...racerState].sort((a, b) => a.finishPos - b.finishPos);
@@ -2368,9 +2677,8 @@ function gameLoop(now) {
 
   if (!raceOver) {
     // 1. Race timer
-    raceTimer -= dt / 1000;
-    if (raceTimer <= 0 && !finalLap) {
-      raceTimer = 0;
+    raceTimer += dt / 1000;
+    if (raceTimer >= RACE_DURATION && !finalLap) {
       finalLap = true;
       const leader = racerState.reduce((best, s) => s.distance > best.distance ? s : best);
       finalLapThreshold = Math.floor(leader.distance) + 1;
@@ -2393,13 +2701,19 @@ function gameLoop(now) {
     if (finalLap && !raceOver) {
       for (const state of racerState) {
         if (!state.finishedAt && state.distance >= finalLapThreshold) {
-          state.distance  = finalLapThreshold; // snap to finish line
+          state.distance  = finalLapThreshold;
           state.finishedAt = now;
           finishCount++;
           state.finishPos = finishCount;
+          if (state.isPlayer) {
+            racerState.filter(r => !r.finishedAt).forEach(r => {
+              finishCount++; r.finishedAt = now + 1; r.finishPos = finishCount;
+            });
+            endRace(); break;
+          }
         }
       }
-      if (finishCount === racerState.length) endRace();
+      if (!raceOver && finishCount === racerState.length) endRace();
     }
 
     // 5. Standings
@@ -2447,7 +2761,10 @@ function showScreen(name) {
 }
 
 function backToMenu() {
-  if (confirm('Leave the race and return to the main menu?')) showScreen('menu');
+  if (confirm('Leave the race and return to the main menu?')) {
+    playSoundUI('Audio/ButtonSelect.mp3');
+    showScreen('menu');
+  }
 }
 
 function forfeitRace() {
@@ -2474,6 +2791,7 @@ function mnShowPanel(panel) {
 }
 
 function launchGame(variant) {
+  playSoundUI('Audio/ButtonSelect.mp3');
   // Cancel any running game loop
   if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
 
@@ -2487,8 +2805,8 @@ function launchGame(variant) {
     _lastDelta:0, _lastSpeedUpdate:0, finishedAt:0, finishPos:0,
   }));
   playerState     = racerState.find(r => r.isPlayer);
-  chips           = 10000;
-  raceTimer       = RACE_DURATION;
+  startChips      = chips;
+  raceTimer       = 0;
   raceOver        = false;
   finalLap        = false;
   finalLapThreshold = Infinity;
@@ -2557,5 +2875,6 @@ function launchGame(variant) {
     </div>`).join('');
 })();
 </script>
+<audio id="bgMusic" src="Audio/BGMusic.mp3" loop></audio>
 </body>
 </html>
