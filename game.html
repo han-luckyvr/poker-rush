@@ -137,7 +137,7 @@ body { display: block; }
 /* ===== POKER PANEL ===== */
 .poker-panel {
   display: grid;
-  grid-template-columns: 210px 1fr 420px 108px;
+  grid-template-columns: 210px 1fr 840px 108px;
   border-top: 1px solid rgba(233,69,96,.15);
   background: var(--navy2);
   overflow: hidden;
@@ -154,11 +154,8 @@ body { display: block; }
   border-right: 1px solid rgba(233,69,96,.15);
   gap: 3px;
 }
-.pay-variant-name {
-  font-size: 13px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
-  color: var(--teal); text-align: center;
-  border-bottom: 1px solid rgba(0,180,216,.25); padding-bottom: 5px; margin-bottom: 2px;
-  line-height: 1.3;
+.pay-variant-img {
+  width: 100%; display: block; border-radius: 6px; margin-bottom: 6px;
 }
 .pay-table-title {
   font-size: 14px;
@@ -216,6 +213,7 @@ body { display: block; }
   overflow: hidden; position: relative; min-height: 0;
   border-right: 2px solid rgba(255,255,255,0.08);
   background: rgba(15,25,50,0.25);
+  padding-bottom: 88px;
 }
 .poker-panel-hdr {
   display: flex; align-items: center; gap: 10px;
@@ -400,57 +398,58 @@ body { display: block; }
 
 /* Cards */
 .cards-area {
-  display: flex; gap: 6px; justify-content: center;
+  display: flex; gap: 12px; justify-content: center;
   flex: 1; align-items: center; min-height: 0; overflow: hidden;
 }
 .card {
-  flex: 1; max-width: 90px; min-width: 48px;
+  flex: 1; max-width: 180px; min-width: 96px;
   aspect-ratio: 2/3;
-  background: #fff; border-radius: 8px; border: 2px solid #d1d5db;
+  background: #fff; border-radius: 12px; border: 2px solid #d1d5db;
   position: relative; cursor: pointer; user-select: none;
   transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   overflow: hidden;
 }
-.card:hover { transform: translateY(-4px); box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
+.card:hover { transform: translateY(-8px); box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
 .card.held {
-  border-color: #dc2626; transform: translateY(-6px);
-  box-shadow: 0 8px 20px rgba(220,38,38,0.4);
+  border-color: #dc2626; transform: translateY(-12px);
+  box-shadow: 0 16px 40px rgba(220,38,38,0.4);
 }
 .card.empty {
   background: rgba(255,255,255,0.04); border: 2px dashed rgba(255,255,255,0.1); cursor: default;
 }
 .card.empty:hover { transform: none; box-shadow: none; }
+.card.joker { background: linear-gradient(135deg,#1a1a2e,#16213e); border-color: #fbbf24; }
+.card.joker .card-tl, .card.joker .card-br { color: #fbbf24; font-size: clamp(10px,1.2vw,14px); letter-spacing: -0.5px; }
+.card.joker .card-center { font-size: clamp(32px,5vw,60px); }
 .card-tl {
-  position: absolute; top: 5px; left: 6px;
-  font-weight: 800; line-height: 1.1; color: #111; font-size: clamp(10px,1.4vw,16px);
+  position: absolute; top: 10px; left: 12px;
+  font-weight: 800; line-height: 1.1; color: #111; font-size: clamp(20px,2.8vw,32px);
 }
 .card-tl.red { color: #dc2626; }
-.card-center { font-size: clamp(18px,3vw,36px); line-height: 1; color: #111; }
+.card-center { font-size: clamp(36px,6vw,72px); line-height: 1; color: #111; }
 .card-center.red { color: #dc2626; }
 .card-br {
-  position: absolute; bottom: 5px; right: 6px;
+  position: absolute; bottom: 10px; right: 12px;
   font-weight: 800; line-height: 1.1; color: #111;
-  transform: rotate(180deg); font-size: clamp(10px,1.4vw,16px);
+  transform: rotate(180deg); font-size: clamp(20px,2.8vw,32px);
 }
 .card-br.red { color: #dc2626; }
 .card.held::after {
   content: 'HOLD';
   position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%);
-  background: #dc2626; color: #fff; font-size: 9px; font-weight: 800;
-  padding: 1px 6px; border-radius: 3px 3px 0 0; letter-spacing: 0.5px;
+  background: #dc2626; color: #fff; font-size: 18px; font-weight: 800;
+  padding: 2px 12px; border-radius: 6px 6px 0 0; letter-spacing: 0.5px;
 }
 
 .action-btn-row { display: flex; justify-content: center; margin-top: 6px; flex-shrink: 0; }
 #mainActionBtn {
-  padding: 7px 30px; border-radius: 7px; border: none;
-  background: linear-gradient(135deg, var(--red2), var(--red));
-  color: #fff; font-size: 13px; font-weight: 800; letter-spacing: 1px;
+  background: none; border: none; padding: 0;
   cursor: pointer; transition: opacity 0.2s, transform 0.1s;
-  box-shadow: 0 4px 12px rgba(233,69,96,0.3);
 }
-#mainActionBtn:hover { opacity: 0.9; transform: scale(1.02); }
-#mainActionBtn:active { transform: scale(0.98); }
+#mainActionBtn img { display: block; height: 88px; width: auto; }
+#mainActionBtn:hover { opacity: 0.88; transform: scale(1.04); }
+#mainActionBtn:active { transform: scale(0.97); }
 #mainActionBtn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
 /* ===== POWER-UPS / HAZARDS SECTION ===== */
@@ -462,15 +461,15 @@ body { display: block; }
   overflow: hidden; min-height: 0;
 }
 .powerup-section-hdr {
-  padding: 9px 14px;
+  padding: 12px 20px;
   background: rgba(0,0,0,0.3);
   border-bottom: 1px solid rgba(255,255,255,0.08);
-  font-size: 14px; font-weight: 800; color: var(--white);
+  font-size: 17px; font-weight: 800; color: var(--white);
   letter-spacing: 1px; text-transform: uppercase; flex-shrink: 0;
 }
 .powerup-panel {
   display: flex; flex-direction: row; /* HORIZONTAL */
-  padding: 10px; gap: 10px;
+  padding: 14px; gap: 14px;
   flex: 1; overflow: hidden; min-height: 0;
 }
 .powerup-slot {
@@ -503,33 +502,24 @@ body { display: block; }
   background: rgba(0,0,0,0.2);
 }
 .pu-footer {
-  padding: 6px 8px 9px; flex-shrink: 0;
+  padding: 10px 12px 14px; flex-shrink: 0;
   background: rgba(0,0,0,.55);
   border-top: 1px solid rgba(255,255,255,0.07);
 }
 .pu-name {
-  font-size: 13px; font-weight: 900; color: var(--white); text-transform: uppercase;
+  font-size: 16px; font-weight: 900; color: var(--white); text-transform: uppercase;
   letter-spacing: .8px; text-align: center;
-  margin-bottom: 4px; line-height: 1.1;
+  margin-bottom: 6px; line-height: 1.1;
 }
 .pu-desc {
-  font-size: 10px; color: rgba(255,255,255,0.58); text-align: center;
-  line-height: 1.35; margin-bottom: 7px; padding: 0 2px;
+  font-size: 13px; color: rgba(255,255,255,0.58); text-align: center;
+  line-height: 1.35; margin-bottom: 10px; padding: 0 2px;
 }
 .pu-btn {
-  width: 100%; padding: 10px 0; border-radius: 8px;
-  border: 2px solid rgba(255,255,255,.22);
-  background: linear-gradient(135deg, #1a2e6a, #2a45a0);
-  color: var(--white); font-size: 16px; font-weight: 900;
+  width: 100%; padding: 0; border: none; background: none;
   cursor: pointer; transition: opacity .15s, transform .1s;
-  letter-spacing: 1px; text-transform: uppercase;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.45);
 }
-.type-hazard .pu-btn {
-  background: linear-gradient(135deg, #6b0000, var(--red2));
-  border-color: rgba(233,69,96,.4);
-  box-shadow: 0 4px 14px rgba(233,69,96,0.25);
-}
+.pu-btn img { display: block; width: 100%; height: auto; }
 .pu-btn:hover:not(:disabled) { opacity: 0.82; transform: translateY(-2px); }
 .pu-btn:active:not(:disabled) { transform: scale(0.97); }
 .pu-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; }
@@ -733,20 +723,21 @@ body { display: block; }
 }
 .mn-tab:hover:not(.active) { color: #fff; background: rgba(255,255,255,.05); }
 .mn-tab.active { background: rgba(233,69,96,.15); color: var(--red); border-color: rgba(233,69,96,.3); }
-.mn-body { flex: 1; overflow-y: auto; padding: 28px 34px; min-height: 0; }
-.mn-panel { display: none; height: 100%; flex-direction: column; }
+.mn-body { flex: 1; overflow: hidden; padding: 28px 34px; min-height: 0; display: flex; flex-direction: column; }
+.mn-panel { display: none; flex-direction: column; flex: 1; min-height: 0; }
 .mn-panel.active { display: flex; }
 .mn-sect-label {
   font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
   color: var(--muted); margin-bottom: 16px; flex-shrink: 0;
 }
 .gm-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr);
+  gap: 14px; height: 80%; width: 80%; margin: 0 auto; min-height: 0;
 }
 .gm-card {
   border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,.09);
   transition: transform .2s, box-shadow .2s, border-color .2s;
-  position: relative; display: flex; flex-direction: column;
+  position: relative; display: flex; flex-direction: column; min-height: 0;
 }
 .gm-card.available { cursor: pointer; }
 .gm-card.available:hover {
@@ -754,18 +745,18 @@ body { display: block; }
   border-color: rgba(233,69,96,.45);
 }
 .gm-card.locked { opacity: .6; }
-.gm-thumb {
-  height: 130px; display: flex; align-items: center; justify-content: center;
-  position: relative; overflow: hidden;
+.gm-img-wrap {
+  flex: 1; position: relative; overflow: hidden; min-height: 0;
 }
-.gm-suit { font-size: 68px; opacity: .28; user-select: none; line-height: 1; }
+.gm-img-wrap img {
+  width: 100%; height: 100%; object-fit: contain; display: block;
+}
 .gm-lock-ov {
   position: absolute; inset: 0; background: rgba(5,8,16,.55);
   display: flex; align-items: center; justify-content: center;
 }
 .gm-lock-ov span { font-size: 26px; }
-.gm-foot { padding: 11px 12px 13px; background: rgba(5,8,16,.6); flex-shrink: 0; }
-.gm-name { font-size: 11px; font-weight: 700; color: #fff; line-height: 1.35; margin-bottom: 9px; min-height: 30px; }
+.gm-foot { padding: 10px 12px 12px; background: rgba(5,8,16,.6); flex-shrink: 0; }
 .gm-cta {
   width: 100%; padding: 8px 0; border: none; border-radius: 8px;
   font-size: 10px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; cursor: pointer;
@@ -797,7 +788,7 @@ body { display: block; }
 <div id="menu-screen" class="screen">
   <div class="mn-hdr">
     <img class="mn-hdr-logo" src="pokerRush_logo_ design01.png" alt="" onclick="mnShowPanel('games')">
-    <div class="mn-hdr-brand" onclick="mnShowPanel('games')">POKER<em>RUSH</em></div>
+    <img class="mn-hdr-brand-img" src="Logos/pokerRush_logo_ small.png" alt="Poker Rush" onclick="mnShowPanel('games')" style="height:32px;object-fit:contain;cursor:pointer;">
     <div class="mn-hdr-chips">💰 <span id="menuChips">10,000</span> chips</div>
     <div class="mn-tabs">
       <button class="mn-tab" data-panel="profile"      onclick="mnShowPanel('profile')">Player Profile</button>
@@ -912,7 +903,7 @@ body { display: block; }
     <div class="cards-area" id="cardsArea"></div>
 
     <div class="action-btn-row">
-      <button id="mainActionBtn" onclick="handleMainAction()">DEAL</button>
+      <button id="mainActionBtn" onclick="handleMainAction()"><img id="mainActionImg" src="UI assets/pokerRush_UI_dealButton.png" alt="Deal"></button>
     </div>
   </div>
 
@@ -973,10 +964,10 @@ const SPEED_CEIL         = 2.0;
 const BET_AMOUNT         = 100;
 
 const RACERS = [
-  { id:'player', name:'You',     initials:'HF', isPlayer:true,  laneScale:1.0  },
-  { id:'bot1',   name:'MaxKing', initials:'MK', isPlayer:false, laneScale:1.06 },
-  { id:'bot2',   name:'RiverQ',  initials:'RQ', isPlayer:false, laneScale:0.94 },
-  { id:'bot3',   name:'AceX',    initials:'AX', isPlayer:false, laneScale:1.03 },
+  { id:'player', name:'You',     initials:'HF', isPlayer:true,  laneFraction:0.37 },
+  { id:'bot1',   name:'MaxKing', initials:'MK', isPlayer:false, laneFraction:0.90 },
+  { id:'bot2',   name:'RiverQ',  initials:'RQ', isPlayer:false, laneFraction:0.10 },
+  { id:'bot3',   name:'AceX',    initials:'AX', isPlayer:false, laneFraction:0.63 },
 ];
 
 // Six car image definitions — 4 are picked at random each race
@@ -1026,6 +1017,7 @@ const SHORT = {
 const VARIANTS = {
   'Triple Double Bonus Poker': {
     label: 'Triple Double Bonus Poker',
+    headerImg: 'Game type headers/pokerRush_UI_tripleDoubleBonusPoker_header.png',
     payRows: [
       { hand:'Royal Flush',    label:'Royal Flush',     chips:800, speed:20 },
       { hand:'Straight Flush', label:'Str. Flush',      chips:50,  speed:16 },
@@ -1045,6 +1037,7 @@ const VARIANTS = {
   },
   'All American': {
     label: 'All American',
+    headerImg: 'Game type headers/pokerRush_UI_allAmericanPoker_header.png',
     payRows: [
       { hand:'Royal Flush',    label:'Royal Flush',     chips:800, speed:20 },
       { hand:'Straight Flush', label:'Str. Flush',      chips:200, speed:16 },
@@ -1058,6 +1051,240 @@ const VARIANTS = {
       { hand:'Loss',           label:'Loss',            chips:0,   speed:-2 },
     ],
   },
+  'Loose Deuces': {
+    label: 'Loose Deuces',
+    headerImg: 'Game type headers/pokerRush_UI_looseDeucesPoker_header.png',
+    payRows: [
+      { hand:'Natural Royal Flush', label:'Natural Royal',    chips:800, speed:20 },
+      { hand:'Four Deuces',         label:'Four Deuces',      chips:200, speed:20 },
+      { hand:'Wild Royal Flush',    label:'Wild Royal',       chips:25,  speed:16 },
+      { hand:'Five of a Kind',      label:'Five of a Kind',   chips:15,  speed:14 },
+      { hand:'Straight Flush',      label:'Str. Flush',       chips:9,   speed:12 },
+      { hand:'Four of a Kind',      label:'4 of a Kind',      chips:5,   speed:10 },
+      { hand:'Full House',          label:'Full House',       chips:3,   speed:8  },
+      { hand:'Flush',               label:'Flush',            chips:2,   speed:6  },
+      { hand:'Straight',            label:'Straight',         chips:2,   speed:5  },
+      { hand:'Three of a Kind',     label:'Three of a Kind',  chips:1,   speed:2  },
+      { hand:'Loss',                label:'Loss',             chips:0,   speed:-2 },
+    ],
+  },
+  'Bonus Draw Poker': {
+    label: 'Bonus Draw Poker',
+    headerImg: 'Game type headers/pokerRush_UI_bonusDrawPoker_header.png',
+    payRows: [
+      { hand:'Royal Flush',    label:'Royal Flush',     chips:800, speed:20 },
+      { hand:'Straight Flush', label:'Str. Flush',      chips:50,  speed:16 },
+      { hand:'Four Aces',      label:'4 Aces',          chips:80,  speed:14 },
+      { hand:'Four 2-4',       label:'4 Twos–Fours',    chips:40,  speed:12 },
+      { hand:'Four 5-K',       label:'4 Fives–Kings',   chips:25,  speed:10 },
+      { hand:'Full House',     label:'Full House',      chips:8,   speed:9  },
+      { hand:'Flush',          label:'Flush',           chips:5,   speed:7  },
+      { hand:'Straight',       label:'Straight',        chips:4,   speed:6  },
+      { hand:'Three of a Kind',label:'Three of a Kind', chips:3,   speed:5  },
+      { hand:'Two Pair',       label:'Two Pair',        chips:2,   speed:3  },
+      { hand:'Jacks or Better',label:'Jacks or Better', chips:1,   speed:2  },
+      { hand:'Loss',           label:'Loss',            chips:0,   speed:-2 },
+    ],
+  },
+  'Double Joker Poker': {
+    label: 'Double Joker Poker',
+    headerImg: 'Game type headers/pokerRush_UI_doubleJokerPoker_header.png',
+    payRows: [
+      { hand:'Natural Royal Flush', label:'Natural Royal',   chips:800, speed:20 },
+      { hand:'Five of a Kind',      label:'Five of a Kind',  chips:100, speed:18 },
+      { hand:'Wild Royal Flush',    label:'Wild Royal',      chips:25,  speed:16 },
+      { hand:'Straight Flush',      label:'Str. Flush',      chips:8,   speed:12 },
+      { hand:'Four of a Kind',      label:'4 of a Kind',     chips:4,   speed:10 },
+      { hand:'Full House',          label:'Full House',      chips:3,   speed:8  },
+      { hand:'Flush',               label:'Flush',           chips:2,   speed:6  },
+      { hand:'Straight',            label:'Straight',        chips:1,   speed:4  },
+      { hand:'Three of a Kind',     label:'Three of a Kind', chips:1,   speed:3  },
+      { hand:'Two Pair',            label:'Two Pair',        chips:1,   speed:2  },
+      { hand:'Kings or Better',     label:'Kings or Better', chips:1,   speed:1  },
+      { hand:'Loss',                label:'Loss',            chips:0,   speed:-2 },
+    ],
+  },
+  'Double Bonus Draw Poker': {
+    label: 'Double Bonus Draw Poker',
+    headerImg: 'Game type headers/pokerRush_UI_doubleBonusDrawPoker_header.png',
+    payRows: [
+      { hand:'Royal Flush',    label:'Royal Flush',     chips:800, speed:20 },
+      { hand:'Straight Flush', label:'Str. Flush',      chips:50,  speed:16 },
+      { hand:'Four Aces',      label:'4 Aces',          chips:160, speed:18 },
+      { hand:'Four 2-4',       label:'4 Twos–Fours',    chips:80,  speed:16 },
+      { hand:'Four 5-K',       label:'4 Fives–Kings',   chips:50,  speed:14 },
+      { hand:'Full House',     label:'Full House',      chips:9,   speed:10 },
+      { hand:'Flush',          label:'Flush',           chips:6,   speed:8  },
+      { hand:'Straight',       label:'Straight',        chips:5,   speed:6  },
+      { hand:'Three of a Kind',label:'Three of a Kind', chips:3,   speed:4  },
+      { hand:'Two Pair',       label:'Two Pair',        chips:1,   speed:2  },
+      { hand:'Jacks or Better',label:'Jacks or Better', chips:1,   speed:2  },
+      { hand:'Loss',           label:'Loss',            chips:0,   speed:-2 },
+    ],
+  },
+  'Double Double Draw Poker': {
+    label: 'Double Double Draw Poker',
+    headerImg: 'Game type headers/pokerRush_UI_doubleDoubleDrawPoker_header.png',
+    payRows: [
+      { hand:'Royal Flush',    label:'Royal Flush',      chips:800, speed:20 },
+      { hand:'Straight Flush', label:'Str. Flush',       chips:50,  speed:16 },
+      { hand:'Four Aces+',     label:'4 Aces + A/2/3/4', chips:400, speed:18 },
+      { hand:'Four Aces',      label:'4 Aces',           chips:160, speed:16 },
+      { hand:'Four 2-4+',      label:'4 2s-4s + A/2/3/4',chips:160,speed:16 },
+      { hand:'Four 2-4',       label:'4 Twos–Fours',     chips:80,  speed:14 },
+      { hand:'Four 5-K',       label:'4 Fives–Kings',    chips:50,  speed:12 },
+      { hand:'Full House',     label:'Full House',       chips:9,   speed:10 },
+      { hand:'Flush',          label:'Flush',            chips:6,   speed:8  },
+      { hand:'Straight',       label:'Straight',         chips:4,   speed:6  },
+      { hand:'Three of a Kind',label:'Three of a Kind',  chips:3,   speed:4  },
+      { hand:'Two Pair',       label:'Two Pair',         chips:1,   speed:2  },
+      { hand:'Jacks or Better',label:'Jacks or Better',  chips:1,   speed:2  },
+      { hand:'Loss',           label:'Loss',             chips:0,   speed:-2 },
+    ],
+  },
+  'Triple Double Draw Poker': {
+    label: 'Triple Double Draw Poker',
+    headerImg: 'Game type headers/pokerRush_UI_tripleDoubleDrawPoker_header.png',
+    payRows: [
+      { hand:'Royal Flush',    label:'Royal Flush',      chips:800, speed:20 },
+      { hand:'Straight Flush', label:'Str. Flush',       chips:50,  speed:16 },
+      { hand:'Four Aces+',     label:'4 Aces + 2/3/4',   chips:800, speed:20 },
+      { hand:'Four Aces',      label:'4 Aces',           chips:400, speed:18 },
+      { hand:'Four 2-4+',      label:'4 2s-4s + A-4',    chips:400, speed:18 },
+      { hand:'Four 2-4',       label:'4 Twos–Fours',     chips:160, speed:16 },
+      { hand:'Four 5-K',       label:'4 Fives–Kings',    chips:50,  speed:14 },
+      { hand:'Full House',     label:'Full House',       chips:9,   speed:10 },
+      { hand:'Flush',          label:'Flush',            chips:7,   speed:8  },
+      { hand:'Straight',       label:'Straight',         chips:4,   speed:6  },
+      { hand:'Three of a Kind',label:'Three of a Kind',  chips:2,   speed:3  },
+      { hand:'Two Pair',       label:'Two Pair',         chips:1,   speed:2  },
+      { hand:'Jacks or Better',label:'Jacks or Better',  chips:1,   speed:1  },
+      { hand:'Loss',           label:'Loss',             chips:0,   speed:-2 },
+    ],
+  },
+};
+
+// ─────────────────────────────────────────────
+// WILD-CARD EVALUATORS
+// ─────────────────────────────────────────────
+const ROYAL_VALS = new Set([8, 9, 10, 11, 12]); // 10,J,Q,K,A
+
+function _canFHWild(freq, w) {
+  const counts = Object.values(freq).sort((a, b) => b - a);
+  if (counts.length < 2) return false;
+  if (w === 0) return counts[0] === 3 && counts[1] === 2;
+  if (w === 1) return (counts[0] + 1 >= 3 && counts[1] >= 2) ||
+                     (counts[0] >= 3     && counts[1] + 1 >= 2);
+  return false; // w>=2: four-of-a-kind check already caught the useful cases
+}
+
+function _bestWithWilds(nats, w) {
+  // 1. Wild Royal Flush
+  for (const suit of SUITS) {
+    const sv = nats.filter(c => c.suit === suit).map(c => rankVal(c.rank));
+    const royalCount = new Set(sv.filter(v => ROYAL_VALS.has(v))).size;
+    if (royalCount + w >= 5) return 'Wild Royal Flush';
+  }
+  // 2. Five of a Kind (all naturals same rank)
+  if (nats.length && new Set(nats.map(c => c.rank)).size === 1) return 'Five of a Kind';
+  // 3. Straight Flush
+  for (const suit of SUITS) {
+    const sv = [...new Set(nats.filter(c => c.suit === suit).map(c => rankVal(c.rank)))].sort((a,b)=>a-b);
+    if (!sv.length) continue;
+    for (let lo = 0; lo <= 8; lo++) {
+      if (sv.filter(v => v >= lo && v <= lo+4).length + w >= 5) return 'Straight Flush';
+    }
+    if (sv.filter(v => [0,1,2,3,12].includes(v)).length + w >= 5) return 'Straight Flush';
+  }
+  // 4. Four of a Kind
+  const freq = {};
+  for (const c of nats) freq[c.rank] = (freq[c.rank] || 0) + 1;
+  const maxFreq = nats.length ? Math.max(...Object.values(freq)) : 0;
+  if (maxFreq + w >= 4) return 'Four of a Kind';
+  // 5. Full House
+  if (_canFHWild(freq, w)) return 'Full House';
+  // 6. Flush
+  const sc = {};
+  for (const c of nats) sc[c.suit] = (sc[c.suit] || 0) + 1;
+  if ((nats.length ? Math.max(...Object.values(sc)) : 0) + w >= 5) return 'Flush';
+  // 7. Straight
+  const av = [...new Set(nats.map(c => rankVal(c.rank)))].sort((a,b)=>a-b);
+  for (let lo = 0; lo <= 8; lo++) {
+    if (av.filter(v => v >= lo && v <= lo+4).length + w >= 5) return 'Straight';
+  }
+  if (av.filter(v => [0,1,2,3,12].includes(v)).length + w >= 5) return 'Straight';
+  // 8. Three of a Kind
+  if (maxFreq + w >= 3) return 'Three of a Kind';
+  return 'Loss';
+}
+
+// Bonus/Double Bonus: categorise quads by rank (no kicker)
+function evaluateBonus(cards) {
+  const base = evaluateHand(cards);
+  if (base !== 'Four of a Kind') return base;
+  const freq = {};
+  for (const c of cards) freq[c.rank] = (freq[c.rank] || 0) + 1;
+  const quad = Object.keys(freq).find(r => freq[r] === 4);
+  if (quad === 'A')          return 'Four Aces';
+  if (rankVal(quad) <= 2)    return 'Four 2-4';   // 2,3,4
+  return 'Four 5-K';
+}
+
+// Double Double: kicker A/2/3/4 broadens the bonus tier
+function evaluateDDB(cards) {
+  const base = evaluateHand(cards);
+  if (base !== 'Four of a Kind') return base;
+  const freq = {};
+  for (const c of cards) freq[c.rank] = (freq[c.rank] || 0) + 1;
+  const qr = Object.keys(freq).find(r => freq[r] === 4);
+  const kr = Object.keys(freq).find(r => freq[r] === 1);
+  const ki = rankVal(kr);
+  const bonus = ki <= 2 || ki === 12; // kicker is A, 2, 3, or 4
+  if (qr === 'A')               return bonus ? 'Four Aces+' : 'Four Aces';
+  if (rankVal(qr) <= 2)         return bonus ? 'Four 2-4+'  : 'Four 2-4';
+  return 'Four 5-K';
+}
+
+// Loose Deuces Wild
+function evaluateDeuces(cards) {
+  const w    = cards.filter(c => c.rank === '2').length;
+  const nats = cards.filter(c => c.rank !== '2');
+  if (w === 4) return 'Four Deuces';
+  if (w === 0) {
+    const h = evaluateHand(cards);
+    if (h === 'Royal Flush') return 'Natural Royal Flush';
+    return ['Straight Flush','Four of a Kind','Full House','Flush','Straight','Three of a Kind'].includes(h) ? h : 'Loss';
+  }
+  return _bestWithWilds(nats, w);
+}
+
+// Double Joker Poker — two jokers (rank 'W') are wild; Kings or Better is the min pay
+function evaluateJoker(cards) {
+  const w    = cards.filter(c => c.rank === 'W').length;
+  const nats = cards.filter(c => c.rank !== 'W');
+  if (w === 0) {
+    const h = evaluateHand(cards);
+    if (h === 'Royal Flush') return 'Natural Royal Flush';
+    if (h === 'Jacks or Better') {
+      const freq = {};
+      for (const c of nats) freq[c.rank] = (freq[c.rank] || 0) + 1;
+      const pr = Object.keys(freq).find(r => freq[r] === 2);
+      return (pr === 'K' || pr === 'A') ? 'Kings or Better' : 'Loss';
+    }
+    return h;
+  }
+  return _bestWithWilds(nats, w);
+}
+
+const EVALUATORS = {
+  'Triple Double Bonus Poker': evaluateTDB,
+  'All American':              evaluateHand,
+  'Loose Deuces':              evaluateDeuces,
+  'Bonus Draw Poker':          evaluateBonus,
+  'Double Joker Poker':        evaluateJoker,
+  'Double Bonus Draw Poker':   evaluateBonus,
+  'Double Double Draw Poker':  evaluateDDB,
+  'Triple Double Draw Poker':  evaluateTDB,
 };
 
 // ─────────────────────────────────────────────
@@ -1198,6 +1425,14 @@ function buildDeck() {
   for (const s of SUITS) for (const r of RANKS) d.push({ rank: r, suit: s, held: false });
   return d;
 }
+function buildDeckForVariant(variant) {
+  const d = buildDeck();
+  if (variant === 'Double Joker Poker') {
+    d.push({ rank:'W', suit:'★', held:false });
+    d.push({ rank:'W', suit:'★', held:false });
+  }
+  return d;
+}
 function shuffle(d) {
   for (let i = d.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -1270,7 +1505,7 @@ function buildPayTable(variantName) {
   if (!cfg) return;
   const table = document.getElementById('payTable');
   table.innerHTML =
-    `<div class="pay-variant-name">${cfg.label}</div>` +
+    `<img class="pay-variant-img" src="${cfg.headerImg}" alt="${cfg.label}">` +
     `<div class="pay-table-title">Pay Table</div>` +
     cfg.payRows.map(r =>
       `<div class="pay-row" data-hand="${r.hand}">` +
@@ -1335,7 +1570,7 @@ function trackGeom() {
   const W = canvas.width, H = canvas.height;
   const cx = W / 2, cy = H / 2;
   const outerRX = W / 2 - 18, outerRY = H / 2 - 18;
-  const innerRX = outerRX * 0.62, innerRY = outerRY * 0.55;
+  const innerRX = outerRX * 0.40, innerRY = outerRY * 0.18;
   const midRX = (outerRX + innerRX) / 2, midRY = (outerRY + innerRY) / 2;
   return { W, H, cx, cy, outerRX, outerRY, innerRX, innerRY, midRX, midRY };
 }
@@ -1345,9 +1580,10 @@ function ellipsePath(g, rx, ry) {
   ctx.ellipse(g.cx, g.cy, rx, ry, 0, 0, Math.PI * 2);
 }
 
-function getCarPos(progress, g, laneScale) {
+function getCarPos(progress, g, laneFraction) {
   const theta = -Math.PI / 2 + progress * Math.PI * 2;
-  const rx = g.midRX * laneScale, ry = g.midRY * laneScale;
+  const rx = g.innerRX + laneFraction * (g.outerRX - g.innerRX);
+  const ry = g.innerRY + laneFraction * (g.outerRY - g.innerRY);
   const x  = g.cx + rx * Math.cos(theta);
   const y  = g.cy + ry * Math.sin(theta);
   const tx = -rx * Math.sin(theta), ty = ry * Math.cos(theta);
@@ -1443,7 +1679,7 @@ function renderCanvas(now) {
   const sortedForDraw = [...racerState].sort((a, b) => a.distance - b.distance);
   for (const state of sortedForDraw) {
     const progress = state.distance % 1;
-    const pos = getCarPos(progress, g, state.laneScale);
+    const pos = getCarPos(progress, g, state.laneFraction);
     const cS    = 90;
     const cHalf = cS * 0.23;
 
@@ -1671,12 +1907,20 @@ function renderCards() {
       area.appendChild(div);
       continue;
     }
-    const red = isRed(card.suit) ? ' red' : '';
-    div.className = 'card' + (card.held ? ' held' : '');
-    div.innerHTML = `
-      <div class="card-tl${red}">${card.rank}</div>
-      <div class="card-center${red}">${card.suit}</div>
-      <div class="card-br${red}">${card.rank}</div>`;
+    if (card.rank === 'W') {
+      div.className = 'card joker' + (card.held ? ' held' : '');
+      div.innerHTML = `
+        <div class="card-tl">WILD</div>
+        <div class="card-center">🃏</div>
+        <div class="card-br">WILD</div>`;
+    } else {
+      const red = isRed(card.suit) ? ' red' : '';
+      div.className = 'card' + (card.held ? ' held' : '');
+      div.innerHTML = `
+        <div class="card-tl${red}">${card.rank}</div>
+        <div class="card-center${red}">${card.suit}</div>
+        <div class="card-br${red}">${card.rank}</div>`;
+    }
     if (phase === 'deal') {
       div.addEventListener('click', () => { card.held = !card.held; renderCards(); });
     }
@@ -1693,7 +1937,7 @@ function handleMainAction() {
 }
 
 function dealCards() {
-  deck = shuffle(buildDeck());
+  deck = shuffle(buildDeckForVariant(activeVariant));
   hand = deck.splice(0, 5).map(c => ({ ...c, held: false }));
   phase = 'deal';
   chips -= BET_AMOUNT;
@@ -1702,7 +1946,7 @@ function dealCards() {
   hideDDOverlay();
   highlightPayRow('');
   renderCards();
-  document.getElementById('mainActionBtn').textContent = 'DRAW CARDS';
+  document.getElementById('mainActionImg').src = 'UI assets/pokerRush_UI_drawCardsButton.png';
 }
 
 function drawCards() {
@@ -1712,7 +1956,7 @@ function drawCards() {
   }
   renderCards();
 
-  const evaluator  = activeVariant === 'Triple Double Bonus Poker' ? evaluateTDB : evaluateHand;
+  const evaluator  = EVALUATORS[activeVariant] || evaluateHand;
   currentResult    = evaluator(hand);
   const cfg        = VARIANTS[activeVariant];
   const payRow     = cfg && cfg.payRows.find(r => r.hand === currentResult);
@@ -1732,7 +1976,7 @@ function drawCards() {
     const pu2 = document.getElementById('pu2');
     pu2.classList.remove('active-boost');
     pu2.classList.add('used');
-    pu2.querySelector('.pu-btn').textContent = 'Used';
+    pu2.querySelector('.pu-btn').disabled = true;
   }
   pendingDelta = finalDelta;
   ddAttempt    = 0;
@@ -1956,7 +2200,7 @@ function finishHand() {
   renderCards();
   const btn = document.getElementById('mainActionBtn');
   btn.style.display = '';
-  btn.textContent   = 'DEAL';
+  btn.querySelector('img').src = 'UI assets/pokerRush_UI_dealButton.png';
   // Auto-deal after a short pause so the result registers visually
   setTimeout(() => { if (phase === 'idle') dealCards(); }, 1200);
 }
@@ -1977,7 +2221,7 @@ function dealPowerupCards() {
       <div class="pu-footer">
         <div class="pu-name">${card.name}</div>
         <div class="pu-desc">${card.desc}</div>
-        <button class="pu-btn" onclick="activatePowerup(${i})">${card.type === 'hazard' ? '☠ Deploy' : '⚡ Activate'}</button>
+        <button class="pu-btn" onclick="activatePowerup(${i})"><img src="UI assets/${card.type === 'hazard' ? 'pokerRush_UI_deployButton.png' : 'pokerRush_UI_activateButton.png'}" alt="${card.type === 'hazard' ? 'Deploy' : 'Activate'}"></button>
       </div>
     </div>`).join('');
 }
@@ -2005,21 +2249,17 @@ function activatePowerup(idx) {
 
   // Visual glow on slot
   slot.classList.add('active-boost');
-  btn.textContent = 'Active!';
-
   const expireMs = { pu1:2000, pu3:1000, pu4:2000, hz1:5000, hz2:30000 }[card.id];
   if (expireMs) {
     setTimeout(() => {
       slot.classList.remove('active-boost');
       slot.classList.add('used');
-      btn.textContent = 'Used';
     }, expireMs);
   } else {
     // Instant-effect cards (God Wings)
     setTimeout(() => {
       slot.classList.remove('active-boost');
       slot.classList.add('used');
-      btn.textContent = 'Used';
     }, 600);
   }
 }
@@ -2293,24 +2533,23 @@ function launchGame(variant) {
 // ─────────────────────────────────────────────
 (function buildGameCards() {
   const MODES = [
-    { name:'Triple Double Bonus Poker', suit:'♠', bg:'linear-gradient(135deg,#7f1d1d,#e94560)',  available:true  },
-    { name:'All American',              suit:'♥', bg:'linear-gradient(135deg,#1e3a8a,#3b82f6)',  available:true  },
-    { name:'Loose Deuces',              suit:'♣', bg:'linear-gradient(135deg,#14532d,#22c55e)',  available:false },
-    { name:'Bonus Draw Poker',          suit:'♦', bg:'linear-gradient(135deg,#581c87,#a855f7)',  available:false },
-    { name:'Double Joker Poker',        suit:'♠', bg:'linear-gradient(135deg,#0e4f5f,#00b4d8)',  available:false },
-    { name:'Double Bonus Draw Poker',   suit:'♥', bg:'linear-gradient(135deg,#7c2d12,#f97316)',  available:false },
-    { name:'Double Double Draw Poker',  suit:'♦', bg:'linear-gradient(135deg,#713f12,#eab308)',  available:false },
-    { name:'Triple Double Draw Poker',  suit:'♣', bg:'linear-gradient(135deg,#312e81,#818cf8)',  available:false },
+    { name:'Triple Double Bonus Poker', img:'Game type headers/pokerRush_UI_tripleDoubleBonusPoker_header.png',  available:true },
+    { name:'All American',              img:'Game type headers/pokerRush_UI_allAmericanPoker_header.png',         available:true },
+    { name:'Loose Deuces',              img:'Game type headers/pokerRush_UI_looseDeucesPoker_header.png',         available:true },
+    { name:'Bonus Draw Poker',          img:'Game type headers/pokerRush_UI_bonusDrawPoker_header.png',           available:true },
+    { name:'Double Joker Poker',        img:'Game type headers/pokerRush_UI_doubleJokerPoker_header.png',         available:true },
+    { name:'Double Bonus Draw Poker',   img:'Game type headers/pokerRush_UI_doubleBonusDrawPoker_header.png',     available:true },
+    { name:'Double Double Draw Poker',  img:'Game type headers/pokerRush_UI_doubleDoubleDrawPoker_header.png',    available:true },
+    { name:'Triple Double Draw Poker',  img:'Game type headers/pokerRush_UI_tripleDoubleDrawPoker_header.png',    available:true },
   ];
   const grid = document.getElementById('gm-grid');
   grid.innerHTML = MODES.map(m => `
     <div class="gm-card ${m.available ? 'available' : 'locked'}"${m.available ? ` onclick="launchGame('${m.name}')"` : ''}>
-      <div class="gm-thumb" style="background:${m.bg}">
-        <span class="gm-suit">${m.suit}</span>
+      <div class="gm-img-wrap">
+        <img src="${m.img}" alt="${m.name}">
         ${!m.available ? '<div class="gm-lock-ov"><span>🔒</span></div>' : ''}
       </div>
       <div class="gm-foot">
-        <div class="gm-name">${m.name}</div>
         <button class="gm-cta ${m.available ? 'play' : 'buy'}"${m.available ? ` onclick="event.stopPropagation();launchGame('${m.name}')"` : ' disabled'}>
           ${m.available ? '&#9654; Quick Play' : '🔒 Buy Now'}
         </button>
