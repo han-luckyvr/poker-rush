@@ -1919,6 +1919,43 @@ function renderCanvas(now) {
       }
       ctx.stroke();
     }
+
+    // ─── Shortcut help panel (top-left corner) ───
+    const helpLines = [
+      'WAYPOINT EDITOR',
+      '',
+      'Drag       Move waypoint',
+      'W          Toggle editor',
+      'E          Copy waypoints to clipboard',
+      'A          Add new waypoint',
+      'X          Delete dragged waypoint',
+      '',
+      'After pressing E, paste into',
+      'game.html > TRACKS.' + track.id,
+    ];
+    const pad = 10, lineH = 16, boxW = 250;
+    const boxH = pad * 2 + helpLines.length * lineH;
+    ctx.fillStyle = 'rgba(0,0,0,0.75)';
+    ctx.beginPath();
+    ctx.roundRect(8, 8, boxW, boxH, 8);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(0,255,100,0.4)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(8, 8, boxW, boxH, 8);
+    ctx.stroke();
+    ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+    for (let i = 0; i < helpLines.length; i++) {
+      const line = helpLines[i];
+      if (i === 0) {
+        ctx.font = 'bold 12px monospace';
+        ctx.fillStyle = '#4ade80';
+      } else {
+        ctx.font = '11px monospace';
+        ctx.fillStyle = '#ccc';
+      }
+      ctx.fillText(line, 8 + pad, 8 + pad + i * lineH);
+    }
   }
 
   // Cars — sorted ascending by distance so the leader renders on top
