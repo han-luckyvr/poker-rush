@@ -1761,17 +1761,33 @@ const VARIANTS = {
       { hand:'Royal Flush',    label:'Royal Flush',     chips:800, speed:20 },
       { hand:'Straight Flush', label:'Str. Flush',      chips:50,  speed:16 },
       { hand:'Four Aces+',     label:'4 Aces + 2/3/4',  chips:800, speed:14 },
-      { hand:'Four Aces',      label:'4 Aces',          chips:400, speed:14 },
-      { hand:'Four 2-4+',      label:'4 2s-4s + A-4',   chips:160, speed:14 },
+      { hand:'Four Aces',      label:'4 Aces',          chips:160, speed:14 },
+      { hand:'Four 2-4+',      label:'4 2s-4s + A-4',   chips:400, speed:14 },
       { hand:'Four 2-4',       label:'4 2s-4s',         chips:80,  speed:14 },
       { hand:'Four 5-K',       label:'4 5s-Ks',         chips:50,  speed:14 },
       { hand:'Full House',     label:'Full House',      chips:9,   speed:12 },
       { hand:'Flush',          label:'Flush',           chips:6,   speed:10 },
       { hand:'Straight',       label:'Straight',        chips:4,   speed:8  },
-      { hand:'Three of a Kind',label:'Three of a Kind', chips:3,   speed:6  },
+      { hand:'Three of a Kind',label:'Three of a Kind', chips:2,   speed:6  },
       { hand:'Two Pair',       label:'Two Pair',        chips:1,   speed:4  },
       { hand:'Jacks or Better',label:'Jacks or Better', chips:1,   speed:2  },
       { hand:'Loss',           label:'Loss',            chips:0,   speed:-2 },
+    ],
+    botHands: [
+      {hand:'Royal Flush',     w:0.0025},
+      {hand:'Straight Flush',  w:0.011},
+      {hand:'Four Aces+',      w:0.006},
+      {hand:'Four Aces',       w:0.014},
+      {hand:'Four 2-4+',       w:0.022},
+      {hand:'Four 2-4',        w:0.038},
+      {hand:'Four 5-K',        w:0.173},
+      {hand:'Full House',      w:1.151},
+      {hand:'Flush',           w:1.101},
+      {hand:'Straight',        w:1.123},
+      {hand:'Three of a Kind', w:7.445},
+      {hand:'Two Pair',        w:12.928},
+      {hand:'Jacks or Better', w:21.459},
+      {hand:'Loss',            w:54.543},
     ],
   },
   'All American': {
@@ -1789,22 +1805,47 @@ const VARIANTS = {
       { hand:'Jacks or Better',label:'Jacks or Better', chips:1,   speed:2  },
       { hand:'Loss',           label:'Loss',            chips:0,   speed:-2 },
     ],
+    botHands: [
+      {hand:'Royal Flush',     w:0.0025},
+      {hand:'Straight Flush',  w:0.011},
+      {hand:'Four of a Kind',  w:0.236},
+      {hand:'Full House',      w:1.151},
+      {hand:'Flush',           w:1.101},
+      {hand:'Straight',        w:1.123},
+      {hand:'Three of a Kind', w:7.445},
+      {hand:'Two Pair',        w:12.928},
+      {hand:'Jacks or Better', w:21.459},
+      {hand:'Loss',            w:54.543},
+    ],
   },
   'Loose Deuces': {
     label: 'Loose Deuces',
     headerImg: 'Game type headers/pokerRush_UI_looseDeucesPoker_header.png',
     payRows: [
       { hand:'Natural Royal Flush', label:'Natural Royal',    chips:800, speed:20 },
-      { hand:'Four Deuces',         label:'Four Deuces',      chips:200, speed:20 },
+      { hand:'Four Deuces',         label:'Four Deuces',      chips:500, speed:20 },
       { hand:'Wild Royal Flush',    label:'Wild Royal',       chips:25,  speed:16 },
       { hand:'Five of a Kind',      label:'Five of a Kind',   chips:15,  speed:14 },
       { hand:'Straight Flush',      label:'Str. Flush',       chips:9,   speed:12 },
-      { hand:'Four of a Kind',      label:'4 of a Kind',      chips:5,   speed:10 },
+      { hand:'Four of a Kind',      label:'4 of a Kind',      chips:4,   speed:10 },
       { hand:'Full House',          label:'Full House',       chips:3,   speed:8  },
       { hand:'Flush',               label:'Flush',            chips:2,   speed:6  },
       { hand:'Straight',            label:'Straight',         chips:2,   speed:5  },
       { hand:'Three of a Kind',     label:'Three of a Kind',  chips:1,   speed:2  },
       { hand:'Loss',                label:'Loss',             chips:0,   speed:-2 },
+    ],
+    botHands: [
+      {hand:'Natural Royal Flush', w:0.002},
+      {hand:'Four Deuces',         w:0.020},
+      {hand:'Wild Royal Flush',    w:0.065},
+      {hand:'Five of a Kind',      w:0.320},
+      {hand:'Straight Flush',      w:0.448},
+      {hand:'Four of a Kind',      w:6.339},
+      {hand:'Full House',          w:3.089},
+      {hand:'Flush',               w:3.768},
+      {hand:'Straight',            w:5.358},
+      {hand:'Three of a Kind',     w:28.295},
+      {hand:'Loss',                w:52.294},
     ],
   },
   'Bonus Draw Poker': {
@@ -1824,23 +1865,51 @@ const VARIANTS = {
       { hand:'Jacks or Better',label:'Jacks or Better', chips:1,   speed:2  },
       { hand:'Loss',           label:'Loss',            chips:0,   speed:-2 },
     ],
+    botHands: [
+      {hand:'Royal Flush',     w:0.0025},
+      {hand:'Straight Flush',  w:0.011},
+      {hand:'Four Aces',       w:0.014},
+      {hand:'Four 2-4',        w:0.044},
+      {hand:'Four 5-K',        w:0.178},
+      {hand:'Full House',      w:1.151},
+      {hand:'Flush',           w:1.101},
+      {hand:'Straight',        w:1.123},
+      {hand:'Three of a Kind', w:7.445},
+      {hand:'Two Pair',        w:12.928},
+      {hand:'Jacks or Better', w:21.459},
+      {hand:'Loss',            w:54.543},
+    ],
   },
   'Double Joker Poker': {
     label: 'Double Joker Poker',
     headerImg: 'Game type headers/pokerRush_UI_doubleJokerPoker_header.png',
     payRows: [
       { hand:'Natural Royal Flush', label:'Natural Royal',   chips:800, speed:20 },
-      { hand:'Five of a Kind',      label:'Five of a Kind',  chips:100, speed:18 },
-      { hand:'Wild Royal Flush',    label:'Wild Royal',      chips:25,  speed:16 },
-      { hand:'Straight Flush',      label:'Str. Flush',      chips:8,   speed:12 },
-      { hand:'Four of a Kind',      label:'4 of a Kind',     chips:4,   speed:10 },
-      { hand:'Full House',          label:'Full House',      chips:3,   speed:8  },
-      { hand:'Flush',               label:'Flush',           chips:2,   speed:6  },
-      { hand:'Straight',            label:'Straight',        chips:1,   speed:4  },
-      { hand:'Three of a Kind',     label:'Three of a Kind', chips:1,   speed:3  },
+      { hand:'Wild Royal Flush',    label:'Wild Royal',      chips:100, speed:18 },
+      { hand:'Five of a Kind',      label:'Five of a Kind',  chips:50,  speed:16 },
+      { hand:'Straight Flush',      label:'Str. Flush',      chips:25,  speed:12 },
+      { hand:'Four of a Kind',      label:'4 of a Kind',     chips:9,   speed:10 },
+      { hand:'Full House',          label:'Full House',      chips:5,   speed:8  },
+      { hand:'Flush',               label:'Flush',           chips:4,   speed:6  },
+      { hand:'Straight',            label:'Straight',        chips:3,   speed:4  },
+      { hand:'Three of a Kind',     label:'Three of a Kind', chips:2,   speed:3  },
       { hand:'Two Pair',            label:'Two Pair',        chips:1,   speed:2  },
       { hand:'Kings or Better',     label:'Kings or Better', chips:1,   speed:1  },
       { hand:'Loss',                label:'Loss',            chips:0,   speed:-2 },
+    ],
+    botHands: [
+      {hand:'Natural Royal Flush', w:0.002},
+      {hand:'Five of a Kind',      w:0.100},
+      {hand:'Wild Royal Flush',    w:0.080},
+      {hand:'Straight Flush',      w:0.530},
+      {hand:'Four of a Kind',      w:3.270},
+      {hand:'Full House',          w:5.850},
+      {hand:'Flush',               w:4.570},
+      {hand:'Straight',            w:6.140},
+      {hand:'Three of a Kind',     w:13.770},
+      {hand:'Two Pair',            w:10.370},
+      {hand:'Kings or Better',     w:15.250},
+      {hand:'Loss',                w:40.060},
     ],
   },
   'Double Bonus Draw Poker': {
@@ -1859,6 +1928,20 @@ const VARIANTS = {
       { hand:'Two Pair',       label:'Two Pair',        chips:1,   speed:2  },
       { hand:'Jacks or Better',label:'Jacks or Better', chips:1,   speed:2  },
       { hand:'Loss',           label:'Loss',            chips:0,   speed:-2 },
+    ],
+    botHands: [
+      {hand:'Royal Flush',     w:0.0025},
+      {hand:'Straight Flush',  w:0.011},
+      {hand:'Four Aces',       w:0.014},
+      {hand:'Four 2-4',        w:0.044},
+      {hand:'Four 5-K',        w:0.178},
+      {hand:'Full House',      w:1.151},
+      {hand:'Flush',           w:1.101},
+      {hand:'Straight',        w:1.123},
+      {hand:'Three of a Kind', w:7.445},
+      {hand:'Two Pair',        w:12.928},
+      {hand:'Jacks or Better', w:21.459},
+      {hand:'Loss',            w:54.543},
     ],
   },
   'Double Double Draw Poker': {
@@ -1880,6 +1963,22 @@ const VARIANTS = {
       { hand:'Jacks or Better',label:'Jacks or Better',  chips:1,   speed:2  },
       { hand:'Loss',           label:'Loss',             chips:0,   speed:-2 },
     ],
+    botHands: [
+      {hand:'Royal Flush',     w:0.0025},
+      {hand:'Straight Flush',  w:0.011},
+      {hand:'Four Aces+',      w:0.006},
+      {hand:'Four Aces',       w:0.014},
+      {hand:'Four 2-4+',       w:0.022},
+      {hand:'Four 2-4',        w:0.038},
+      {hand:'Four 5-K',        w:0.173},
+      {hand:'Full House',      w:1.151},
+      {hand:'Flush',           w:1.101},
+      {hand:'Straight',        w:1.123},
+      {hand:'Three of a Kind', w:7.445},
+      {hand:'Two Pair',        w:12.928},
+      {hand:'Jacks or Better', w:21.459},
+      {hand:'Loss',            w:54.543},
+    ],
   },
   'Triple Double Draw Poker': {
     label: 'Triple Double Draw Poker',
@@ -1888,9 +1987,9 @@ const VARIANTS = {
       { hand:'Royal Flush',    label:'Royal Flush',      chips:800, speed:20 },
       { hand:'Straight Flush', label:'Str. Flush',       chips:50,  speed:16 },
       { hand:'Four Aces+',     label:'4 Aces + 2/3/4',   chips:800, speed:20 },
-      { hand:'Four Aces',      label:'4 Aces',           chips:400, speed:18 },
+      { hand:'Four Aces',      label:'4 Aces',           chips:160, speed:18 },
       { hand:'Four 2-4+',      label:'4 2s-4s + A-4',    chips:400, speed:18 },
-      { hand:'Four 2-4',       label:'4 Twos–Fours',     chips:160, speed:16 },
+      { hand:'Four 2-4',       label:'4 Twos–Fours',     chips:80,  speed:16 },
       { hand:'Four 5-K',       label:'4 Fives–Kings',    chips:50,  speed:14 },
       { hand:'Full House',     label:'Full House',       chips:9,   speed:10 },
       { hand:'Flush',          label:'Flush',            chips:7,   speed:8  },
@@ -1899,6 +1998,22 @@ const VARIANTS = {
       { hand:'Two Pair',       label:'Two Pair',         chips:1,   speed:2  },
       { hand:'Jacks or Better',label:'Jacks or Better',  chips:1,   speed:1  },
       { hand:'Loss',           label:'Loss',             chips:0,   speed:-2 },
+    ],
+    botHands: [
+      {hand:'Royal Flush',     w:0.0025},
+      {hand:'Straight Flush',  w:0.011},
+      {hand:'Four Aces+',      w:0.006},
+      {hand:'Four Aces',       w:0.014},
+      {hand:'Four 2-4+',       w:0.022},
+      {hand:'Four 2-4',        w:0.038},
+      {hand:'Four 5-K',        w:0.173},
+      {hand:'Full House',      w:1.151},
+      {hand:'Flush',           w:1.101},
+      {hand:'Straight',        w:1.123},
+      {hand:'Three of a Kind', w:7.445},
+      {hand:'Two Pair',        w:12.928},
+      {hand:'Jacks or Better', w:21.459},
+      {hand:'Loss',            w:54.543},
     ],
   },
 };
@@ -2099,19 +2214,6 @@ let savedPowerup  = null; // won power-up card, injected into next race's deck
 let _puRewardCard = null; // temp ref during reward reveal
 let _puRewardDone = null; // callback after reward is claimed
 
-const BOT_HANDS = [
-  {name:'Royal Flush',     w:0.002, sp:20},
-  {name:'Straight Flush',  w:0.007, sp:16},
-  {name:'Four of a Kind',  w:0.16,  sp:14},
-  {name:'Full House',      w:0.76,  sp:12},
-  {name:'Flush',           w:0.73,  sp:10},
-  {name:'Straight',        w:0.74,  sp:8 },
-  {name:'Three of a Kind', w:4.90,  sp:6 },
-  {name:'Two Pair',        w:8.50,  sp:4 },
-  {name:'Jacks or Better', w:14.16, sp:2 },
-  {name:'Loss',            w:70.00, sp:-2},
-];
-const BOT_TOTAL_W = BOT_HANDS.reduce((s, h) => s + h.w, 0);
 
 // ─────────────────────────────────────────────
 // GAME STATE
@@ -2295,17 +2397,21 @@ function applySpeedDelta(state, delta) {
 // BOT LOGIC
 // ─────────────────────────────────────────────
 function pickBotHand() {
-  let rnd = Math.random() * BOT_TOTAL_W;
-  for (const h of BOT_HANDS) { rnd -= h.w; if (rnd <= 0) return h; }
-  return BOT_HANDS[BOT_HANDS.length - 1];
+  const bh = VARIANTS[activeVariant].botHands;
+  const total = bh.reduce((s, h) => s + h.w, 0);
+  let rnd = Math.random() * total;
+  for (const h of bh) { rnd -= h.w; if (rnd <= 0) return h; }
+  return bh[bh.length - 1];
 }
 
 function processBotHands(now) {
+  const cfg = VARIANTS[activeVariant];
   for (const state of racerState) {
     if (state.isPlayer || raceOver) continue;
     if (now >= state.nextBotHand) {
       const h = pickBotHand();
-      const sp = h.sp < 0 ? (Math.random() < 0.5 ? -1.5 : -4.5) : h.sp;
+      const payRow = cfg.payRows.find(r => r.hand === h.hand);
+      const sp = payRow ? payRow.speed : -2;
       applySpeedDelta(state, sp);
       state.nextBotHand = now + 3500 + Math.random() * 3500;
     }
