@@ -2532,6 +2532,30 @@ let _dragIdx = -1;
   canvas.addEventListener('mouseup', () => { _dragIdx = -1; });
   canvas.addEventListener('mouseleave', () => { _dragIdx = -1; });
   document.addEventListener('keydown', e => {
+    // Debug: skip to final lap, cars near finish
+    if (e.key === 'f' || e.key === 'F') {
+      if (raceOver || finalLap || !activeTrack) return;
+      const wp = activeTrack.waypoints;
+      const seg = wp.length - 1; // segments (first == last)
+      // Jump timer to trigger final lap
+      raceTimer = RACE_DURATION;
+      finalLap = true;
+      // Place player furthest ahead so finalLapThreshold is based on them
+      const baseLap = Math.floor(Math.max(...racerState.map(r => r.distance)));
+      const playerProgress = (seg - 3) / seg; // 3 waypoints before finish
+      for (const state of racerState) {
+        if (state.finishedAt) continue;
+        if (state.isPlayer) {
+          state.distance = baseLap + playerProgress;
+        } else {
+          const wpBack = 5 + Math.floor(Math.random() * 6); // 5 to 10
+          state.distance = baseLap + Math.max(0, (seg - wpBack) / seg);
+        }
+      }
+      finalLapThreshold = baseLap + 1;
+      console.log('Debug: skipped to final lap. Threshold=' + finalLapThreshold);
+      return;
+    }
     if (e.key === 'w' || e.key === 'W') {
       DEBUG_TRACK = !DEBUG_TRACK;
       console.log('Waypoint editor: ' + (DEBUG_TRACK ? 'ON' : 'OFF'));
