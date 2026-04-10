@@ -251,13 +251,8 @@ body { display: block; }
   background: rgba(15,25,50,0.25);
 }
 .poker-panel-hdr {
-<<<<<<< profileMarketplaceUpdate
-  display: flex; align-items: center; gap: 14px;
-  padding: 18px 22px;
-=======
   display: flex; align-items: center; gap: 10px;
   padding: 0 14px;
->>>>>>> main
   background: rgba(0,0,0,0.3);
   border-bottom: 1px solid rgba(255,255,255,0.08);
   flex-shrink: 0; flex-grow: 0; height: 40px; box-sizing: border-box; overflow: visible;
@@ -267,12 +262,8 @@ body { display: block; }
   letter-spacing: 1px; text-transform: uppercase; white-space: nowrap;
 }
 .chips-display {
-<<<<<<< profileMarketplaceUpdate
-  font-size: 26px; color: var(--gold);
-=======
   font-size: 13px; color: var(--gold); flex-shrink: 0;
   display: flex; align-items: center; gap: 5px;
->>>>>>> main
   background: rgba(240,165,0,0.1); border: 1px solid rgba(240,165,0,0.25);
   border-radius: 8px; padding: 6px 16px;
   display: flex; align-items: center; gap: 8px;
@@ -2988,7 +2979,6 @@ let savedPowerup  = null; // won power-up card, injected into next race's deck
 let _puRewardCard = null; // temp ref during reward reveal
 let _puRewardDone = null; // callback after reward is claimed
 
-<<<<<<< profileMarketplaceUpdate
 // ── Profile persistence ──
 let selectedCarIdx = Math.min(5, Math.max(0, parseInt(localStorage.getItem('pokerRush_car') || '0')));
 let profInventory  = JSON.parse(localStorage.getItem('pokerRush_inventory') || '[]');
@@ -3019,8 +3009,6 @@ const BOT_HANDS = [
   {name:'Loss',            w:70.00, sp:-2},
 ];
 const BOT_TOTAL_W = BOT_HANDS.reduce((s, h) => s + h.w, 0);
-=======
->>>>>>> main
 
 // ─────────────────────────────────────────────
 // GAME STATE
@@ -4329,15 +4317,7 @@ function ddGuess(guess) {
       modalEl.classList.add('wrong-flash');
       iconEl.textContent = '✗';
       iconEl.style.color = '#f87171';
-<<<<<<< profileMarketplaceUpdate
-      if (isMitigate) {
-        msgEl.textContent = '−4.5% Speed';
-      } else {
-        msgEl.textContent = 'Bonus Lost · 0 chips';
-      }
-=======
       msgEl.textContent = isMitigate ? '−1% Speed' : 'Bonus Lost';
->>>>>>> main
       msgEl.style.color = '#f87171';
       spawnParticles(false);
     }
