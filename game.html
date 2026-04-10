@@ -251,29 +251,74 @@ body { display: block; }
   background: rgba(15,25,50,0.25);
 }
 .poker-panel-hdr {
-  display: flex; align-items: center; gap: 10px;
-  padding: 9px 14px;
+  display: flex; align-items: center; gap: 14px;
+  padding: 18px 22px;
   background: rgba(0,0,0,0.3);
   border-bottom: 1px solid rgba(255,255,255,0.08);
   flex-shrink: 0;
 }
 .poker-title {
-  font-size: 18px; font-weight: 900; color: var(--gold);
-  letter-spacing: 0.5px; text-transform: uppercase; white-space: nowrap;
+  font-size: 38px; font-weight: 900; color: var(--gold);
+  letter-spacing: 1px; text-transform: uppercase; white-space: nowrap;
 }
 .chips-display {
-  font-size: 13px; color: var(--gold);
+  font-size: 26px; color: var(--gold);
   background: rgba(240,165,0,0.1); border: 1px solid rgba(240,165,0,0.25);
-  border-radius: 5px; padding: 3px 10px;
+  border-radius: 8px; padding: 6px 16px;
+  display: flex; align-items: center; gap: 8px;
 }
+.chips-display img { height: 28px !important; }
 .chips-display.rep-display {
   color: #a78bfa; background: rgba(167,139,250,0.1); border-color: rgba(167,139,250,0.25);
 }
 .player-name-badge {
-  font-size: 13px; font-weight: 700; color: var(--teal);
+  font-size: 22px; font-weight: 700; color: var(--teal);
   background: rgba(0,180,216,0.1); border: 1px solid rgba(0,180,216,0.25);
-  border-radius: 5px; padding: 3px 10px; white-space: nowrap;
+  border-radius: 8px; padding: 6px 16px; white-space: nowrap;
 }
+/* DD button glow feedback */
+.dd-glow-selected { box-shadow: 0 0 0 3px rgba(255,255,255,0.45), 0 0 28px rgba(255,255,255,0.25) !important; }
+.dd-glow-win      { box-shadow: 0 0 0 4px rgba(74,222,128,0.8),  0 0 40px rgba(74,222,128,0.5)  !important; }
+.dd-glow-loss     { box-shadow: 0 0 0 4px rgba(248,113,113,0.8), 0 0 40px rgba(248,113,113,0.5) !important; }
+.dd-glow-cashout  { box-shadow: 0 0 0 4px rgba(240,165,0,0.8),   0 0 40px rgba(240,165,0,0.45)  !important; }
+.dd-glow-accept   { box-shadow: 0 0 0 4px rgba(148,163,184,0.7), 0 0 30px rgba(148,163,184,0.3) !important; }
+/* ── Chip burst VFX ── */
+@keyframes chipBurstIn {
+  0%   { transform: translate(-50%,-100%) scale(0.05) rotate(-8deg); opacity: 0; filter: blur(12px); }
+  45%  { transform: translate(-50%,-100%) scale(1.18) rotate(2deg);  opacity: 1; filter: blur(0); }
+  65%  { transform: translate(-50%,-100%) scale(0.94) rotate(-1deg); opacity: 1; }
+  100% { transform: translate(-50%,-100%) scale(1.0)  rotate(0deg);  opacity: 1; }
+}
+@keyframes chipBurstFly {
+  0%   { opacity: 1; transform: translate(-50%,-100%) scale(1.0); }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--chip-tx)), calc(-100% + var(--chip-ty))) scale(0.2); }
+}
+@keyframes chipScreenFlash {
+  0%   { opacity: 0; }
+  8%   { opacity: 0.18; }
+  65%  { opacity: 0.07; }
+  100% { opacity: 0; }
+}
+@keyframes bankrollPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+.chip-burst-text {
+  position: fixed; pointer-events: none; z-index: 9999;
+  font-size: clamp(52px, 5.5vw, 86px); font-weight: 900;
+  letter-spacing: 4px; white-space: nowrap;
+  text-shadow: 0 0 50px currentColor, 0 0 100px currentColor, 0 4px 20px rgba(0,0,0,1);
+  will-change: transform, opacity;
+  animation: chipBurstIn 0.8s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+.chip-burst-text.chip-flying {
+  animation: chipBurstFly 0.55s ease-in forwards;
+}
+.chip-screen-flash {
+  position: fixed; inset: 0; pointer-events: none; z-index: 9996;
+  animation: chipScreenFlash 0.75s ease-out forwards;
+}
+
 /* Name prompt overlay */
 #namePrompt {
   position: fixed; inset: 0; z-index: 9999;
@@ -989,30 +1034,42 @@ body { display: block; }
 
 /* === WELCOME SCREEN === */
 #welcome-screen {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   background: #000;
-  text-align: center; gap: 0;
+}
+#bgMuteBtn {
+  position: absolute; bottom: 12px; right: 14px;
+  background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.15);
+  color: #fff; font-size: 16px; line-height: 1;
+  padding: 5px 7px; border-radius: 6px; cursor: pointer;
+  opacity: 0.6; transition: opacity 0.2s;
+  z-index: 10;
+}
+#bgMuteBtn:hover { opacity: 1; }
+.wlc-wrapper {
+  position: relative; display: inline-block; line-height: 0;
 }
 .wlc-img {
-  width: 100vw; max-width: 100vw; max-height: 70vh; object-fit: contain;
-  display: block; margin-bottom: 18px;
+  width: 100vw; max-width: 100vw; max-height: 91vh; object-fit: contain;
+  display: block;
 }
 .wlc-sub {
   font-size: 16px; color: var(--muted); letter-spacing: 1px;
   margin-bottom: 28px;
 }
 .wlc-start-img {
-  max-width: 340px; width: 46vw; cursor: pointer; display: block;
+  position: absolute; bottom: calc(6% - 30px); left: 50%; transform: translateX(-50%);
+  max-width: 340px; width: 38vw; cursor: pointer; display: block;
   animation: startPulse 1.8s ease-in-out infinite;
 }
 .wlc-start-img:hover {
   animation: none;
-  transform: translateY(-4px) scale(1.06);
+  transform: translateX(-50%) translateY(-4px) scale(1.06);
   filter: brightness(1.18);
 }
 @keyframes startPulse {
-  0%, 100% { transform: scale(1);    filter: brightness(1);    }
-  50%       { transform: scale(1.07); filter: brightness(1.15); }
+  0%, 100% { transform: translateX(-50%) scale(1);    filter: brightness(1);    }
+  50%       { transform: translateX(-50%) scale(1.07); filter: brightness(1.15); }
 }
 
 /* === MENU SCREEN === */
@@ -1107,6 +1164,286 @@ body { display: block; }
 }
 .mn-coming-soon .cs-icon { font-size: 50px; }
 .mn-coming-soon p { font-size: 14px; letter-spacing: 1px; }
+
+/* === PLAYER PROFILE === */
+#mn-panel-profile { overflow: hidden; }
+.prof-layout {
+  flex: 1; min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(30%, 1.6fr) minmax(0, 1.3fr) minmax(0, 1.1fr);
+  gap: clamp(12px, 1.3vw, 24px);
+  height: 100%;
+}
+.prof-col { display: flex; flex-direction: column; gap: clamp(9px,0.9vh,14px); height: 100%; overflow: hidden; }
+.prof-section {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px; padding: clamp(10px,1vw,16px);
+  display: flex; flex-direction: column; gap: clamp(7px,0.7vh,11px); flex-shrink: 0;
+}
+.prof-section-title {
+  font-size: clamp(9px,0.72vw,11px); font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted);
+  border-bottom: 1px solid rgba(255,255,255,0.07); padding-bottom: 7px;
+  display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+}
+/* Info */
+.prof-avatar-row { display: flex; align-items: center; gap: 10px; }
+.prof-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--red2), var(--red));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 900; color: #fff; flex-shrink: 0;
+}
+.prof-player-name { font-size: clamp(12px,1.1vw,15px); font-weight: 800; }
+.prof-currency-row { display: flex; gap: 7px; }
+.prof-currency-pill {
+  flex: 1; border-radius: 6px; padding: 5px 8px;
+  display: flex; align-items: center; gap: 5px;
+  font-size: clamp(10px,0.85vw,12px); font-weight: 700;
+}
+.prof-currency-pill img { height: 1.3em; object-fit: contain; }
+.prof-currency-pill.chips { background: rgba(240,165,0,.1); border: 1px solid rgba(240,165,0,.25); color: var(--gold); }
+.prof-currency-pill.rep   { background: rgba(167,139,250,.1); border: 1px solid rgba(167,139,250,.25); color: #a78bfa; }
+.prof-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.prof-stat-pill {
+  background: rgba(255,255,255,0.04); border-radius: 6px; padding: 6px 8px;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.prof-stat-pill-label { font-size: 8px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+.prof-stat-pill-val { font-size: clamp(13px,1.2vw,17px); font-weight: 800; }
+/* Car selector */
+.prof-car-display { display: flex; align-items: center; gap: 6px; flex: 1; min-height: 0; }
+.prof-car-nav { background: none; border: none; cursor: pointer; padding: 4px; opacity: 0.7; transition: opacity 0.2s; flex-shrink: 0; }
+.prof-car-nav:hover { opacity: 1; }
+.prof-car-nav img { width: clamp(48px,4.5vw,80px); height: auto; display: block; }
+.prof-car-img-wrap {
+  flex: 1; min-height: 0; aspect-ratio: 1;
+  background: rgba(255,255,255,0.04); border-radius: 10px; padding: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+.prof-car-img-wrap img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)); }
+.prof-car-name { text-align: center; font-size: clamp(13px,1.3vw,18px); font-weight: 800; letter-spacing: 2px; }
+.prof-car-stats { display: flex; flex-direction: column; gap: 7px; flex-shrink: 0; }
+.prof-car-stat-row { display: flex; align-items: center; gap: 10px; }
+.prof-car-stat-label { font-size: 10px; font-weight: 700; color: var(--muted); width: 72px; flex-shrink: 0; }
+.prof-car-stat-track { flex: 1; height: 7px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+.prof-car-stat-fill { height: 100%; border-radius: 4px; transition: width 0.4s cubic-bezier(.4,0,.2,1); }
+.prof-car-stat-fill.power     { background: linear-gradient(90deg,#ef4444,#f97316); }
+.prof-car-stat-fill.speed     { background: linear-gradient(90deg,#3b82f6,#06b6d4); }
+.prof-car-stat-fill.endurance { background: linear-gradient(90deg,#10b981,#84cc16); }
+.prof-car-stat-val { font-size: 12px; font-weight: 800; width: 18px; text-align: right; flex-shrink: 0; }
+/* Shared card thumbnail size — used in equipped slots, inventory, and shop */
+:root { --prof-card-w: clamp(70px, 6.5vw, 100px); }
+
+/* Equipped slots */
+.prof-equip-row { display: flex; gap: 10px; }
+.prof-equip-slot {
+  flex: 1; aspect-ratio: 0.714;
+  border: 2px dashed rgba(255,255,255,0.14); border-radius: 8px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.03); position: relative; cursor: default;
+  transition: border-color 0.2s; overflow: hidden;
+}
+.prof-equip-slot.filled { border-style: solid; border-color: rgba(240,165,0,0.4); background: rgba(240,165,0,0.05); }
+.prof-equip-slot.filled:hover { border-color: rgba(233,69,96,0.5); }
+.prof-equip-slot-img { width: 100%; height: 100%; object-fit: cover; }
+.prof-equip-slot-emoji { font-size: clamp(28px, 3vw, 44px); }
+.prof-equip-slot-lbl { font-size: 8px; color: var(--muted); text-align: center; padding: 0 3px; line-height: 1.2; }
+.prof-equip-slot-rm {
+  position: absolute; top: -5px; right: -5px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--red); border: none; cursor: pointer;
+  font-size: 9px; color: #fff; display: none; align-items: center; justify-content: center;
+  z-index: 2;
+}
+.prof-equip-slot:hover .prof-equip-slot-rm { display: flex; }
+.prof-equip-empty-lbl { font-size: 9px; color: rgba(255,255,255,0.18); text-align: center; line-height: 1.4; }
+/* Scroll sections */
+.prof-scroll-section {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px; display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden;
+}
+.prof-scroll-hdr {
+  font-size: clamp(9px,0.72vw,11px); font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: clamp(8px,0.8vh,12px) clamp(10px,1vw,16px);
+  display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+}
+.prof-scroll-body { flex: 1; overflow-y: auto; overflow-x: hidden; padding: clamp(8px,0.8vh,12px) clamp(10px,1vw,16px); }
+.prof-scroll-body::-webkit-scrollbar { width: 4px; }
+.prof-scroll-body::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+.prof-scroll-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
+.prof-inv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--prof-card-w), 1fr)); gap: 8px; }
+.prof-inv-card {
+  border-radius: 7px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  display: flex; flex-direction: column; align-items: center;
+  padding: 5px 4px 7px; gap: 4px; cursor: pointer; position: relative;
+  transition: border-color 0.2s, background 0.2s;
+}
+.prof-inv-card:hover { border-color: rgba(240,165,0,0.4); background: rgba(240,165,0,0.07); }
+.prof-inv-card.type-hazard:hover { border-color: rgba(233,69,96,0.4); background: rgba(233,69,96,0.07); }
+.prof-inv-card-img { width: 100%; aspect-ratio: 0.714; object-fit: cover; border-radius: 5px; }
+.prof-inv-card-emoji { font-size: clamp(28px, 3vw, 44px); line-height: 1.1; }
+.prof-inv-card-name { font-size: 8px; font-weight: 600; text-align: center; line-height: 1.2; color: var(--white); }
+.prof-inv-card-count {
+  position: absolute; top: -4px; right: -4px;
+  background: var(--red); color: #fff; font-size: 8px; font-weight: 800;
+  width: 14px; height: 14px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.prof-inv-empty { text-align: center; padding: 18px 10px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+/* Shop */
+.prof-shop-card {
+  border-radius: 8px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+  padding: clamp(7px,0.65vw,11px); display: flex; gap: 9px; align-items: flex-start;
+  margin-bottom: 7px; transition: border-color 0.2s;
+}
+.prof-shop-card:hover { border-color: rgba(255,255,255,0.13); }
+.prof-shop-card.type-hazard { border-color: rgba(233,69,96,0.1); }
+.prof-shop-card.type-hazard:hover { border-color: rgba(233,69,96,0.28); }
+.prof-shop-icon {
+  width: var(--prof-card-w); flex-shrink: 0;
+  aspect-ratio: 0.714; border-radius: 6px; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.06); font-size: clamp(28px, 3vw, 44px);
+}
+.prof-shop-icon img { width: 100%; height: 100%; object-fit: cover; }
+.prof-shop-body { flex: 1; min-width: 0; }
+.prof-shop-name { font-size: clamp(10px,0.85vw,12px); font-weight: 700; }
+.prof-shop-desc { font-size: clamp(8px,0.65vw,10px); color: var(--muted); margin-top: 2px; line-height: 1.3; }
+.prof-shop-tag {
+  display: inline-block; font-size: 7px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; border-radius: 3px; padding: 2px 5px; margin-top: 3px;
+}
+.prof-shop-tag.powerup { background: rgba(240,165,0,0.15); color: var(--gold); }
+.prof-shop-tag.hazard  { background: rgba(233,69,96,0.15); color: var(--red); }
+.prof-shop-actions { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+.prof-shop-btn {
+  border: none; border-radius: 5px; cursor: pointer;
+  font-size: clamp(7px,0.65vw,9px); font-weight: 700; padding: 4px 7px; white-space: nowrap;
+}
+.prof-shop-btn.chips-btn {
+  background: rgba(240,165,0,0.15); color: var(--gold); border: 1px solid rgba(240,165,0,0.3);
+}
+.prof-shop-btn.chips-btn:hover { background: rgba(240,165,0,0.28); }
+.prof-shop-btn.market-btn {
+  background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid rgba(255,255,255,0.09);
+}
+.prof-shop-btn.market-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+/* === MARKETPLACE === */
+#mn-panel-marketplace { overflow: hidden; }
+.mkt-layout {
+  flex: 1; min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,2.2fr) minmax(0,1.4fr);
+  gap: clamp(14px, 1.5vw, 28px);
+  align-items: start;
+  height: 100%;
+}
+.mkt-col {
+  display: flex; flex-direction: column;
+  gap: clamp(10px, 1vh, 18px); height: 100%;
+}
+.mkt-col-title {
+  font-size: clamp(10px, 0.85vw, 13px); font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding-bottom: clamp(6px, 0.7vh, 10px);
+  display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+}
+.mkt-section-price {
+  margin-left: auto; font-size: clamp(9px, 0.7vw, 11px);
+  color: var(--gold); letter-spacing: 1px; font-weight: 600;
+}
+/* Chip items stacked vertically */
+.mkt-chips-stack {
+  display: flex; flex-direction: column; gap: clamp(8px, 0.9vh, 14px); flex: 1;
+}
+/* 3×2 grid for individual cards */
+.mkt-cards-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: clamp(8px, 0.8vw, 14px); flex: 1;
+}
+/* Packs stacked vertically */
+.mkt-packs-stack {
+  display: flex; flex-direction: column; gap: clamp(10px, 1.2vh, 18px); flex: 1;
+}
+/* Base item */
+.mkt-item {
+  position: relative;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: clamp(10px, 1vw, 16px); padding: clamp(14px, 1.4vh, 22px) clamp(12px, 1vw, 18px) clamp(10px, 1vh, 16px);
+  display: flex; flex-direction: column; align-items: center;
+  gap: clamp(4px, 0.5vh, 8px);
+  transition: border-color 0.2s, background 0.2s;
+}
+.mkt-item:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); }
+.mkt-item.mkt-featured {
+  border-color: rgba(240,165,0,0.45); background: rgba(240,165,0,0.07);
+  box-shadow: 0 0 24px rgba(240,165,0,0.12);
+}
+.mkt-badge {
+  position: absolute; top: clamp(-10px,-1.1vh,-7px); left: 50%; transform: translateX(-50%);
+  background: var(--gold); color: #111; font-size: clamp(8px, 0.65vw, 10px);
+  font-weight: 900; padding: 2px 10px; border-radius: 20px;
+  letter-spacing: 1px; white-space: nowrap;
+}
+.mkt-chip-icon {
+  width: clamp(44px, 4.5vw, 76px); height: clamp(44px, 4.5vw, 76px); object-fit: contain;
+}
+.mkt-item-amount {
+  font-size: clamp(14px, 1.3vw, 22px); font-weight: 900; color: var(--white); letter-spacing: 1px;
+}
+.mkt-item-label { font-size: clamp(9px, 0.7vw, 12px); color: var(--muted); letter-spacing: 1px; }
+.mkt-item-price {
+  font-size: clamp(14px, 1.2vw, 20px); font-weight: 800; color: var(--gold);
+}
+.mkt-buy-btn {
+  margin-top: clamp(4px, 0.5vh, 8px);
+  padding: clamp(6px, 0.7vh, 10px) clamp(10px, 1vw, 18px);
+  border-radius: 8px; border: none;
+  background: linear-gradient(135deg, var(--red2), var(--red));
+  color: #fff; font-size: clamp(11px, 0.8vw, 14px); font-weight: 800;
+  letter-spacing: 1px; cursor: pointer; transition: opacity 0.2s; width: 100%;
+  box-shadow: 0 3px 12px rgba(233,69,96,0.35);
+}
+.mkt-buy-btn:hover { opacity: 0.85; }
+.mkt-buy-btn.hazard {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  box-shadow: 0 3px 12px rgba(109,40,217,0.4);
+}
+/* Individual card items */
+.mkt-card-item { padding: clamp(10px, 1vh, 16px) clamp(8px, 0.7vw, 14px); }
+.mkt-card-item.type-powerup { border-color: rgba(74,222,128,0.22); }
+.mkt-card-item.type-powerup:hover { border-color: rgba(74,222,128,0.5); }
+.mkt-card-item.type-hazard  { border-color: rgba(167,139,250,0.22); }
+.mkt-card-item.type-hazard:hover  { border-color: rgba(167,139,250,0.5); }
+.mkt-card-img {
+  width: clamp(80px, 7vw, 130px);
+  height: clamp(112px, 9.8vw, 182px);
+  object-fit: cover; object-position: top center;
+  border-radius: clamp(6px, 0.6vw, 10px); border: 1px solid rgba(255,255,255,0.12);
+}
+.mkt-card-type {
+  font-size: clamp(8px, 0.6vw, 10px); font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; padding: 2px 8px; border-radius: 10px;
+}
+.type-powerup .mkt-card-type { color: #4ade80; background: rgba(74,222,128,0.12); }
+.type-hazard  .mkt-card-type { color: #a78bfa; background: rgba(167,139,250,0.12); }
+/* Pack thumbs — fanned, 2× the original size */
+.mkt-pack-cards {
+  display: flex; justify-content: center; margin-bottom: clamp(4px, 0.5vh, 8px);
+}
+.mkt-pack-card-thumb {
+  width: clamp(52px, 4.5vw, 80px);
+  height: clamp(72px, 6.3vw, 112px);
+  object-fit: cover; object-position: top center;
+  border-radius: clamp(5px, 0.5vw, 8px); border: 2px solid rgba(255,255,255,0.18);
+  margin-left: clamp(-14px, -1.2vw, -8px);
+}
+.mkt-pack-card-thumb:first-child { margin-left: 0; }
 
 /* === RACE REWARD POPUP === */
 .race-reward-popup {
@@ -1207,6 +1544,89 @@ body { display: block; }
 }
 .ts-back:hover { background:rgba(255,255,255,0.1); color:var(--white); }
 
+/* === RACE WIN BONUS OVERLAY === */
+.race-bonus-overlay {
+  position: fixed; inset: 0; z-index: 2500;
+  display: none; flex-direction: column; align-items: center; justify-content: center;
+  background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(35,22,0,0.97) 0%, rgba(5,8,16,0.99) 65%);
+  overflow: hidden;
+}
+.race-bonus-overlay.show { display: flex; }
+/* Animated gold radial glow behind content */
+.rb-bg-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 55% 45% at 50% 45%, rgba(240,165,0,0.22) 0%, transparent 68%);
+  animation: rbGlowPulse 2s ease-in-out infinite;
+}
+@keyframes rbGlowPulse { 0%,100%{opacity:.7} 50%{opacity:1.2} }
+/* Starburst rays */
+.rb-rays {
+  position: absolute; inset: 0; pointer-events: none;
+  background: repeating-conic-gradient(rgba(240,165,0,0.04) 0deg 10deg, transparent 10deg 20deg);
+  animation: rbRaysSpin 18s linear infinite;
+}
+@keyframes rbRaysSpin { to { transform: rotate(360deg); } }
+/* Inner content */
+.rb-inner {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center;
+  gap: clamp(8px,1vh,14px); text-align: center;
+  animation: rbIn 0.65s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+@keyframes rbIn { from { transform: scale(0.4) translateY(50px); opacity:0; } to { transform: scale(1) translateY(0); opacity:1; } }
+.rb-inner.out { animation: rbOut 0.35s ease-in forwards; }
+@keyframes rbOut { to { transform: scale(1.08) translateY(-30px); opacity: 0; } }
+/* Trophy */
+.rb-trophy { font-size: clamp(68px,7.5vw,112px); line-height: 1; animation: rbTrophy 0.7s 0.5s cubic-bezier(0.34,1.56,0.64,1) both; filter: drop-shadow(0 0 30px rgba(240,165,0,0.9)); }
+@keyframes rbTrophy { from { transform: scale(0.2) rotate(-20deg); opacity:0; } to { transform: scale(1) rotate(0deg); opacity:1; } }
+/* RACE WINNER text */
+.rb-winner-text {
+  font-size: clamp(34px,4vw,58px); font-weight: 900; letter-spacing: 10px;
+  text-transform: uppercase; color: var(--gold);
+  text-shadow: 0 0 30px rgba(240,165,0,0.9), 0 0 70px rgba(240,165,0,0.5);
+  animation: rbWinnerPulse 1.8s ease-in-out infinite;
+}
+@keyframes rbWinnerPulse { 0%,100%{text-shadow:0 0 30px rgba(240,165,0,.9),0 0 70px rgba(240,165,0,.5)} 50%{text-shadow:0 0 55px rgba(240,165,0,1),0 0 110px rgba(240,165,0,.8)} }
+/* 1ST PLACE banner */
+.rb-place {
+  background: linear-gradient(135deg,#b45309,#f0a500,#fde68a,#f0a500,#b45309);
+  background-size: 200% 100%;
+  animation: rbShine 2.5s linear infinite;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  font-size: clamp(18px,2.2vw,32px); font-weight: 900; letter-spacing: 6px; text-transform: uppercase;
+}
+@keyframes rbShine { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+/* Divider */
+.rb-divider { width: clamp(180px,20vw,320px); height: 1px; background: linear-gradient(90deg, transparent, rgba(240,165,0,0.6), transparent); }
+/* Bonus label */
+.rb-bonus-label { font-size: clamp(10px,.9vw,14px); font-weight: 700; letter-spacing: 5px; color: var(--muted); text-transform: uppercase; }
+/* Chip row */
+.rb-chip-row { display: flex; align-items: center; gap: clamp(12px,1.2vw,20px); }
+.rb-chip-icon { height: clamp(52px,5.5vw,80px); object-fit: contain; filter: drop-shadow(0 0 16px rgba(240,165,0,0.8)); }
+.rb-amount {
+  font-size: clamp(66px,7.5vw,108px); font-weight: 900; line-height: 1;
+  color: var(--gold);
+  text-shadow: 0 0 50px rgba(240,165,0,0.8), 0 4px 20px rgba(0,0,0,0.9);
+}
+/* Collect button */
+.rb-collect-btn {
+  margin-top: clamp(8px,1.2vh,18px);
+  padding: clamp(12px,1.2vh,18px) clamp(44px,5vw,80px);
+  background: linear-gradient(135deg,var(--gold2),var(--gold),#fde68a,var(--gold));
+  background-size: 200% 100%;
+  color: #1a0a00; border: none; border-radius: 12px; cursor: pointer;
+  font-size: clamp(16px,1.6vw,22px); font-weight: 900; letter-spacing: 4px; text-transform: uppercase;
+  box-shadow: 0 6px 36px rgba(240,165,0,0.6), 0 2px 8px rgba(0,0,0,0.5);
+  animation: rbCollectPulse 1.3s ease-in-out infinite;
+  transition: transform .12s, box-shadow .12s;
+}
+.rb-collect-btn:disabled { opacity: 0.5; animation: none; pointer-events: none; }
+.rb-collect-btn:not(:disabled):hover { animation: none; transform: scale(1.05); box-shadow: 0 10px 50px rgba(240,165,0,0.85); background-position: 100% 0; }
+@keyframes rbCollectPulse { 0%,100%{transform:scale(1); box-shadow:0 6px 36px rgba(240,165,0,.6)} 50%{transform:scale(1.05); box-shadow:0 10px 56px rgba(240,165,0,.9)} }
+/* Confetti pieces */
+.rb-confetti { position: absolute; pointer-events: none; will-change: transform, opacity; }
+@keyframes rbConfettiFall { 0%{transform:translateY(-20px) translateX(0) rotate(0deg);opacity:1} 100%{transform:translateY(110vh) translateX(var(--cx)) rotate(720deg);opacity:0} }
+
 /* === GAME SCREEN === */
 #game-screen { display: none; grid-template-rows: 50fr 50fr; height: 100vh; }
 </style>
@@ -1214,6 +1634,25 @@ body { display: block; }
 <body>
 
 <div id="toast"></div>
+
+<!-- RACE WIN BONUS OVERLAY -->
+<div id="raceBonusOverlay" class="race-bonus-overlay">
+  <div class="rb-bg-glow"></div>
+  <div class="rb-rays"></div>
+  <div class="rb-inner" id="rbInner">
+    <div class="rb-trophy">🏆</div>
+    <div class="rb-winner-text">RACE WINNER</div>
+    <div class="rb-place">1st Place</div>
+    <div class="rb-divider"></div>
+    <div class="rb-bonus-label">Chip Bonus</div>
+    <div class="rb-chip-row">
+      <img class="rb-chip-icon" src="UI assets/pokerRush_UI_chipIcon01.png" alt="">
+      <div class="rb-amount" id="rbAmount">0</div>
+    </div>
+    <button class="rb-collect-btn" id="rbCollectBtn" onclick="collectRaceBonus()" disabled>COLLECT</button>
+  </div>
+</div>
+
 <div id="raceRewardPopup" class="race-reward-popup">
   <div class="rrp-inner" id="rrpInner">
     <img class="rrp-icon" id="rrpIcon" src="" alt="">
@@ -1234,8 +1673,11 @@ body { display: block; }
 
 <!-- WELCOME SCREEN -->
 <div id="welcome-screen" class="screen">
-  <video class="wlc-img" src="Splash/pokerRush_UI_animatedSplash.mp4" autoplay loop muted playsinline></video>
-  <img class="wlc-start-img" src="UI assets/pokerRush_UI_startButton.png" alt="Start" onclick="playSoundUI('Audio/ButtonSelect.mp3');showScreen('menu')">
+  <div class="wlc-wrapper">
+    <video class="wlc-img" src="Splash/pokerRush_UI_animatedSplash.mp4" autoplay loop muted playsinline></video>
+    <img class="wlc-start-img" src="UI assets/pokerRush_UI_startButton.png" alt="Start" onclick="playSoundUI('Audio/ButtonSelect.mp3');showScreen('menu')">
+  </div>
+  <button id="bgMuteBtn" onclick="toggleBgMusic()" title="Toggle music">🔊</button>
 </div>
 
 <!-- MENU SCREEN -->
@@ -1257,10 +1699,234 @@ body { display: block; }
       <div class="gm-grid" id="gm-grid"></div>
     </div>
     <div class="mn-panel" id="mn-panel-profile">
-      <div class="mn-coming-soon"><div class="cs-icon">👤</div><p>Player Profile — Coming Soon</p></div>
+      <div class="prof-layout">
+
+        <!-- COL 1: Player Info + Car Selector -->
+        <div class="prof-col">
+
+          <div class="prof-section">
+            <div class="prof-section-title">👤 Player</div>
+            <div class="prof-avatar-row">
+              <div class="prof-avatar" id="profAvatar">?</div>
+              <div class="prof-player-name" id="profPlayerName">—</div>
+            </div>
+            <div class="prof-currency-row">
+              <div class="prof-currency-pill chips">
+                <img src="UI assets/pokerRush_UI_chipIcon01.png">
+                <span id="profChips">0</span>
+              </div>
+              <div class="prof-currency-pill rep">
+                <img src="UI assets/pokerRush_UI_repPointIcon.png">
+                <span id="profRep">0</span>
+              </div>
+            </div>
+            <div class="prof-stats-grid">
+              <div class="prof-stat-pill">
+                <div class="prof-stat-pill-label">Races</div>
+                <div class="prof-stat-pill-val" id="profStatPlayed">0</div>
+              </div>
+              <div class="prof-stat-pill">
+                <div class="prof-stat-pill-label">1st Place</div>
+                <div class="prof-stat-pill-val" id="profStatWins" style="color:var(--gold)">0</div>
+              </div>
+              <div class="prof-stat-pill">
+                <div class="prof-stat-pill-label">Win Rate</div>
+                <div class="prof-stat-pill-val" id="profStatWinRate">—</div>
+              </div>
+              <div class="prof-stat-pill">
+                <div class="prof-stat-pill-label">Best Pos</div>
+                <div class="prof-stat-pill-val" id="profStatBest">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prof-section" style="flex:1;min-height:0;">
+            <div class="prof-section-title">🚗 Your Ride</div>
+            <div class="prof-car-display">
+              <button class="prof-car-nav" onclick="profCarNav(-1)" title="Previous">
+                <img src="UI assets/pokerRush_UI_shifterUp.png" alt="Prev">
+              </button>
+              <div class="prof-car-img-wrap">
+                <img id="profCarImg" src="" alt="Car">
+              </div>
+              <button class="prof-car-nav" onclick="profCarNav(1)" title="Next">
+                <img src="UI assets/pokerRush_UI_shifterDown.png" alt="Next">
+              </button>
+            </div>
+            <div class="prof-car-name" id="profCarName">—</div>
+            <div class="prof-car-stats" id="profCarStats"></div>
+          </div>
+
+        </div>
+
+        <!-- COL 2: Equipped + Inventory -->
+        <div class="prof-col">
+
+          <div class="prof-section">
+            <div class="prof-section-title">⚡ Equipped for Next Race</div>
+            <div class="prof-equip-row" id="profEquipRow"></div>
+          </div>
+
+          <div class="prof-scroll-section">
+            <div class="prof-scroll-hdr">🎒 Inventory</div>
+            <div class="prof-scroll-body">
+              <div class="prof-inv-grid" id="profInvGrid"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- COL 3: Power-Up Shop -->
+        <div class="prof-col">
+          <div class="prof-scroll-section">
+            <div class="prof-scroll-hdr">🛒 Power-Up Shop <span style="margin-left:auto;font-size:9px;color:var(--gold);letter-spacing:0;">250 chips each</span></div>
+            <div class="prof-scroll-body" id="profShopBody"></div>
+          </div>
+        </div>
+
+      </div>
     </div>
     <div class="mn-panel" id="mn-panel-marketplace">
-      <div class="mn-coming-soon"><div class="cs-icon">🏪</div><p>Marketplace — Coming Soon</p></div>
+      <div class="mkt-layout">
+
+        <!-- COL 1: CHIPS -->
+        <div class="mkt-col">
+          <div class="mkt-col-title">
+            <img src="UI assets/pokerRush_UI_chipIcon01.png" style="height:1.4em;vertical-align:middle;">
+            Chip Packs
+          </div>
+          <div class="mkt-chips-stack">
+            <div class="mkt-item">
+              <img class="mkt-chip-icon" src="UI assets/pokerRush_UI_chipIcon01.png" alt="">
+              <div class="mkt-item-amount">25,000</div>
+              <div class="mkt-item-label">Chips</div>
+              <div class="mkt-item-price">$9.99</div>
+              <button class="mkt-buy-btn" onclick="mktBuyChips(25000,'$9.99')">Buy</button>
+            </div>
+            <div class="mkt-item mkt-featured">
+              <div class="mkt-badge">BEST VALUE</div>
+              <img class="mkt-chip-icon" src="UI assets/pokerRush_UI_chipIcon01.png" alt="">
+              <div class="mkt-item-amount">100,000</div>
+              <div class="mkt-item-label">Chips</div>
+              <div class="mkt-item-price">$24.99</div>
+              <button class="mkt-buy-btn" onclick="mktBuyChips(100000,'$24.99')">Buy</button>
+            </div>
+            <div class="mkt-item">
+              <img class="mkt-chip-icon" src="UI assets/pokerRush_UI_chipIcon01.png" alt="">
+              <div class="mkt-item-amount">500,000</div>
+              <div class="mkt-item-label">Chips</div>
+              <div class="mkt-item-price">$39.99</div>
+              <button class="mkt-buy-btn" onclick="mktBuyChips(500000,'$39.99')">Buy</button>
+            </div>
+            <div class="mkt-item">
+              <img class="mkt-chip-icon" src="UI assets/pokerRush_UI_chipIcon01.png" alt="">
+              <div class="mkt-item-amount">1,000,000</div>
+              <div class="mkt-item-label">Chips</div>
+              <div class="mkt-item-price">$59.99</div>
+              <button class="mkt-buy-btn" onclick="mktBuyChips(1000000,'$59.99')">Buy</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- COL 2: INDIVIDUAL CARDS -->
+        <div class="mkt-col">
+          <div class="mkt-col-title">
+            ⚡ Single Cards
+            <span class="mkt-section-price">$1.00 each</span>
+          </div>
+          <div class="mkt-cards-grid">
+            <div class="mkt-item mkt-card-item type-powerup">
+              <img class="mkt-card-img" src="Powerups/pokerRush_powerups_01.png" alt="Speed Boost">
+              <div class="mkt-item-label">Speed Boost</div>
+              <div class="mkt-card-type">Power-Up</div>
+              <div class="mkt-item-price">$1.00</div>
+              <button class="mkt-buy-btn" onclick="mktBuyCard('pu1')">Buy</button>
+            </div>
+            <div class="mkt-item mkt-card-item type-powerup">
+              <img class="mkt-card-img" src="Powerups/pokerRush_powerups_02.png" alt="God Wings">
+              <div class="mkt-item-label">God Wings</div>
+              <div class="mkt-card-type">Power-Up</div>
+              <div class="mkt-item-price">$1.00</div>
+              <button class="mkt-buy-btn" onclick="mktBuyCard('pu2')">Buy</button>
+            </div>
+            <div class="mkt-item mkt-card-item type-powerup">
+              <img class="mkt-card-img" src="Powerups/pokerRush_powerups_03.png" alt="Extreme Nitro">
+              <div class="mkt-item-label">Extreme Nitro</div>
+              <div class="mkt-card-type">Power-Up</div>
+              <div class="mkt-item-price">$1.00</div>
+              <button class="mkt-buy-btn" onclick="mktBuyCard('pu3')">Buy</button>
+            </div>
+            <div class="mkt-item mkt-card-item type-powerup">
+              <img class="mkt-card-img" src="Powerups/pokerRush_powerups_04.png" alt="Royal Flush">
+              <div class="mkt-item-label">Royal Flush</div>
+              <div class="mkt-card-type">Power-Up</div>
+              <div class="mkt-item-price">$1.00</div>
+              <button class="mkt-buy-btn" onclick="mktBuyCard('pu4')">Buy</button>
+            </div>
+            <div class="mkt-item mkt-card-item type-hazard">
+              <img class="mkt-card-img" src="Powerups/pokerRush_hazards_01.png" alt="Oil Puddle">
+              <div class="mkt-item-label">Oil Puddle</div>
+              <div class="mkt-card-type">Hazard</div>
+              <div class="mkt-item-price">$1.00</div>
+              <button class="mkt-buy-btn hazard" onclick="mktBuyCard('hz1')">Buy</button>
+            </div>
+            <div class="mkt-item mkt-card-item type-hazard">
+              <img class="mkt-card-img" src="Powerups/pokerRush_hazards_02.png" alt="Ice Storm">
+              <div class="mkt-item-label">Ice Storm</div>
+              <div class="mkt-card-type">Hazard</div>
+              <div class="mkt-item-price">$1.00</div>
+              <button class="mkt-buy-btn hazard" onclick="mktBuyCard('hz2')">Buy</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- COL 3: PACKS -->
+        <div class="mkt-col">
+          <div class="mkt-col-title">🎴 Card Packs</div>
+          <div class="mkt-packs-stack">
+            <div class="mkt-item">
+              <div class="mkt-pack-cards">
+                <img src="Powerups/pokerRush_powerups_01.png" alt="" class="mkt-pack-card-thumb">
+                <img src="Powerups/pokerRush_powerups_03.png" alt="" class="mkt-pack-card-thumb">
+                <img src="Powerups/pokerRush_hazards_01.png"  alt="" class="mkt-pack-card-thumb">
+              </div>
+              <div class="mkt-item-amount">3-Pack</div>
+              <div class="mkt-item-label">Random Cards</div>
+              <div class="mkt-item-price">$1.99</div>
+              <button class="mkt-buy-btn" onclick="mktBuyPack(3)">Buy</button>
+            </div>
+            <div class="mkt-item mkt-featured">
+              <div class="mkt-badge">BEST VALUE</div>
+              <div class="mkt-pack-cards">
+                <img src="Powerups/pokerRush_powerups_01.png" alt="" class="mkt-pack-card-thumb">
+                <img src="Powerups/pokerRush_powerups_02.png" alt="" class="mkt-pack-card-thumb">
+                <img src="Powerups/pokerRush_powerups_04.png" alt="" class="mkt-pack-card-thumb">
+                <img src="Powerups/pokerRush_hazards_01.png"  alt="" class="mkt-pack-card-thumb">
+                <img src="Powerups/pokerRush_hazards_02.png"  alt="" class="mkt-pack-card-thumb">
+              </div>
+              <div class="mkt-item-amount">5-Pack</div>
+              <div class="mkt-item-label">Random Cards</div>
+              <div class="mkt-item-price">$2.99</div>
+              <button class="mkt-buy-btn" onclick="mktBuyPack(5)">Buy</button>
+            </div>
+            <div class="mkt-item">
+              <div class="mkt-pack-cards">
+                <img src="Powerups/pokerRush_powerups_01.png" alt="" class="mkt-pack-card-thumb">
+                <img src="Powerups/pokerRush_powerups_02.png" alt="" class="mkt-pack-card-thumb">
+                <img src="Powerups/pokerRush_powerups_03.png" alt="" class="mkt-pack-card-thumb">
+                <img src="Powerups/pokerRush_powerups_04.png" alt="" class="mkt-pack-card-thumb">
+                <img src="Powerups/pokerRush_hazards_01.png"  alt="" class="mkt-pack-card-thumb">
+                <img src="Powerups/pokerRush_hazards_02.png"  alt="" class="mkt-pack-card-thumb">
+              </div>
+              <div class="mkt-item-amount">10-Pack</div>
+              <div class="mkt-item-label">Random Cards</div>
+              <div class="mkt-item-price">$4.99</div>
+              <button class="mkt-buy-btn" onclick="mktBuyPack(10)">Buy</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
     <div class="mn-panel" id="mn-panel-settings">
       <div class="mn-coming-soon"><div class="cs-icon">⚙️</div><p>Settings — Coming Soon</p></div>
@@ -1505,6 +2171,17 @@ function startBGMusic() {
   bg.volume = 0.30;
   bg.play().catch(() => {});
 }
+function toggleBgMusic() {
+  const bg  = document.getElementById('bgMusic');
+  const btn = document.getElementById('bgMuteBtn');
+  if (bg.muted) {
+    bg.muted = false;
+    btn.textContent = '🔊';
+  } else {
+    bg.muted = true;
+    btn.textContent = '🔇';
+  }
+}
 // Start music on first interaction with the welcome screen
 (function() {
   function _onFirstInteraction() {
@@ -1709,14 +2386,14 @@ const RACERS = [
   { id:'bot3',   name:'AceX',    initials:'AX', isPlayer:false, laneFraction:0.63 },
 ];
 
-// Six car image definitions — 4 are picked at random each race
+// Six car image definitions — player picks one; bots take random remaining
 const CAR_DEFS = [
-  { file:'Cars/pokerRush_car_red.png',    color:'#e94560', grad:'linear-gradient(135deg,#b91c1c,#e94560)' },
-  { file:'Cars/pokerRush_car_blue.png',   color:'#3b82f6', grad:'linear-gradient(135deg,#1d4ed8,#3b82f6)' },
-  { file:'Cars/pokerRush_car_green.png',  color:'#10b981', grad:'linear-gradient(135deg,#065f46,#10b981)' },
-  { file:'Cars/pokerRush_car_orange.png', color:'#f59e0b', grad:'linear-gradient(135deg,#b45309,#f59e0b)' },
-  { file:'Cars/pokerRush_car_purple.png', color:'#8b5cf6', grad:'linear-gradient(135deg,#5b21b6,#8b5cf6)' },
-  { file:'Cars/pokerRush_car_yellow.png', color:'#eab308', grad:'linear-gradient(135deg,#854d0e,#eab308)' },
+  { file:'Cars/pokerRush_car_red.png',    color:'#e94560', grad:'linear-gradient(135deg,#b91c1c,#e94560)', name:'Blaze',   power:9, speed:6, endurance:5 },
+  { file:'Cars/pokerRush_car_blue.png',   color:'#3b82f6', grad:'linear-gradient(135deg,#1d4ed8,#3b82f6)', name:'Phantom', power:5, speed:9, endurance:6 },
+  { file:'Cars/pokerRush_car_green.png',  color:'#10b981', grad:'linear-gradient(135deg,#065f46,#10b981)', name:'Enduro',  power:5, speed:6, endurance:9 },
+  { file:'Cars/pokerRush_car_orange.png', color:'#f59e0b', grad:'linear-gradient(135deg,#b45309,#f59e0b)', name:'Rocket',  power:7, speed:8, endurance:5 },
+  { file:'Cars/pokerRush_car_purple.png', color:'#8b5cf6', grad:'linear-gradient(135deg,#5b21b6,#8b5cf6)', name:'Viper',   power:8, speed:7, endurance:5 },
+  { file:'Cars/pokerRush_car_yellow.png', color:'#eab308', grad:'linear-gradient(135deg,#854d0e,#eab308)', name:'Drifter', power:6, speed:7, endurance:7 },
 ];
 
 // Preload all six car images immediately
@@ -2092,12 +2769,115 @@ const CARD_POOL = [
       });
     },
   },
+  // ── Emoji-only cards: shop/profile only, not used in races ──
+  {
+    id:'pu5', type:'powerup', name:'Turbo Pack', emoji:'🚀',
+    desc:'Surges speed +15% for 3 seconds',
+    activate() {
+      const now = performance.now();
+      playerState.boostPct   = 15;
+      playerState.boostUntil = Math.max(playerState.boostUntil, now + 3000);
+    },
+  },
+  {
+    id:'pu6', type:'powerup', name:'Lucky Dice', emoji:'🎲',
+    desc:'Random 15–35% speed boost for 2 seconds',
+    activate() {
+      const now = performance.now();
+      playerState.boostPct   = 15 + Math.floor(Math.random() * 21);
+      playerState.boostUntil = Math.max(playerState.boostUntil, now + 2000);
+    },
+  },
+  {
+    id:'pu7', type:'powerup', name:'Draft Surge', emoji:'💨',
+    desc:'Steady +8% speed boost for 6 seconds',
+    activate() {
+      const now = performance.now();
+      playerState.boostPct   = 8;
+      playerState.boostUntil = Math.max(playerState.boostUntil, now + 6000);
+    },
+  },
+  {
+    id:'pu8', type:'powerup', name:'Ace of Speed', emoji:'🃏',
+    desc:'Grants +12% speed for 4 seconds',
+    activate() {
+      const now = performance.now();
+      playerState.boostPct   = 12;
+      playerState.boostUntil = Math.max(playerState.boostUntil, now + 4000);
+    },
+  },
+  {
+    id:'hz3', type:'hazard', name:'Banana Peel', emoji:'🍌',
+    desc:'Slows a random opponent 15% for 4 seconds',
+    activate() {
+      const now  = performance.now();
+      const bots = racerState.filter(r => !r.isPlayer && !r.finishedAt);
+      if (!bots.length) return;
+      const t = bots[Math.floor(Math.random() * bots.length)];
+      t.debuffPct   = 15;
+      t.debuffUntil = now + 4000;
+    },
+  },
+  {
+    id:'hz4', type:'hazard', name:'Lightning Strike', emoji:'⚡',
+    desc:'Paralyzes the race leader for 2 seconds',
+    activate() {
+      const now    = performance.now();
+      const leader = racerState.filter(r => !r.isPlayer && !r.finishedAt)
+                               .sort((a, b) => b.distance - a.distance)[0];
+      if (!leader) return;
+      leader.debuffPct   = 90;
+      leader.debuffUntil = now + 2000;
+    },
+  },
+  {
+    id:'hz5', type:'hazard', name:'EMP Blast', emoji:'📡',
+    desc:'Slows all opponents 10% for 3 seconds',
+    activate() {
+      const now = performance.now();
+      racerState.filter(r => !r.isPlayer).forEach(r => {
+        r.debuffPct   = 10;
+        r.debuffUntil = now + 3000;
+      });
+    },
+  },
+  {
+    id:'hz6', type:'hazard', name:'Nail Strip', emoji:'🔩',
+    desc:'Drags all opponents down 4% for 10 seconds',
+    activate() {
+      const now = performance.now();
+      racerState.filter(r => !r.isPlayer).forEach(r => {
+        r.debuffPct   = 4;
+        r.debuffUntil = now + 10000;
+      });
+    },
+  },
 ];
+
+// Cards that can actually appear in a race hand (original 6 only)
+const RACE_CARD_POOL = CARD_POOL.filter(c => ['pu1','pu2','pu3','pu4','hz1','hz2'].includes(c.id));
 
 let equippedCards = [];  // 3 cards randomly dealt at race start
 let savedPowerup  = null; // won power-up card, injected into next race's deck
 let _puRewardCard = null; // temp ref during reward reveal
 let _puRewardDone = null; // callback after reward is claimed
+
+// ── Profile persistence ──
+let selectedCarIdx = Math.min(5, Math.max(0, parseInt(localStorage.getItem('pokerRush_car') || '0')));
+let profInventory  = JSON.parse(localStorage.getItem('pokerRush_inventory') || '[]');
+// Seed starter cards once per account
+if (!localStorage.getItem('pokerRush_inv_seeded')) {
+  profInventory = ['pu1', 'pu3', 'hz1', ...profInventory];
+  localStorage.setItem('pokerRush_inv_seeded', '1');
+}
+let profEquipped   = JSON.parse(localStorage.getItem('pokerRush_equipped')  || '[null,null,null]');
+let profStats      = JSON.parse(localStorage.getItem('pokerRush_stats')     || '{"played":0,"p1":0,"p2":0,"p3":0,"p4":0}');
+function profSave() {
+  localStorage.setItem('pokerRush_car',       selectedCarIdx);
+  localStorage.setItem('pokerRush_inventory', JSON.stringify(profInventory));
+  localStorage.setItem('pokerRush_equipped',  JSON.stringify(profEquipped));
+  localStorage.setItem('pokerRush_stats',     JSON.stringify(profStats));
+}
 
 const BOT_HANDS = [
   {name:'Royal Flush',     w:0.002, sp:20},
@@ -2155,6 +2935,7 @@ let phase          = 'idle';  // idle | deal | doubledown | mitigate
 let deck           = [];
 let hand           = [];
 let pendingDelta   = 0;
+let pendingChips   = 0;
 let ddAttempt      = 0;
 let doublePtsActive = false;
 let currentResult  = '';
@@ -2735,7 +3516,9 @@ function updateStandings() {
     // Active card thumbnails (filter out expired entries)
     const activeCards = (state._activeCards || []).filter(c => c.until > now);
     const thumbsHtml = activeCards.map(c =>
-      `<img class="standing-card-thumb${c.type === 'hazard' ? ' hazard' : ''}" src="${c.img}" alt="">`
+      c.img
+        ? `<img class="standing-card-thumb${c.type === 'hazard' ? ' hazard' : ''}" src="${c.img}" alt="">`
+        : `<div class="standing-card-thumb${c.type === 'hazard' ? ' hazard' : ''}" style="display:flex;align-items:center;justify-content:center;font-size:16px;">${c.emoji || '⚡'}</div>`
     ).join('');
 
     const row = document.createElement('div');
@@ -2811,6 +3594,83 @@ function updateRepDisplay() {
   localStorage.setItem('pokerRush_rep', repPoints);
 }
 
+const RACE_WIN_BONUS = 250000;
+
+function showRaceBonusOverlay(onDone) {
+  // Award chips immediately
+  chips += RACE_WIN_BONUS;
+  updateChipsDisplay();
+
+  const overlay = document.getElementById('raceBonusOverlay');
+  const inner   = document.getElementById('rbInner');
+  const amtEl   = document.getElementById('rbAmount');
+  const btn     = document.getElementById('rbCollectBtn');
+
+  // Reset state
+  inner.classList.remove('out');
+  amtEl.textContent = '+0';
+  btn.disabled = true;
+  void overlay.offsetWidth;
+  overlay.classList.add('show');
+
+  // Confetti burst
+  spawnRaceConfetti();
+
+  // Count-up: 0 → 250,000 over 2s, ease-out cubic
+  const dur   = 2000;
+  const start = performance.now();
+  (function tick(now) {
+    const t    = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    amtEl.textContent = '+' + Math.round(ease * RACE_WIN_BONUS).toLocaleString();
+    if (t < 1) { requestAnimationFrame(tick); return; }
+    amtEl.textContent = '+' + RACE_WIN_BONUS.toLocaleString();
+    // Enable collect 0.4s after counter finishes
+    setTimeout(() => { btn.disabled = false; }, 400);
+    // Second confetti burst when counter lands
+    spawnRaceConfetti();
+  })(performance.now());
+
+  window._rbOnDone = onDone;
+}
+
+function collectRaceBonus() {
+  playSoundUI('Audio/Speedup.mp3');
+  const overlay = document.getElementById('raceBonusOverlay');
+  const inner   = document.getElementById('rbInner');
+  inner.classList.add('out');
+  setTimeout(() => {
+    overlay.classList.remove('show');
+    inner.classList.remove('out');
+    if (window._rbOnDone) { const cb = window._rbOnDone; window._rbOnDone = null; cb(); }
+  }, 380);
+}
+
+function spawnRaceConfetti() {
+  const colors = ['#f0a500','#fbbf24','#fde68a','#4ade80','#60a5fa','#f87171','#a78bfa','#ffffff','#34d399','#fb923c'];
+  const overlay = document.getElementById('raceBonusOverlay');
+  for (let i = 0; i < 90; i++) {
+    const p     = document.createElement('div');
+    p.className = 'rb-confetti';
+    const size  = 5 + Math.random() * 11;
+    const dur   = 2.2 + Math.random() * 2.2;
+    const delay = Math.random() * 0.9;
+    const dx    = (Math.random() - 0.5) * 350;
+    p.style.cssText = [
+      `left:${10 + Math.random() * 80}vw`,
+      `top:-20px`,
+      `width:${size}px`,
+      `height:${size * (0.35 + Math.random() * 0.9)}px`,
+      `background:${colors[i % colors.length]}`,
+      `border-radius:${Math.random() > 0.45 ? '50%' : '2px'}`,
+      `--cx:${dx}px`,
+      `animation: rbConfettiFall ${dur}s ${delay}s ease-in forwards`,
+    ].join(';');
+    overlay.appendChild(p);
+    setTimeout(() => p.remove(), (dur + delay) * 1000 + 100);
+  }
+}
+
 function showRaceRewardPopup(iconSrc, label, amount, onDone) {
   const popup  = document.getElementById('raceRewardPopup');
   const inner  = document.getElementById('rrpInner');
@@ -2881,7 +3741,17 @@ function showPuReward(card, onDone) {
 }
 
 function claimPuReward(equip) {
-  if (equip) savedPowerup = _puRewardCard;
+  if (_puRewardCard) {
+    // Always add to inventory
+    profInventory.push(_puRewardCard.id);
+    // "Equip Now" → also put it in the first open loadout slot
+    if (equip) {
+      const slot = profEquipped.indexOf(null);
+      if (slot !== -1) profEquipped[slot] = _puRewardCard.id;
+      else savedPowerup = _puRewardCard; // fallback: inject into next race if all slots full
+    }
+    profSave();
+  }
   document.getElementById('puRewardOverlay').style.display = 'none';
   _puRewardCard = null;
   if (_puRewardDone) { const cb = _puRewardDone; _puRewardDone = null; cb(); }
@@ -2911,18 +3781,25 @@ function updateHandHistory() {
 function getWinningCardIndices(hand, result) {
   if (!result || result === 'Loss') return [];
   const all = [0,1,2,3,4];
+  // Wild indices: Loose Deuces uses '2', Double Joker uses 'W'
+  const wilds = () => hand.map((c,i) => (c.rank==='W'||c.rank==='2') ? i : -1).filter(i=>i>=0);
+  const isWild = r => r==='W' || r==='2';
   // All five cards contribute
   if (['Royal Flush','Natural Royal Flush','Wild Royal Flush',
        'Straight Flush','Flush','Straight','Full House',
-       'Five of a Kind','Four Deuces','Four Aces+','Four 2-4+'].includes(result)) return all;
+       'Five of a Kind','Four Aces+','Four 2-4+'].includes(result)) return all;
+  // Four Deuces — only the four 2s, not the 5th card
+  if (result === 'Four Deuces') {
+    return hand.map((c,i) => c.rank==='2' ? i : -1).filter(i=>i>=0);
+  }
   // Four-of-a-kind variants (without bonus kicker)
   if (['Four of a Kind','Four Aces','Four 2-4','Four 5-K'].includes(result)) {
     const counts = {};
     hand.forEach((c,i) => { (counts[c.rank] = counts[c.rank]||[]).push(i); });
-    for (const idxs of Object.values(counts)) { if (idxs.length >= 4) return idxs.slice(0,4); }
-    const wilds = hand.map((c,i)=>c.rank==='W'?i:-1).filter(i=>i>=0);
+    for (const idxs of Object.values(counts)) { if (idxs.length>=4) return idxs.slice(0,4); }
+    const w = wilds();
     for (const [r,idxs] of Object.entries(counts)) {
-      if (r!=='W' && idxs.length+wilds.length>=4) return [...idxs,...wilds].slice(0,4);
+      if (!isWild(r) && idxs.length+w.length>=4) return [...idxs,...w].slice(0,4);
     }
     return all;
   }
@@ -2930,11 +3807,14 @@ function getWinningCardIndices(hand, result) {
   if (result === 'Three of a Kind') {
     const counts = {};
     hand.forEach((c,i) => { (counts[c.rank] = counts[c.rank]||[]).push(i); });
-    for (const idxs of Object.values(counts)) { if (idxs.length >= 3) return idxs.slice(0,3); }
-    const wilds = hand.map((c,i)=>c.rank==='W'?i:-1).filter(i=>i>=0);
+    for (const idxs of Object.values(counts)) { if (idxs.length>=3) return idxs.slice(0,3); }
+    const w = wilds();
+    // Pick natural rank with most cards, fill remainder with wilds
+    let best = null, bestLen = 0;
     for (const [r,idxs] of Object.entries(counts)) {
-      if (r!=='W' && idxs.length+wilds.length>=3) return [...idxs,...wilds].slice(0,3);
+      if (!isWild(r) && idxs.length > bestLen) { best = idxs; bestLen = idxs.length; }
     }
+    if (best) return [...best, ...w].slice(0,3);
     return all;
   }
   // Two Pair
@@ -3085,12 +3965,11 @@ function drawCards() {
     const chipMult   = payRow ? payRow.chips  : (HAND_CHIP_MULT[currentResult] ?? 0);
     const chipWin    = chipMult * BET_AMOUNT;
 
-    chips += chipWin;
-    updateChipsDisplay();
+    // Defer chip payment — DD will multiply or zero it before finishHand applies it
+    pendingChips = chipWin;
     showResultBadge(currentResult, speedDelta, chipWin);
     if (chipWin > 0) {
       playSoundUI('Audio/PokerChips.mp3');
-      showToast(`💰 +${chipWin.toLocaleString()} chips`, 4500, document.querySelector('.poker-main'));
     }
 
     // Apply double pts on wins
@@ -3166,10 +4045,11 @@ function resetDDModal() {
   document.getElementById('ddModal').classList.remove('wrong-flash');
   document.getElementById('ddResultText').classList.remove('show');
   document.getElementById('ddParticles').innerHTML = '';
-  document.getElementById('ddRedBtn').disabled    = false;
-  document.getElementById('ddBlackBtn').disabled  = false;
-  document.getElementById('ddCashoutBtn').disabled = false;
-  document.getElementById('ddAcceptBtn').disabled  = false;
+  ['ddRedBtn','ddBlackBtn','ddCashoutBtn','ddAcceptBtn'].forEach(id => {
+    const b = document.getElementById(id);
+    b.disabled = false;
+    b.classList.remove('dd-glow-selected','dd-glow-win','dd-glow-loss','dd-glow-cashout','dd-glow-accept');
+  });
   // Re-enable transition after reset is painted
   requestAnimationFrame(() => requestAnimationFrame(() => { inner.style.transition = ''; }));
 }
@@ -3190,14 +4070,18 @@ function showDDOverlay(isMitigate) {
   document.getElementById('ddStakeInfo').innerHTML = isMitigate
     ? `Current penalty: <span style="color:var(--red)">−2%</span> speed`
     : `Attempt <strong style="color:white">${ddAttempt+1}</strong>/3 &nbsp;·&nbsp; `
-      + `<span style="color:var(--teal)">+${pendingDelta}%</span> → `
-      + `<span style="color:#4ade80">+${pendingDelta*2}%</span>`;
+      + `<span style="color:var(--teal)">+${pendingDelta}% · +${pendingChips.toLocaleString()} chips</span> → `
+      + `<span style="color:#4ade80">+${pendingDelta*2}% · +${(pendingChips*2).toLocaleString()} chips</span>`;
   modal.classList.add('show');
 }
 
 function hideDDOverlay() {
   const modal = document.getElementById('ddModal');
   modal.classList.remove('show', 'wrong-flash');
+  ['ddRedBtn','ddBlackBtn','ddCashoutBtn','ddAcceptBtn'].forEach(id => {
+    const b = document.getElementById(id);
+    if (b) b.classList.remove('dd-glow-selected','dd-glow-win','dd-glow-loss','dd-glow-cashout','dd-glow-accept');
+  });
 }
 
 function setRevealFace(card) {
@@ -3240,6 +4124,9 @@ function ddGuess(guess) {
   document.getElementById('ddBlackBtn').disabled = true;
   document.getElementById('ddCashoutBtn').disabled = true;
   document.getElementById('ddAcceptBtn').disabled  = true;
+  // Glow the clicked button as selected immediately
+  const clickedBtn = document.getElementById(guess === 'red' ? 'ddRedBtn' : 'ddBlackBtn');
+  clickedBtn.classList.add('dd-glow-selected');
 
   const drawnCard  = shuffle(buildDeck())[0];
   const actualColor = isRed(drawnCard.suit) ? 'red' : 'black';
@@ -3261,6 +4148,10 @@ function ddGuess(guess) {
     const iconEl   = document.getElementById('ddResultIcon');
     const msgEl    = document.getElementById('ddResultMsg');
 
+    // Update button glow to win or loss colour
+    clickedBtn.classList.remove('dd-glow-selected');
+    clickedBtn.classList.add(won ? 'dd-glow-win' : 'dd-glow-loss');
+
     if (won) {
       playSoundUI('Audio/HandWin.mp3');
       revealEl.classList.add('correct-glow');
@@ -3270,7 +4161,7 @@ function ddGuess(guess) {
         msgEl.textContent = '−1.5% Speed';
         msgEl.style.color = '#4ade80';
       } else {
-        msgEl.textContent = `+${pendingDelta * 2}% Speed!`;
+        msgEl.textContent = `+${pendingDelta * 2}% Speed · +${(pendingChips * 2).toLocaleString()} chips!`;
         msgEl.style.color = '#4ade80';
       }
       spawnParticles(true);
@@ -3284,7 +4175,7 @@ function ddGuess(guess) {
       if (isMitigate) {
         msgEl.textContent = '−4.5% Speed';
       } else {
-        msgEl.textContent = 'Bonus Lost';
+        msgEl.textContent = 'Bonus Lost · 0 chips';
       }
       msgEl.style.color = '#f87171';
       spawnParticles(false);
@@ -3304,6 +4195,7 @@ function resolveDDGuess(won, isMitigate) {
   }
   if (won) {
     pendingDelta *= 2;
+    pendingChips *= 2;
     ddAttempt++;
     if (ddAttempt >= 3) {
       finishHand();
@@ -3316,26 +4208,82 @@ function resolveDDGuess(won, isMitigate) {
       document.getElementById('ddCashoutAmt').textContent   = pendingDelta;
       document.getElementById('ddStakeInfo').innerHTML =
         `Attempt <strong style="color:white">${ddAttempt+1}</strong>/3 &nbsp;·&nbsp; `
-        + `<span style="color:var(--teal)">+${pendingDelta}%</span> → `
-        + `<span style="color:#4ade80">+${pendingDelta*2}%</span>`;
+        + `<span style="color:var(--teal)">+${pendingDelta}% · +${pendingChips.toLocaleString()} chips</span> → `
+        + `<span style="color:#4ade80">+${pendingDelta*2}% · +${(pendingChips*2).toLocaleString()} chips</span>`;
     }
   } else {
     pendingDelta = 0;
+    pendingChips = 0;
     finishHand();
   }
 }
 
 function ddCashout() {
   playSoundUI('Audio/Speedup.mp3');
-  finishHand();
+  const btn = document.getElementById('ddCashoutBtn');
+  btn.classList.add('dd-glow-cashout');
+  setTimeout(finishHand, 350);
 }
 
 function ddAcceptPenalty() {
   playSoundUI('Audio/ButtonSelect.mp3');
-  finishHand();
+  const btn = document.getElementById('ddAcceptBtn');
+  btn.classList.add('dd-glow-accept');
+  setTimeout(finishHand, 350);
+}
+
+function spawnChipFly(amount) {
+  if (!amount) return;
+  const isWin  = amount > 0;
+  const color  = isWin ? '#4ade80' : '#f87171';
+  const shadow = isWin ? 'rgba(74,222,128,' : 'rgba(248,113,113,';
+  const label  = (isWin ? '+' : '') + Math.round(amount).toLocaleString();
+
+  // ── 1. Screen flash ──
+  const flash = document.createElement('div');
+  flash.className = 'chip-screen-flash';
+  flash.style.background = color;
+  document.body.appendChild(flash);
+  setTimeout(() => flash.remove(), 800);
+
+  // ── 2. Number above the bankroll ──
+  const chipsEl = document.getElementById('chipsDisplay');
+  if (!chipsEl) return;
+  const cr = chipsEl.getBoundingClientRect();
+
+  const el = document.createElement('div');
+  el.className   = 'chip-burst-text';
+  el.textContent = label;
+  el.style.color = color;
+  // Bottom of text sits 10px above the top edge of the bankroll
+  el.style.left = `${cr.left + cr.width / 2}px`;
+  el.style.top  = `${cr.top - 10}px`;
+  document.body.appendChild(el);
+
+  // ── 3. Bankroll pulse ──
+  chipsEl.style.transition = 'box-shadow 0.05s, background-color 0.05s';
+  chipsEl.style.boxShadow  = `0 0 0 4px ${shadow}0.95), 0 0 60px ${shadow}0.7)`;
+  chipsEl.style.backgroundColor = `${shadow}0.25)`;
+  setTimeout(() => {
+    chipsEl.style.transition = 'box-shadow 0.6s, background-color 0.6s';
+    chipsEl.style.boxShadow  = '';
+    chipsEl.style.backgroundColor = '';
+  }, 220);
+
+  setTimeout(() => el.remove(), 1500);
 }
 
 function finishHand() {
+  // Apply final chip result (DD may have multiplied or zeroed pendingChips)
+  if (pendingChips > 0) {
+    chips += pendingChips;
+    updateChipsDisplay();
+    spawnChipFly(pendingChips);
+    showToast(`💰 +${pendingChips.toLocaleString()} chips`, 4500, document.querySelector('.poker-main'));
+  } else {
+    spawnChipFly(-BET_AMOUNT);
+  }
+  pendingChips = 0;
   hideDDOverlay();
   applySpeedDelta(playerState, pendingDelta);
   handHistory.push({ label: SHORT[currentResult] || currentResult, delta: parseFloat(pendingDelta.toFixed(1)) });
@@ -3372,21 +4320,30 @@ function updatePuCount() {
 }
 
 function dealPowerupCards() {
-  // Pick 3 random unique cards from the pool; inject savedPowerup as first slot if set
-  const pool = savedPowerup
-    ? [...CARD_POOL].filter(c => c.id !== savedPowerup.id)
-    : [...CARD_POOL];
-  const shuffled = pool.sort(() => Math.random() - 0.5);
-  equippedCards = savedPowerup
-    ? [savedPowerup, ...shuffled.slice(0, 2)]
-    : shuffled.slice(0, 3);
+  // Use profEquipped loadout — but only race-valid cards (original 6)
+  const equipped = profEquipped
+    .map(id => id ? RACE_CARD_POOL.find(c => c.id === id) : null)
+    .filter(Boolean);
+  if (equipped.length > 0) {
+    // Fill remaining slots from RACE_CARD_POOL
+    const usedIds = new Set(equipped.map(c => c.id));
+    const extras  = [...RACE_CARD_POOL].filter(c => !usedIds.has(c.id)).sort(() => Math.random() - 0.5);
+    equippedCards = [...equipped, ...extras].slice(0, 3);
+  } else if (savedPowerup) {
+    const pool = [...RACE_CARD_POOL].filter(c => c.id !== savedPowerup.id).sort(() => Math.random() - 0.5);
+    equippedCards = [savedPowerup, ...pool.slice(0, 2)];
+  } else {
+    equippedCards = [...RACE_CARD_POOL].sort(() => Math.random() - 0.5).slice(0, 3);
+  }
   savedPowerup = null; // consumed
   puUsed = [false, false, false];
 
   const panel = document.getElementById('powerupPanel');
   panel.innerHTML = equippedCards.map((card, i) => `
     <div class="powerup-slot type-${card.type}" id="pu${i}">
-      <img class="pu-img" src="${card.img}" alt="${card.name}">
+      ${card.img
+        ? `<img class="pu-img" src="${card.img}" alt="${card.name}">`
+        : `<div class="pu-img" style="display:flex;align-items:center;justify-content:center;font-size:48px;">${card.emoji || '?'}</div>`}
       <div class="pu-footer">
         <div class="pu-name">${card.name}</div>
         <div class="pu-desc">${card.desc}</div>
@@ -3414,12 +4371,12 @@ function activatePowerup(idx) {
   if (card.type === 'powerup') {
     if (playerState.boostUntil > performance.now()) {
       if (!playerState._activeCards) playerState._activeCards = [];
-      playerState._activeCards.push({ img: card.img, type: 'boost', until: playerState.boostUntil });
+      playerState._activeCards.push({ img: card.img, emoji: card.emoji, type: 'boost', until: playerState.boostUntil });
     }
   } else {
     racerState.filter(r => !r.isPlayer).forEach(r => {
       if (!r._activeCards) r._activeCards = [];
-      r._activeCards.push({ img: card.img, type: 'hazard', until: r.debuffUntil });
+      r._activeCards.push({ img: card.img, emoji: card.emoji, type: 'hazard', until: r.debuffUntil });
     });
   }
 
@@ -3520,14 +4477,22 @@ function endRace() {
   repPoints      += repEarned;
   updateRepDisplay();
 
+  // Track race stats
+  profStats.played = (profStats.played || 0) + 1;
+  profStats[`p${plPos}`] = (profStats[`p${plPos}`] || 0) + 1;
+  profSave();
+
   const net = chips - startChips;
 
-  // Determine post-rep callback: 1st place gets a power-up reward reveal
+  // Determine post-rep callback
   const afterRep = () => {
     if (plPos === 1) {
-      const puPool = CARD_POOL.filter(c => c.type === 'powerup');
-      const wonCard = puPool[Math.floor(Math.random() * puPool.length)];
-      showPuReward(wonCard, () => showRaceSummary(sorted, plPos, net, repRow));
+      // 1st place: chip bonus → power-up reward → race summary
+      showRaceBonusOverlay(() => {
+        const puPool  = CARD_POOL.filter(c => c.type === 'powerup');
+        const wonCard = puPool[Math.floor(Math.random() * puPool.length)];
+        showPuReward(wonCard, () => showRaceSummary(sorted, plPos, net, repRow));
+      });
     } else {
       showRaceSummary(sorted, plPos, net, repRow);
     }
@@ -3652,9 +4617,12 @@ function gameLoop(now) {
 // CAR ASSIGNMENT
 // ─────────────────────────────────────────────
 function pickCarImages() {
-  const shuffled = [...CAR_DEFS].sort(() => Math.random() - 0.5).slice(0, 4);
+  // Player always gets their chosen car; bots get random picks from the rest
+  const playerDef  = CAR_DEFS[selectedCarIdx];
+  const botPool    = CAR_DEFS.filter((_, i) => i !== selectedCarIdx)
+                              .sort(() => Math.random() - 0.5);
   racerState.forEach((state, i) => {
-    const def = shuffled[i];
+    const def = state.isPlayer ? playerDef : botPool[i - 1] || botPool[0];
     state.carImg = carImgCache[def.file];
     state.color  = def.color;
     state.grad   = def.grad;
@@ -3701,12 +4669,195 @@ function forfeitRace() {
   endRace();
 }
 
+function mktBuyChips(amount, price) {
+  chips += amount;
+  updateChipsDisplay();
+  showToast(`✅ ${amount.toLocaleString()} chips added! (${price})`, 3500);
+}
+
+function mktBuyCard(cardId) {
+  const card = CARD_POOL.find(c => c.id === cardId);
+  if (!card) return;
+  savedPowerup = card;
+  showToast(`✅ ${card.name} equipped for your next race!`, 3500);
+}
+
+function mktBuyPack(count) {
+  const shuffled = [...CARD_POOL].sort(() => Math.random() - 0.5);
+  savedPowerup = shuffled[0]; // equip first card of the pack
+  showToast(`✅ ${count}-Pack purchased! ${shuffled.slice(0,count).map(c=>c.name).join(', ')}`, 4000);
+}
+
+// ─────────────────────────────────────────────
+// PLAYER PROFILE TAB
+// ─────────────────────────────────────────────
+function initProfileTab() {
+  // ── Info / Stats ──
+  const name = localStorage.getItem(PLAYER_NAME_KEY) || 'You';
+  const initials = makeInitials(name);
+  document.getElementById('profAvatar').textContent = initials;
+  document.getElementById('profPlayerName').textContent = name;
+  document.getElementById('profChips').textContent = chips.toLocaleString();
+  document.getElementById('profRep').textContent   = repPoints.toLocaleString();
+
+  const played = profStats.played || 0;
+  const wins   = profStats.p1 || 0;
+  let best = '—';
+  for (let p = 1; p <= 4; p++) { if ((profStats[`p${p}`] || 0) > 0) { best = `${p}${['st','nd','rd','th'][p-1]}`; break; } }
+  document.getElementById('profStatPlayed').textContent  = played;
+  document.getElementById('profStatWins').textContent    = wins;
+  document.getElementById('profStatWinRate').textContent = played > 0 ? Math.round(wins / played * 100) + '%' : '—';
+  document.getElementById('profStatBest').textContent    = best;
+
+  // ── Car Selector ──
+  profRenderCar();
+
+  // ── Equipped + Inventory ──
+  profRenderEquipped();
+  profRenderInventory();
+
+  // ── Shop ──
+  profRenderShop();
+}
+
+function profRenderCar() {
+  const def = CAR_DEFS[selectedCarIdx];
+  document.getElementById('profCarImg').src  = def.file;
+  document.getElementById('profCarName').textContent = def.name;
+  document.getElementById('profCarName').style.color = def.color;
+  const maxStat = 9;
+  document.getElementById('profCarStats').innerHTML = [
+    { label:'Power',     val: def.power,     cls:'power'     },
+    { label:'Speed',     val: def.speed,     cls:'speed'     },
+    { label:'Endurance', val: def.endurance, cls:'endurance' },
+  ].map(s => `
+    <div class="prof-car-stat-row">
+      <div class="prof-car-stat-label">${s.label}</div>
+      <div class="prof-car-stat-track">
+        <div class="prof-car-stat-fill ${s.cls}" style="width:${Math.round(s.val/maxStat*100)}%"></div>
+      </div>
+      <div class="prof-car-stat-val">${s.val}</div>
+    </div>`).join('');
+}
+
+function profCarNav(dir) {
+  selectedCarIdx = (selectedCarIdx + dir + CAR_DEFS.length) % CAR_DEFS.length;
+  profSave();
+  profRenderCar();
+}
+
+function profRenderEquipped() {
+  const row = document.getElementById('profEquipRow');
+  row.innerHTML = [0,1,2].map(i => {
+    const id   = profEquipped[i];
+    const card = id ? CARD_POOL.find(c => c.id === id) : null;
+    if (card) {
+      const thumb = card.img
+        ? `<img class="prof-equip-slot-img" src="${card.img}" alt="${card.name}">`
+        : `<div class="prof-equip-slot-emoji">${card.emoji || '?'}</div>`;
+      return `<div class="prof-equip-slot filled" title="${card.name} — click to unequip">
+        ${thumb}
+        <button class="prof-equip-slot-rm" onclick="profUnequip(${i})">✕</button>
+      </div>`;
+    }
+    return `<div class="prof-equip-slot">
+      <div class="prof-equip-empty-lbl">Slot ${i+1}<br>Empty</div>
+    </div>`;
+  }).join('');
+}
+
+function profUnequip(slotIdx) {
+  profEquipped[slotIdx] = null;
+  profSave();
+  profRenderEquipped();
+}
+
+function profRenderInventory() {
+  const grid = document.getElementById('profInvGrid');
+  if (!profInventory.length) {
+    grid.innerHTML = '<div class="prof-inv-empty">No cards yet.<br>Win races or visit the shop!</div>';
+    return;
+  }
+  // Collapse duplicates
+  const counts = {};
+  profInventory.forEach(id => { counts[id] = (counts[id] || 0) + 1; });
+  grid.innerHTML = Object.entries(counts).map(([id, cnt]) => {
+    const card = CARD_POOL.find(c => c.id === id);
+    if (!card) return '';
+    const thumb = card.img
+      ? `<img class="prof-inv-card-img" src="${card.img}" alt="${card.name}">`
+      : `<div class="prof-inv-card-emoji">${card.emoji || '?'}</div>`;
+    const countBadge = cnt > 1 ? `<div class="prof-inv-card-count">${cnt}</div>` : '';
+    const isRaceCard = !!RACE_CARD_POOL.find(c => c.id === id);
+    const collectibleTag = !isRaceCard ? `<div style="font-size:7px;color:var(--muted);letter-spacing:0.5px;">COLLECTIBLE</div>` : '';
+    return `<div class="prof-inv-card type-${card.type}" onclick="profEquipCard('${id}')" title="${card.name}: ${card.desc}${!isRaceCard ? ' (collectible only)' : ''}">
+      ${countBadge}${thumb}
+      <div class="prof-inv-card-name">${card.name}</div>
+      ${collectibleTag}
+    </div>`;
+  }).join('');
+}
+
+function profEquipCard(id) {
+  // Only original 6 race cards can be equipped
+  if (!RACE_CARD_POOL.find(c => c.id === id)) {
+    showToast('🔒 Collectible only — not available for races yet.', 2500);
+    return;
+  }
+  const slot = profEquipped.indexOf(null);
+  if (slot === -1) { showToast('All 3 slots are filled! Unequip a card first.', 2500); return; }
+  const idx = profInventory.indexOf(id);
+  if (idx === -1) { showToast('You don\'t own this card!', 2000); return; }
+  profEquipped[slot] = id;
+  profSave();
+  profRenderEquipped();
+  profRenderInventory();
+  showToast(`✅ ${CARD_POOL.find(c=>c.id===id)?.name} equipped in slot ${slot+1}`, 2000);
+}
+
+function profRenderShop() {
+  const body = document.getElementById('profShopBody');
+  body.innerHTML = CARD_POOL.map(card => {
+    const isRaceCard = !!RACE_CARD_POOL.find(c => c.id === card.id);
+    return `<div class="prof-shop-card type-${card.type}">
+      <div class="prof-shop-icon">${card.img ? `<img src="${card.img}" alt="">` : (card.emoji || '?')}</div>
+      <div class="prof-shop-body">
+        <div class="prof-shop-name">${card.name}</div>
+        <div class="prof-shop-desc">${card.desc}</div>
+        <span class="prof-shop-tag ${card.type}">${card.type === 'hazard' ? 'Hazard' : 'Power-Up'}</span>
+        ${!isRaceCard ? `<span style="font-size:7px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-left:5px;">Collectible</span>` : ''}
+      </div>
+      <div class="prof-shop-actions">
+        <button class="prof-shop-btn chips-btn" onclick="profBuyWithChips('${card.id}')">
+          <img src="UI assets/pokerRush_UI_chipIcon01.png" style="height:1.2em;vertical-align:middle;"> 250
+        </button>
+        <button class="prof-shop-btn market-btn" onclick="mnShowPanel('marketplace')">Marketplace</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function profBuyWithChips(cardId) {
+  const card = CARD_POOL.find(c => c.id === cardId);
+  if (!card) return;
+  if (chips < 250) { showToast('Not enough chips! (need 250)', 2500); return; }
+  chips -= 250;
+  updateChipsDisplay();
+  profInventory.push(cardId);
+  profSave();
+  profRenderInventory();
+  document.getElementById('profChips').textContent = chips.toLocaleString();
+  showToast(`✅ ${card.name} added to inventory!`, 2500);
+}
+
+// ─────────────────────────────────────────────
 function mnShowPanel(panel) {
   document.querySelectorAll('.mn-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.mn-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('mn-panel-' + panel).classList.add('active');
   const tab = document.querySelector(`.mn-tab[data-panel="${panel}"]`);
   if (tab) tab.classList.add('active');
+  if (panel === 'profile') initProfileTab();
 }
 
 // ─── Track selection flow ───
