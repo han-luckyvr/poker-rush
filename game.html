@@ -251,18 +251,28 @@ body { display: block; }
   background: rgba(15,25,50,0.25);
 }
 .poker-panel-hdr {
+<<<<<<< profileMarketplaceUpdate
   display: flex; align-items: center; gap: 14px;
   padding: 18px 22px;
+=======
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 14px;
+>>>>>>> main
   background: rgba(0,0,0,0.3);
   border-bottom: 1px solid rgba(255,255,255,0.08);
-  flex-shrink: 0;
+  flex-shrink: 0; flex-grow: 0; height: 40px; box-sizing: border-box; overflow: visible;
 }
 .poker-title {
   font-size: 38px; font-weight: 900; color: var(--gold);
   letter-spacing: 1px; text-transform: uppercase; white-space: nowrap;
 }
 .chips-display {
+<<<<<<< profileMarketplaceUpdate
   font-size: 26px; color: var(--gold);
+=======
+  font-size: 13px; color: var(--gold); flex-shrink: 0;
+  display: flex; align-items: center; gap: 5px;
+>>>>>>> main
   background: rgba(240,165,0,0.1); border: 1px solid rgba(240,165,0,0.25);
   border-radius: 8px; padding: 6px 16px;
   display: flex; align-items: center; gap: 8px;
@@ -361,20 +371,20 @@ body { display: block; }
 }
 #toast.show { opacity: 1; }
 .hand-result-area {
-  margin-left: auto; text-align: right;
-  display: flex; flex-direction: column; align-items: flex-end; gap: 1px;
+  margin-left: auto;
+  display: flex; flex-direction: row; align-items: center; gap: 6px;
 }
 .hand-result-badge {
-  display: inline-block; font-size: 12px; font-weight: 700;
-  padding: 2px 8px; border-radius: 5px;
+  display: inline-block; font-size: 12px; font-weight: 700; line-height: 1.4;
+  padding: 2px 8px; border-radius: 5px; min-width: 60px;
   background: rgba(39,174,96,0.2); border: 1px solid rgba(39,174,96,0.4); color: var(--green);
-  opacity: 0; transition: opacity 0.3s;
+  opacity: 0; transition: opacity 0.3s; white-space: nowrap;
 }
 .hand-result-badge.loss { background: rgba(233,69,96,0.2); border-color: rgba(233,69,96,0.4); color: var(--red); }
 .hand-result-badge.show { opacity: 1; }
-.speed-change-text { font-size: 11px; margin-top: 2px; opacity: 0; transition: opacity 0.3s; }
+.speed-change-text { font-size: 11px; line-height: 1.4; min-width: 48px; opacity: 0; transition: opacity 0.3s; white-space: nowrap; }
 .speed-change-text.show { opacity: 1; }
-.chips-win-text { font-size: 10px; color: var(--muted); opacity: 0; transition: opacity 0.3s; }
+.chips-win-text { font-size: 11px; line-height: 1.4; min-width: 48px; color: var(--muted); opacity: 0; transition: opacity 0.3s; white-space: nowrap; }
 .chips-win-text.show { opacity: 1; }
 
 /* ===== DOUBLE DOWN MODAL ===== */
@@ -384,7 +394,7 @@ body { display: block; }
   overflow: hidden;
   backdrop-filter: blur(7px);
   display: none; flex-direction: column; align-items: center;
-  justify-content: center; gap: 18px; padding: 20px 40px;
+  justify-content: center; gap: 8px; padding: 8px 40px 12px;
 }
 .dd-modal.show { display: flex; animation: ddIn 0.18s ease-out; }
 @keyframes ddIn { from { opacity:0; transform:scale(0.97); } to { opacity:1; transform:scale(1); } }
@@ -395,19 +405,19 @@ body { display: block; }
   100% { background: rgba(6,11,22,0.92); }
 }
 .dd-modal-title {
-  font-size: 32px; font-weight: 900; text-transform: uppercase;
-  letter-spacing: 5px; color: var(--gold);
+  font-size: 24px; font-weight: 900; text-transform: uppercase;
+  letter-spacing: 4px; color: var(--gold);
   text-shadow: 0 0 24px rgba(240,165,0,0.45);
 }
 .dd-modal-title.mit { color: var(--red); text-shadow: 0 0 24px rgba(233,69,96,0.45); }
-.dd-modal-sub { font-size: 14px; color: var(--muted); text-align: center; margin-top: -8px; }
+.dd-modal-sub { font-size: 13px; color: var(--muted); text-align: center; margin-top: -4px; }
 
 /* Flip card */
 .dd-card-area {
   position: relative;
   display: flex; align-items: center; justify-content: center;
 }
-.dd-flip-wrap { perspective: 1400px; width: 164px; height: 232px; }
+.dd-flip-wrap { perspective: 1400px; width: 120px; height: 170px; }
 .dd-flip-inner {
   width: 100%; height: 100%;
   transform-style: preserve-3d;
@@ -435,7 +445,7 @@ body { display: block; }
   );
 }
 .dd-mystery-q {
-  font-size: 80px; font-weight: 900; color: rgba(255,255,255,0.32); z-index: 1;
+  font-size: 56px; font-weight: 900; color: rgba(255,255,255,0.32); z-index: 1;
   text-shadow: 0 0 36px rgba(255,255,255,0.18);
   animation: qPulse 1.6s ease-in-out infinite;
 }
@@ -449,9 +459,9 @@ body { display: block; }
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
 }
-.dd-rev-tl { position: absolute; top:10px; left:12px; font-weight:800; font-size:26px; line-height:1.1; color:#111; }
-.dd-rev-br { position: absolute; bottom:10px; right:12px; font-weight:800; font-size:26px; line-height:1.1; color:#111; transform:rotate(180deg); }
-.dd-rev-center { font-size: 60px; line-height: 1; color: #111; }
+.dd-rev-tl { position: absolute; top:6px; left:8px; font-weight:800; font-size:18px; line-height:1.1; color:#111; }
+.dd-rev-br { position: absolute; bottom:6px; right:8px; font-weight:800; font-size:18px; line-height:1.1; color:#111; transform:rotate(180deg); }
+.dd-rev-center { font-size: 42px; line-height: 1; color: #111; }
 .dd-rev-tl.red, .dd-rev-br.red, .dd-rev-center.red { color: #dc2626; }
 
 /* VFX */
@@ -489,8 +499,8 @@ body { display: block; }
   65%  { opacity:1; transform: translate(-50%,-50%) scale(1.12); }
   100% { opacity:1; transform: translate(-50%,-50%) scale(1); }
 }
-.dd-result-icon { font-size: 60px; font-weight: 900; line-height: 1; }
-.dd-result-msg  { font-size: 20px; font-weight: 800; margin-top: 4px; white-space: nowrap; letter-spacing: 1px; }
+.dd-result-icon { font-size: 38px; font-weight: 900; line-height: 1; }
+.dd-result-msg  { font-size: 14px; font-weight: 800; margin-top: 2px; white-space: nowrap; letter-spacing: 1px; }
 
 /* Particles */
 .dd-particles { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
@@ -506,14 +516,14 @@ body { display: block; }
 /* Stake info & buttons */
 .dd-stake-info { font-size: 14px; color: var(--muted); text-align: center; }
 .dd-hand-name {
-  font-size: 22px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--gold); text-align: center; margin: 4px 0 12px;
+  font-size: 18px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold); text-align: center; margin: 2px 0 4px;
 }
-.dd-buttons { display: flex; gap: 20px; align-items: center; justify-content: center; }
+.dd-buttons { display: flex; gap: 12px; align-items: center; justify-content: center; }
 .dd-choice-btn {
-  width: 176px; height: 120px; border-radius: 20px; border: 2px solid;
+  width: 140px; height: 78px; border-radius: 16px; border: 2px solid;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 6px; cursor: pointer; transition: all 0.13s; font-weight: 800;
+  gap: 2px; cursor: pointer; transition: all 0.13s; font-weight: 800;
 }
 .dd-choice-btn:hover:not(:disabled) { transform: translateY(-2px); }
 .dd-choice-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
@@ -521,22 +531,22 @@ body { display: block; }
 .dd-red-btn:hover:not(:disabled)  { background: rgba(220,38,38,0.28); box-shadow: 0 4px 16px rgba(220,38,38,0.3); }
 .dd-black-btn { background: rgba(15,25,45,0.8); border-color: rgba(100,116,139,0.44); color: #cbd5e1; }
 .dd-black-btn:hover:not(:disabled) { background: rgba(15,25,45,1); box-shadow: 0 4px 16px rgba(0,0,0,0.45); }
-.dd-btn-icon  { font-size: 40px; line-height: 1; }
-.dd-btn-label { font-size: 16px; letter-spacing: 2px; }
-.dd-btn-sub { font-size: 20px; font-weight: 900; letter-spacing: 1px; opacity: 0.9; }
+.dd-btn-icon  { font-size: 28px; line-height: 1; }
+.dd-btn-label { font-size: 13px; letter-spacing: 1.5px; }
+.dd-btn-sub { font-size: 15px; font-weight: 900; letter-spacing: 1px; opacity: 0.9; }
 .dd-cashout-btn {
   background: rgba(240,165,0,0.12); border: 2px solid rgba(240,165,0,0.44);
-  color: var(--gold); border-radius: 20px; width: 176px; height: 120px;
+  color: var(--gold); border-radius: 16px; width: 140px; height: 78px;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 6px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.13s;
+  gap: 4px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.13s;
 }
 .dd-cashout-btn:hover { background: rgba(240,165,0,0.22); }
 .dd-cashout-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .dd-accept-btn {
   background: rgba(233,69,96,0.1); border: 2px solid rgba(233,69,96,0.44);
-  color: var(--red); border-radius: 20px; width: 176px; height: 120px;
+  color: var(--red); border-radius: 16px; width: 140px; height: 78px;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 6px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.13s;
+  gap: 4px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.13s;
 }
 .dd-accept-btn:hover { background: rgba(233,69,96,0.22); }
 .dd-accept-btn:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -545,6 +555,7 @@ body { display: block; }
 .poker-content {
   flex: 1; display: flex; flex-direction: column;
   justify-content: center; min-height: 0; overflow: visible;
+  padding-top: 10px;
   background: url('UI assets/pokerRush_tableFelt.png') no-repeat center center;
   background-size: cover; position: relative;
 }
@@ -645,7 +656,7 @@ body { display: block; }
   padding: 2px 12px; border-radius: 6px 6px 0 0; letter-spacing: 0.5px;
 }
 
-.action-btn-row { display: flex; justify-content: center; margin-top: 41px; flex-shrink: 0; }
+.action-btn-row { display: flex; justify-content: center; margin-top: 12px; flex-shrink: 0; }
 #mainActionBtn {
   background: none; border: none; padding: 0;
   cursor: pointer; transition: opacity 0.2s, transform 0.1s;
@@ -1995,8 +2006,8 @@ body { display: block; }
   <div class="poker-main">
     <div class="poker-panel-hdr">
       <div class="poker-title" id="pokerTitle">VIDEO POKER</div>
-      <div class="chips-display" id="chipsDisplay"><img src="UI assets/pokerRush_UI_chipIcon01.png" style="height:14px;vertical-align:middle;margin-right:5px;"><span id="chipsAmount">10,000</span></div>
-      <div class="chips-display rep-display" id="pokerRepDisplay"><img src="UI assets/pokerRush_UI_repPointIcon.png" style="height:14px;vertical-align:middle;margin-right:5px;"><span id="pokerRepAmount">250</span></div>
+      <div class="chips-display" id="chipsDisplay"><img src="UI assets/pokerRush_UI_chipIcon01.png" style="height:14px;display:block;"><span id="chipsAmount">10,000</span></div>
+      <div class="chips-display rep-display" id="pokerRepDisplay"><img src="UI assets/pokerRush_UI_repPointIcon.png" style="height:14px;display:block;"><span id="pokerRepAmount">250</span></div>
       <div class="player-name-badge" id="playerNameBadge"></div>
       <div class="hand-result-area">
         <div class="hand-result-badge" id="handResultBadge"></div>
@@ -2411,7 +2422,7 @@ logoImg.src = 'Logos/pokerRush_logo_ design01b.png';
 const HAND_SPEED_PCT = {
   'Royal Flush':20, 'Straight Flush':16, 'Four of a Kind':14,
   'Full House':12, 'Flush':10, 'Straight':8, 'Three of a Kind':6,
-  'Two Pair':4, 'Jacks or Better':2, 'Loss':-2
+  'Two Pair':4, 'Jacks or Better':2, 'Loss':-1
 };
 const HAND_CHIP_MULT = {
   'Royal Flush':800, 'Straight Flush':50, 'Four of a Kind':25,
@@ -2438,17 +2449,33 @@ const VARIANTS = {
       { hand:'Royal Flush',    label:'Royal Flush',     chips:800, speed:20 },
       { hand:'Straight Flush', label:'Str. Flush',      chips:50,  speed:16 },
       { hand:'Four Aces+',     label:'4 Aces + 2/3/4',  chips:800, speed:14 },
-      { hand:'Four Aces',      label:'4 Aces',          chips:400, speed:14 },
-      { hand:'Four 2-4+',      label:'4 2s-4s + A-4',   chips:160, speed:14 },
+      { hand:'Four Aces',      label:'4 Aces',          chips:160, speed:14 },
+      { hand:'Four 2-4+',      label:'4 2s-4s + A-4',   chips:400, speed:14 },
       { hand:'Four 2-4',       label:'4 2s-4s',         chips:80,  speed:14 },
       { hand:'Four 5-K',       label:'4 5s-Ks',         chips:50,  speed:14 },
       { hand:'Full House',     label:'Full House',      chips:9,   speed:12 },
       { hand:'Flush',          label:'Flush',           chips:6,   speed:10 },
       { hand:'Straight',       label:'Straight',        chips:4,   speed:8  },
-      { hand:'Three of a Kind',label:'Three of a Kind', chips:3,   speed:6  },
+      { hand:'Three of a Kind',label:'Three of a Kind', chips:2,   speed:6  },
       { hand:'Two Pair',       label:'Two Pair',        chips:1,   speed:4  },
       { hand:'Jacks or Better',label:'Jacks or Better', chips:1,   speed:2  },
-      { hand:'Loss',           label:'Loss',            chips:0,   speed:-2 },
+      { hand:'Loss',           label:'Loss',            chips:0,   speed:-1 },
+    ],
+    botHands: [
+      {hand:'Royal Flush',     w:0.0025},
+      {hand:'Straight Flush',  w:0.011},
+      {hand:'Four Aces+',      w:0.006},
+      {hand:'Four Aces',       w:0.014},
+      {hand:'Four 2-4+',       w:0.022},
+      {hand:'Four 2-4',        w:0.038},
+      {hand:'Four 5-K',        w:0.173},
+      {hand:'Full House',      w:1.151},
+      {hand:'Flush',           w:1.101},
+      {hand:'Straight',        w:1.123},
+      {hand:'Three of a Kind', w:7.445},
+      {hand:'Two Pair',        w:12.928},
+      {hand:'Jacks or Better', w:21.459},
+      {hand:'Loss',            w:54.543},
     ],
   },
   'All American': {
@@ -2464,7 +2491,19 @@ const VARIANTS = {
       { hand:'Three of a Kind',label:'Three of a Kind', chips:3,   speed:6  },
       { hand:'Two Pair',       label:'Two Pair',        chips:1,   speed:4  },
       { hand:'Jacks or Better',label:'Jacks or Better', chips:1,   speed:2  },
-      { hand:'Loss',           label:'Loss',            chips:0,   speed:-2 },
+      { hand:'Loss',           label:'Loss',            chips:0,   speed:-1 },
+    ],
+    botHands: [
+      {hand:'Royal Flush',     w:0.0025},
+      {hand:'Straight Flush',  w:0.011},
+      {hand:'Four of a Kind',  w:0.236},
+      {hand:'Full House',      w:1.151},
+      {hand:'Flush',           w:1.101},
+      {hand:'Straight',        w:1.123},
+      {hand:'Three of a Kind', w:7.445},
+      {hand:'Two Pair',        w:12.928},
+      {hand:'Jacks or Better', w:21.459},
+      {hand:'Loss',            w:54.543},
     ],
   },
   'Loose Deuces': {
@@ -2472,16 +2511,29 @@ const VARIANTS = {
     headerImg: 'Game type headers/pokerRush_UI_looseDeucesPoker_header.png',
     payRows: [
       { hand:'Natural Royal Flush', label:'Natural Royal',    chips:800, speed:20 },
-      { hand:'Four Deuces',         label:'Four Deuces',      chips:200, speed:20 },
+      { hand:'Four Deuces',         label:'Four Deuces',      chips:500, speed:20 },
       { hand:'Wild Royal Flush',    label:'Wild Royal',       chips:25,  speed:16 },
       { hand:'Five of a Kind',      label:'Five of a Kind',   chips:15,  speed:14 },
       { hand:'Straight Flush',      label:'Str. Flush',       chips:9,   speed:12 },
-      { hand:'Four of a Kind',      label:'4 of a Kind',      chips:5,   speed:10 },
+      { hand:'Four of a Kind',      label:'4 of a Kind',      chips:4,   speed:10 },
       { hand:'Full House',          label:'Full House',       chips:3,   speed:8  },
       { hand:'Flush',               label:'Flush',            chips:2,   speed:6  },
       { hand:'Straight',            label:'Straight',         chips:2,   speed:5  },
       { hand:'Three of a Kind',     label:'Three of a Kind',  chips:1,   speed:2  },
-      { hand:'Loss',                label:'Loss',             chips:0,   speed:-2 },
+      { hand:'Loss',                label:'Loss',             chips:0,   speed:-1 },
+    ],
+    botHands: [
+      {hand:'Natural Royal Flush', w:0.002},
+      {hand:'Four Deuces',         w:0.020},
+      {hand:'Wild Royal Flush',    w:0.065},
+      {hand:'Five of a Kind',      w:0.320},
+      {hand:'Straight Flush',      w:0.448},
+      {hand:'Four of a Kind',      w:6.339},
+      {hand:'Full House',          w:3.089},
+      {hand:'Flush',               w:3.768},
+      {hand:'Straight',            w:5.358},
+      {hand:'Three of a Kind',     w:28.295},
+      {hand:'Loss',                w:52.294},
     ],
   },
   'Bonus Draw Poker': {
@@ -2499,7 +2551,21 @@ const VARIANTS = {
       { hand:'Three of a Kind',label:'Three of a Kind', chips:3,   speed:5  },
       { hand:'Two Pair',       label:'Two Pair',        chips:2,   speed:3  },
       { hand:'Jacks or Better',label:'Jacks or Better', chips:1,   speed:2  },
-      { hand:'Loss',           label:'Loss',            chips:0,   speed:-2 },
+      { hand:'Loss',           label:'Loss',            chips:0,   speed:-1 },
+    ],
+    botHands: [
+      {hand:'Royal Flush',     w:0.0025},
+      {hand:'Straight Flush',  w:0.011},
+      {hand:'Four Aces',       w:0.014},
+      {hand:'Four 2-4',        w:0.044},
+      {hand:'Four 5-K',        w:0.178},
+      {hand:'Full House',      w:1.151},
+      {hand:'Flush',           w:1.101},
+      {hand:'Straight',        w:1.123},
+      {hand:'Three of a Kind', w:7.445},
+      {hand:'Two Pair',        w:12.928},
+      {hand:'Jacks or Better', w:21.459},
+      {hand:'Loss',            w:54.543},
     ],
   },
   'Double Joker Poker': {
@@ -2507,17 +2573,31 @@ const VARIANTS = {
     headerImg: 'Game type headers/pokerRush_UI_doubleJokerPoker_header.png',
     payRows: [
       { hand:'Natural Royal Flush', label:'Natural Royal',   chips:800, speed:20 },
-      { hand:'Five of a Kind',      label:'Five of a Kind',  chips:100, speed:18 },
-      { hand:'Wild Royal Flush',    label:'Wild Royal',      chips:25,  speed:16 },
-      { hand:'Straight Flush',      label:'Str. Flush',      chips:8,   speed:12 },
-      { hand:'Four of a Kind',      label:'4 of a Kind',     chips:4,   speed:10 },
-      { hand:'Full House',          label:'Full House',      chips:3,   speed:8  },
-      { hand:'Flush',               label:'Flush',           chips:2,   speed:6  },
-      { hand:'Straight',            label:'Straight',        chips:1,   speed:4  },
-      { hand:'Three of a Kind',     label:'Three of a Kind', chips:1,   speed:3  },
+      { hand:'Wild Royal Flush',    label:'Wild Royal',      chips:100, speed:18 },
+      { hand:'Five of a Kind',      label:'Five of a Kind',  chips:50,  speed:16 },
+      { hand:'Straight Flush',      label:'Str. Flush',      chips:25,  speed:12 },
+      { hand:'Four of a Kind',      label:'4 of a Kind',     chips:9,   speed:10 },
+      { hand:'Full House',          label:'Full House',      chips:5,   speed:8  },
+      { hand:'Flush',               label:'Flush',           chips:4,   speed:6  },
+      { hand:'Straight',            label:'Straight',        chips:3,   speed:4  },
+      { hand:'Three of a Kind',     label:'Three of a Kind', chips:2,   speed:3  },
       { hand:'Two Pair',            label:'Two Pair',        chips:1,   speed:2  },
       { hand:'Kings or Better',     label:'Kings or Better', chips:1,   speed:1  },
-      { hand:'Loss',                label:'Loss',            chips:0,   speed:-2 },
+      { hand:'Loss',                label:'Loss',            chips:0,   speed:-1 },
+    ],
+    botHands: [
+      {hand:'Natural Royal Flush', w:0.002},
+      {hand:'Five of a Kind',      w:0.100},
+      {hand:'Wild Royal Flush',    w:0.080},
+      {hand:'Straight Flush',      w:0.530},
+      {hand:'Four of a Kind',      w:3.270},
+      {hand:'Full House',          w:5.850},
+      {hand:'Flush',               w:4.570},
+      {hand:'Straight',            w:6.140},
+      {hand:'Three of a Kind',     w:13.770},
+      {hand:'Two Pair',            w:10.370},
+      {hand:'Kings or Better',     w:15.250},
+      {hand:'Loss',                w:40.060},
     ],
   },
   'Double Bonus Draw Poker': {
@@ -2535,7 +2615,21 @@ const VARIANTS = {
       { hand:'Three of a Kind',label:'Three of a Kind', chips:3,   speed:4  },
       { hand:'Two Pair',       label:'Two Pair',        chips:1,   speed:2  },
       { hand:'Jacks or Better',label:'Jacks or Better', chips:1,   speed:2  },
-      { hand:'Loss',           label:'Loss',            chips:0,   speed:-2 },
+      { hand:'Loss',           label:'Loss',            chips:0,   speed:-1 },
+    ],
+    botHands: [
+      {hand:'Royal Flush',     w:0.0025},
+      {hand:'Straight Flush',  w:0.011},
+      {hand:'Four Aces',       w:0.014},
+      {hand:'Four 2-4',        w:0.044},
+      {hand:'Four 5-K',        w:0.178},
+      {hand:'Full House',      w:1.151},
+      {hand:'Flush',           w:1.101},
+      {hand:'Straight',        w:1.123},
+      {hand:'Three of a Kind', w:7.445},
+      {hand:'Two Pair',        w:12.928},
+      {hand:'Jacks or Better', w:21.459},
+      {hand:'Loss',            w:54.543},
     ],
   },
   'Double Double Draw Poker': {
@@ -2555,7 +2649,23 @@ const VARIANTS = {
       { hand:'Three of a Kind',label:'Three of a Kind',  chips:3,   speed:4  },
       { hand:'Two Pair',       label:'Two Pair',         chips:1,   speed:2  },
       { hand:'Jacks or Better',label:'Jacks or Better',  chips:1,   speed:2  },
-      { hand:'Loss',           label:'Loss',             chips:0,   speed:-2 },
+      { hand:'Loss',           label:'Loss',             chips:0,   speed:-1 },
+    ],
+    botHands: [
+      {hand:'Royal Flush',     w:0.0025},
+      {hand:'Straight Flush',  w:0.011},
+      {hand:'Four Aces+',      w:0.006},
+      {hand:'Four Aces',       w:0.014},
+      {hand:'Four 2-4+',       w:0.022},
+      {hand:'Four 2-4',        w:0.038},
+      {hand:'Four 5-K',        w:0.173},
+      {hand:'Full House',      w:1.151},
+      {hand:'Flush',           w:1.101},
+      {hand:'Straight',        w:1.123},
+      {hand:'Three of a Kind', w:7.445},
+      {hand:'Two Pair',        w:12.928},
+      {hand:'Jacks or Better', w:21.459},
+      {hand:'Loss',            w:54.543},
     ],
   },
   'Triple Double Draw Poker': {
@@ -2565,9 +2675,9 @@ const VARIANTS = {
       { hand:'Royal Flush',    label:'Royal Flush',      chips:800, speed:20 },
       { hand:'Straight Flush', label:'Str. Flush',       chips:50,  speed:16 },
       { hand:'Four Aces+',     label:'4 Aces + 2/3/4',   chips:800, speed:20 },
-      { hand:'Four Aces',      label:'4 Aces',           chips:400, speed:18 },
+      { hand:'Four Aces',      label:'4 Aces',           chips:160, speed:18 },
       { hand:'Four 2-4+',      label:'4 2s-4s + A-4',    chips:400, speed:18 },
-      { hand:'Four 2-4',       label:'4 Twos–Fours',     chips:160, speed:16 },
+      { hand:'Four 2-4',       label:'4 Twos–Fours',     chips:80,  speed:16 },
       { hand:'Four 5-K',       label:'4 Fives–Kings',    chips:50,  speed:14 },
       { hand:'Full House',     label:'Full House',       chips:9,   speed:10 },
       { hand:'Flush',          label:'Flush',            chips:7,   speed:8  },
@@ -2575,7 +2685,23 @@ const VARIANTS = {
       { hand:'Three of a Kind',label:'Three of a Kind',  chips:2,   speed:3  },
       { hand:'Two Pair',       label:'Two Pair',         chips:1,   speed:2  },
       { hand:'Jacks or Better',label:'Jacks or Better',  chips:1,   speed:1  },
-      { hand:'Loss',           label:'Loss',             chips:0,   speed:-2 },
+      { hand:'Loss',           label:'Loss',             chips:0,   speed:-1 },
+    ],
+    botHands: [
+      {hand:'Royal Flush',     w:0.0025},
+      {hand:'Straight Flush',  w:0.011},
+      {hand:'Four Aces+',      w:0.006},
+      {hand:'Four Aces',       w:0.014},
+      {hand:'Four 2-4+',       w:0.022},
+      {hand:'Four 2-4',        w:0.038},
+      {hand:'Four 5-K',        w:0.173},
+      {hand:'Full House',      w:1.151},
+      {hand:'Flush',           w:1.101},
+      {hand:'Straight',        w:1.123},
+      {hand:'Three of a Kind', w:7.445},
+      {hand:'Two Pair',        w:12.928},
+      {hand:'Jacks or Better', w:21.459},
+      {hand:'Loss',            w:54.543},
     ],
   },
 };
@@ -2862,6 +2988,7 @@ let savedPowerup  = null; // won power-up card, injected into next race's deck
 let _puRewardCard = null; // temp ref during reward reveal
 let _puRewardDone = null; // callback after reward is claimed
 
+<<<<<<< profileMarketplaceUpdate
 // ── Profile persistence ──
 let selectedCarIdx = Math.min(5, Math.max(0, parseInt(localStorage.getItem('pokerRush_car') || '0')));
 let profInventory  = JSON.parse(localStorage.getItem('pokerRush_inventory') || '[]');
@@ -2892,6 +3019,8 @@ const BOT_HANDS = [
   {name:'Loss',            w:70.00, sp:-2},
 ];
 const BOT_TOTAL_W = BOT_HANDS.reduce((s, h) => s + h.w, 0);
+=======
+>>>>>>> main
 
 // ─────────────────────────────────────────────
 // GAME STATE
@@ -3076,17 +3205,21 @@ function applySpeedDelta(state, delta) {
 // BOT LOGIC
 // ─────────────────────────────────────────────
 function pickBotHand() {
-  let rnd = Math.random() * BOT_TOTAL_W;
-  for (const h of BOT_HANDS) { rnd -= h.w; if (rnd <= 0) return h; }
-  return BOT_HANDS[BOT_HANDS.length - 1];
+  const bh = VARIANTS[activeVariant].botHands;
+  const total = bh.reduce((s, h) => s + h.w, 0);
+  let rnd = Math.random() * total;
+  for (const h of bh) { rnd -= h.w; if (rnd <= 0) return h; }
+  return bh[bh.length - 1];
 }
 
 function processBotHands(now) {
+  const cfg = VARIANTS[activeVariant];
   for (const state of racerState) {
     if (state.isPlayer || raceOver) continue;
     if (now >= state.nextBotHand) {
       const h = pickBotHand();
-      const sp = h.sp < 0 ? (Math.random() < 0.5 ? -1.5 : -4.5) : h.sp;
+      const payRow = cfg.payRows.find(r => r.hand === h.hand);
+      const sp = payRow ? payRow.speed : -1;
       applySpeedDelta(state, sp);
       state.nextBotHand = now + 3500 + Math.random() * 3500;
     }
@@ -3207,6 +3340,30 @@ let _dragIdx = -1;
   canvas.addEventListener('mouseup', () => { _dragIdx = -1; });
   canvas.addEventListener('mouseleave', () => { _dragIdx = -1; });
   document.addEventListener('keydown', e => {
+    // Debug: skip to final lap, cars near finish
+    if (e.key === 'f' || e.key === 'F') {
+      if (raceOver || finalLap || !activeTrack) return;
+      const wp = activeTrack.waypoints;
+      const seg = wp.length - 1; // segments (first == last)
+      // Jump timer to trigger final lap
+      raceTimer = RACE_DURATION;
+      finalLap = true;
+      // Place player furthest ahead so finalLapThreshold is based on them
+      const baseLap = Math.floor(Math.max(...racerState.map(r => r.distance)));
+      const playerProgress = (seg - 3) / seg; // 3 waypoints before finish
+      for (const state of racerState) {
+        if (state.finishedAt) continue;
+        if (state.isPlayer) {
+          state.distance = baseLap + playerProgress;
+        } else {
+          const wpBack = 5 + Math.floor(Math.random() * 6); // 5 to 10
+          state.distance = baseLap + Math.max(0, (seg - wpBack) / seg);
+        }
+      }
+      finalLapThreshold = baseLap + 1;
+      console.log('Debug: skipped to final lap. Threshold=' + finalLapThreshold);
+      return;
+    }
     if (e.key === 'w' || e.key === 'W') {
       DEBUG_TRACK = !DEBUG_TRACK;
       console.log('Waypoint editor: ' + (DEBUG_TRACK ? 'ON' : 'OFF'));
@@ -3850,6 +4007,7 @@ function showHandResultOverlay(result, speedDelta, duration) {
   void overlay.offsetWidth;
   overlay.classList.add('show');
   setTimeout(() => overlay.classList.remove('show'), duration);
+  if (speedDelta > 0) playHandAudio(result);
 }
 
 function renderCards() {
@@ -3961,7 +4119,7 @@ function drawCards() {
     currentResult    = evaluator(hand);
     const cfg        = VARIANTS[activeVariant];
     const payRow     = cfg && cfg.payRows.find(r => r.hand === currentResult);
-    const speedDelta = payRow ? payRow.speed  : (HAND_SPEED_PCT[currentResult] ?? -2);
+    const speedDelta = payRow ? payRow.speed  : (HAND_SPEED_PCT[currentResult] ?? -1);
     const chipMult   = payRow ? payRow.chips  : (HAND_CHIP_MULT[currentResult] ?? 0);
     const chipWin    = chipMult * BET_AMOUNT;
 
@@ -4057,18 +4215,17 @@ function resetDDModal() {
 function showDDOverlay(isMitigate) {
   resetDDModal();
   document.getElementById('ddHandName').textContent = currentResult || '';
+  document.getElementById('ddHandName').style.display = isMitigate ? 'none' : '';
   const modal = document.getElementById('ddModal');
-  document.getElementById('ddTitle').textContent = isMitigate ? 'Mitigate the Loss?' : 'Double Down?';
+  document.getElementById('ddTitle').textContent = isMitigate ? 'Recover your loss!' : 'Double Down?';
   document.getElementById('ddTitle').className   = 'dd-modal-title' + (isMitigate ? ' mit' : '');
-  document.getElementById('ddSub').textContent   = isMitigate
-    ? 'Correct guess: −1.5% speed  ·  Wrong guess: −4.5% speed'
-    : 'Guess the color of the next card to double your speed bonus';
+  document.getElementById('ddSub').style.display = isMitigate ? 'none' : '';
+  document.getElementById('ddSub').textContent   = 'Guess the color of the next card to double your speed bonus';
   document.getElementById('ddCashoutBtn').style.display = isMitigate ? 'none' : '';
   document.getElementById('ddCashoutAmt').textContent   = pendingDelta;
-  document.getElementById('ddAcceptBtn').style.display  = isMitigate ? '' : 'none';
-  document.getElementById('ddAcceptAmt').textContent    = pendingDelta;
+  document.getElementById('ddAcceptBtn').style.display  = 'none';
   document.getElementById('ddStakeInfo').innerHTML = isMitigate
-    ? `Current penalty: <span style="color:var(--red)">−2%</span> speed`
+    ? `Current penalty: <span style="color:var(--red)">−1%</span> speed &nbsp;·&nbsp; Guess right: <span style="color:#4ade80">0%</span>`
     : `Attempt <strong style="color:white">${ddAttempt+1}</strong>/3 &nbsp;·&nbsp; `
       + `<span style="color:var(--teal)">+${pendingDelta}% · +${pendingChips.toLocaleString()} chips</span> → `
       + `<span style="color:#4ade80">+${pendingDelta*2}% · +${(pendingChips*2).toLocaleString()} chips</span>`;
@@ -4158,7 +4315,7 @@ function ddGuess(guess) {
       iconEl.textContent  = '✓';
       iconEl.style.color  = '#4ade80';
       if (isMitigate) {
-        msgEl.textContent = '−1.5% Speed';
+        msgEl.textContent = '0% Speed';
         msgEl.style.color = '#4ade80';
       } else {
         msgEl.textContent = `+${pendingDelta * 2}% Speed · +${(pendingChips * 2).toLocaleString()} chips!`;
@@ -4172,11 +4329,15 @@ function ddGuess(guess) {
       modalEl.classList.add('wrong-flash');
       iconEl.textContent = '✗';
       iconEl.style.color = '#f87171';
+<<<<<<< profileMarketplaceUpdate
       if (isMitigate) {
         msgEl.textContent = '−4.5% Speed';
       } else {
         msgEl.textContent = 'Bonus Lost · 0 chips';
       }
+=======
+      msgEl.textContent = isMitigate ? '−1% Speed' : 'Bonus Lost';
+>>>>>>> main
       msgEl.style.color = '#f87171';
       spawnParticles(false);
     }
@@ -4187,9 +4348,23 @@ function ddGuess(guess) {
   }, 530);
 }
 
+function playHandAudio(hand) {
+  if (['Jacks or Better', 'Kings or Better'].includes(hand))
+    return playSoundUI('Audio/OnePair.mp3');
+  if (hand === 'Two Pair')
+    return playSoundUI('Audio/TwoPairs.mp3');
+  if (hand === 'Three of a Kind')
+    return playSoundUI('Audio/ThreeOfAKind.mp3');
+  if (hand === 'Straight')
+    return playSoundUI('Audio/Straight.mp3');
+  if (hand === 'Flush')
+    return playSoundUI('Audio/Flush.mp3');
+  playSoundUI('Audio/Nice Hand.mp3');
+}
+
 function resolveDDGuess(won, isMitigate) {
   if (isMitigate) {
-    pendingDelta = won ? -1.5 : -4.5;
+    pendingDelta = won ? 0 : -1;
     finishHand();
     return;
   }
@@ -4943,9 +5118,9 @@ function startRaceCountdown() {
   overlay.style.display = 'flex';
 
   const steps = [
-    { text: 'On your mark!', cls: '',     ms: 1400 },
-    { text: 'Breath in!',    cls: '',     ms: 1200 },
-    { text: 'DEAL!',         cls: 'deal', ms: 900  },
+    { text: 'On your mark!', cls: '',     ms: 1400, audio: 'Audio/On Your Mark!.mp3' },
+    { text: 'Breath in!',    cls: '',     ms: 1200, audio: 'Audio/Breath In!.mp3'   },
+    { text: 'DEAL!',         cls: 'deal', ms: 900,  audio: 'Audio/Deal!.mp3'        },
   ];
 
   let i = 0;
@@ -4954,11 +5129,13 @@ function startRaceCountdown() {
       overlay.style.display = 'none';
       raceCountingDown = false;
       lastFrame = performance.now(); // reset dt so first live frame is clean
+      if (phase === 'idle') dealCards();
       return;
     }
     const step = steps[i++];
     textEl.className = 'rc-text' + (step.cls ? ' ' + step.cls : '');
     textEl.textContent = step.text;
+    playSoundUI(step.audio);
     // Force reflow to restart the CSS animation
     void textEl.offsetWidth;
     textEl.style.animation = 'none';
