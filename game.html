@@ -1611,7 +1611,7 @@ logoImg.src = 'Logos/pokerRush_logo_ design01b.png';
 const HAND_SPEED_PCT = {
   'Royal Flush':20, 'Straight Flush':16, 'Four of a Kind':14,
   'Full House':12, 'Flush':10, 'Straight':8, 'Three of a Kind':6,
-  'Two Pair':4, 'Jacks or Better':2, 'Loss':-2
+  'Two Pair':4, 'Jacks or Better':2, 'Loss':-3
 };
 const HAND_CHIP_MULT = {
   'Royal Flush':800, 'Straight Flush':50, 'Four of a Kind':25,
@@ -1648,7 +1648,7 @@ const VARIANTS = {
       { hand:'Three of a Kind',label:'Three of a Kind', chips:3,   speed:6  },
       { hand:'Two Pair',       label:'Two Pair',        chips:1,   speed:4  },
       { hand:'Jacks or Better',label:'Jacks or Better', chips:1,   speed:2  },
-      { hand:'Loss',           label:'Loss',            chips:0,   speed:-2 },
+      { hand:'Loss',           label:'Loss',            chips:0,   speed:-3 },
     ],
   },
   'All American': {
@@ -1664,7 +1664,7 @@ const VARIANTS = {
       { hand:'Three of a Kind',label:'Three of a Kind', chips:3,   speed:6  },
       { hand:'Two Pair',       label:'Two Pair',        chips:1,   speed:4  },
       { hand:'Jacks or Better',label:'Jacks or Better', chips:1,   speed:2  },
-      { hand:'Loss',           label:'Loss',            chips:0,   speed:-2 },
+      { hand:'Loss',           label:'Loss',            chips:0,   speed:-3 },
     ],
   },
   'Loose Deuces': {
@@ -1681,7 +1681,7 @@ const VARIANTS = {
       { hand:'Flush',               label:'Flush',            chips:2,   speed:6  },
       { hand:'Straight',            label:'Straight',         chips:2,   speed:5  },
       { hand:'Three of a Kind',     label:'Three of a Kind',  chips:1,   speed:2  },
-      { hand:'Loss',                label:'Loss',             chips:0,   speed:-2 },
+      { hand:'Loss',                label:'Loss',             chips:0,   speed:-3 },
     ],
   },
   'Bonus Draw Poker': {
@@ -1699,7 +1699,7 @@ const VARIANTS = {
       { hand:'Three of a Kind',label:'Three of a Kind', chips:3,   speed:5  },
       { hand:'Two Pair',       label:'Two Pair',        chips:2,   speed:3  },
       { hand:'Jacks or Better',label:'Jacks or Better', chips:1,   speed:2  },
-      { hand:'Loss',           label:'Loss',            chips:0,   speed:-2 },
+      { hand:'Loss',           label:'Loss',            chips:0,   speed:-3 },
     ],
   },
   'Double Joker Poker': {
@@ -1717,7 +1717,7 @@ const VARIANTS = {
       { hand:'Three of a Kind',     label:'Three of a Kind', chips:1,   speed:3  },
       { hand:'Two Pair',            label:'Two Pair',        chips:1,   speed:2  },
       { hand:'Kings or Better',     label:'Kings or Better', chips:1,   speed:1  },
-      { hand:'Loss',                label:'Loss',            chips:0,   speed:-2 },
+      { hand:'Loss',                label:'Loss',            chips:0,   speed:-3 },
     ],
   },
   'Double Bonus Draw Poker': {
@@ -1735,7 +1735,7 @@ const VARIANTS = {
       { hand:'Three of a Kind',label:'Three of a Kind', chips:3,   speed:4  },
       { hand:'Two Pair',       label:'Two Pair',        chips:1,   speed:2  },
       { hand:'Jacks or Better',label:'Jacks or Better', chips:1,   speed:2  },
-      { hand:'Loss',           label:'Loss',            chips:0,   speed:-2 },
+      { hand:'Loss',           label:'Loss',            chips:0,   speed:-3 },
     ],
   },
   'Double Double Draw Poker': {
@@ -1755,7 +1755,7 @@ const VARIANTS = {
       { hand:'Three of a Kind',label:'Three of a Kind',  chips:3,   speed:4  },
       { hand:'Two Pair',       label:'Two Pair',         chips:1,   speed:2  },
       { hand:'Jacks or Better',label:'Jacks or Better',  chips:1,   speed:2  },
-      { hand:'Loss',           label:'Loss',             chips:0,   speed:-2 },
+      { hand:'Loss',           label:'Loss',             chips:0,   speed:-3 },
     ],
   },
   'Triple Double Draw Poker': {
@@ -1775,7 +1775,7 @@ const VARIANTS = {
       { hand:'Three of a Kind',label:'Three of a Kind',  chips:2,   speed:3  },
       { hand:'Two Pair',       label:'Two Pair',         chips:1,   speed:2  },
       { hand:'Jacks or Better',label:'Jacks or Better',  chips:1,   speed:1  },
-      { hand:'Loss',           label:'Loss',             chips:0,   speed:-2 },
+      { hand:'Loss',           label:'Loss',             chips:0,   speed:-3 },
     ],
   },
 };
@@ -1983,7 +1983,7 @@ const BOT_HANDS = [
   {name:'Three of a Kind', w:4.90,  sp:6 },
   {name:'Two Pair',        w:8.50,  sp:4 },
   {name:'Jacks or Better', w:14.16, sp:2 },
-  {name:'Loss',            w:70.00, sp:-2},
+  {name:'Loss',            w:70.00, sp:-3},
 ];
 const BOT_TOTAL_W = BOT_HANDS.reduce((s, h) => s + h.w, 0);
 
