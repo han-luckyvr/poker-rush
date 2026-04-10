@@ -807,6 +807,107 @@ body { display: block; }
 .race-vfx-flash.hazard-flash { background: radial-gradient(ellipse at 50% 40%, rgba(233,69,96,0.38) 0%, transparent 72%); }
 .race-vfx-flash.active { animation: raceFlashAnim 1.6s ease-out forwards; }
 
+/* ===== POWER-UP REWARD ===== */
+.pu-reward-overlay {
+  position: fixed; inset: 0; z-index: 1100;
+  background: rgba(5,10,24,0.92); backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center;
+}
+.pu-reward-box {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 20px; padding: 40px 48px;
+  background: var(--navy2); border: 1px solid rgba(240,165,0,0.35);
+  border-radius: 20px; box-shadow: 0 0 60px rgba(240,165,0,0.2);
+  text-align: center; min-width: 320px;
+}
+.pu-reward-title {
+  font-size: 26px; font-weight: 900; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gold);
+  text-shadow: 0 0 24px rgba(240,165,0,0.5);
+}
+.pu-reward-subtitle {
+  font-size: 14px; color: var(--muted); letter-spacing: 1px; margin-top: -12px;
+}
+/* 3-D card flip scene */
+.pu-card-scene {
+  perspective: 900px; width: 160px; height: 224px;
+}
+.pu-card-inner {
+  width: 100%; height: 100%;
+  position: relative; transform-style: preserve-3d;
+  transition: transform 0.75s cubic-bezier(0.4,0,0.2,1);
+}
+.pu-card-inner.flipped { transform: rotateY(180deg); }
+.pu-card-front, .pu-card-back {
+  position: absolute; inset: 0; border-radius: 12px;
+  backface-visibility: hidden;
+}
+.pu-card-front {
+  transform: rotateY(180deg);
+  overflow: hidden;
+}
+.pu-card-front img {
+  width: 100%; height: 100%; object-fit: cover; object-position: top center;
+  border-radius: 12px;
+}
+.pu-card-back {
+  background: linear-gradient(135deg, #1a2a4a 0%, #0d1b2e 60%, #1a2a4a 100%);
+  border: 2px solid rgba(240,165,0,0.5);
+  box-shadow: 0 0 30px rgba(240,165,0,0.25);
+  display: flex; align-items: center; justify-content: center;
+}
+.pu-card-q {
+  font-size: 90px; font-weight: 900; color: rgba(240,165,0,0.7);
+  text-shadow: 0 0 30px rgba(240,165,0,0.5);
+  user-select: none;
+}
+@keyframes puCardShake {
+  0%,100% { transform: rotate(0deg) scale(1); }
+  10%      { transform: rotate(-4deg) scale(1.04); }
+  20%      { transform: rotate(4deg)  scale(1.06); }
+  30%      { transform: rotate(-4deg) scale(1.04); }
+  40%      { transform: rotate(4deg)  scale(1.06); }
+  50%      { transform: rotate(-3deg) scale(1.03); }
+  60%      { transform: rotate(3deg)  scale(1.05); }
+  70%      { transform: rotate(-2deg) scale(1.02); }
+  80%      { transform: rotate(2deg)  scale(1.04); }
+  90%      { transform: rotate(0deg)  scale(1.08); }
+}
+@keyframes puCardPulse {
+  0%,100% { box-shadow: 0 0 15px rgba(240,165,0,0.3), 0 0 0 0 rgba(240,165,0,0); }
+  50%     { box-shadow: 0 0 50px rgba(240,165,0,0.8), 0 0 0 12px rgba(240,165,0,0.12); }
+}
+.pu-card-back.shaking {
+  animation: puCardShake 0.55s ease-in-out infinite, puCardPulse 0.9s ease-in-out infinite;
+}
+.pu-reward-info {
+  display: none; flex-direction: column; gap: 6px;
+}
+.pu-reward-info.visible { display: flex; }
+.pu-reward-name {
+  font-size: 20px; font-weight: 900; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--gold);
+}
+.pu-reward-desc { font-size: 13px; color: var(--muted); max-width: 240px; }
+.pu-reward-btns {
+  display: none; flex-direction: column; gap: 10px; width: 100%;
+}
+.pu-reward-btns.visible { display: flex; }
+.pu-reward-btn {
+  padding: 13px 24px; border-radius: 10px; border: none;
+  font-size: 14px; font-weight: 800; letter-spacing: 1px;
+  cursor: pointer; transition: opacity 0.2s;
+}
+.pu-reward-btn:hover { opacity: 0.85; }
+.pu-equip-btn {
+  background: linear-gradient(135deg, #0d9488, #14b8a6);
+  color: #fff; box-shadow: 0 4px 16px rgba(20,184,166,0.4);
+}
+.pu-save-btn {
+  background: rgba(255,255,255,0.07); color: var(--muted);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
 /* ===== RACE COUNTDOWN ===== */
 .race-countdown {
   position: absolute; inset: 0; z-index: 40;
@@ -1311,6 +1412,28 @@ body { display: block; }
     <div class="net-speed-area">
       <div class="net-speed-label">Net Speed</div>
       <div class="net-speed-val" id="netSpeedVal">+0%</div>
+    </div>
+  </div>
+</div>
+
+<!-- POWER-UP REWARD OVERLAY -->
+<div class="pu-reward-overlay" id="puRewardOverlay" style="display:none">
+  <div class="pu-reward-box">
+    <div class="pu-reward-title">🏆 1st Place Reward!</div>
+    <div class="pu-reward-subtitle">You've won a Power-Up!</div>
+    <div class="pu-card-scene" id="puCardScene">
+      <div class="pu-card-inner" id="puCardInner">
+        <div class="pu-card-front"><img id="puRewardCardImg" src="" alt=""></div>
+        <div class="pu-card-back"><span class="pu-card-q">?</span></div>
+      </div>
+    </div>
+    <div class="pu-reward-info" id="puRewardInfo">
+      <div class="pu-reward-name" id="puRewardName"></div>
+      <div class="pu-reward-desc" id="puRewardDesc"></div>
+    </div>
+    <div class="pu-reward-btns" id="puRewardBtns">
+      <button class="pu-reward-btn pu-equip-btn" onclick="claimPuReward(true)">⚡ Equip for Next Race</button>
+      <button class="pu-reward-btn pu-save-btn"  onclick="claimPuReward(false)">📦 Save for Later</button>
     </div>
   </div>
 </div>
@@ -1972,6 +2095,9 @@ const CARD_POOL = [
 ];
 
 let equippedCards = [];  // 3 cards randomly dealt at race start
+let savedPowerup  = null; // won power-up card, injected into next race's deck
+let _puRewardCard = null; // temp ref during reward reveal
+let _puRewardDone = null; // callback after reward is claimed
 
 const BOT_HANDS = [
   {name:'Royal Flush',     w:0.002, sp:20},
@@ -2722,6 +2848,45 @@ function showRaceRewardPopup(iconSrc, label, amount, onDone) {
   requestAnimationFrame(tick);
 }
 
+function showPuReward(card, onDone) {
+  _puRewardCard = card;
+  _puRewardDone = onDone;
+
+  // Reset state
+  const overlay  = document.getElementById('puRewardOverlay');
+  const inner    = document.getElementById('puCardInner');
+  const cardBack = inner.querySelector('.pu-card-back');
+  document.getElementById('puRewardCardImg').src = card.img;
+  document.getElementById('puRewardName').textContent = card.name;
+  document.getElementById('puRewardDesc').textContent = card.desc;
+  document.getElementById('puRewardInfo').classList.remove('visible');
+  document.getElementById('puRewardBtns').classList.remove('visible');
+  inner.classList.remove('flipped');
+  cardBack.classList.remove('shaking');
+
+  overlay.style.display = 'flex';
+  playSoundUI('Audio/ButtonSelect.mp3');
+
+  // Start shaking after a brief pause, then flip after 2.2s
+  setTimeout(() => cardBack.classList.add('shaking'), 200);
+  setTimeout(() => {
+    cardBack.classList.remove('shaking');
+    inner.classList.add('flipped');
+    // Show info + buttons after flip completes
+    setTimeout(() => {
+      document.getElementById('puRewardInfo').classList.add('visible');
+      document.getElementById('puRewardBtns').classList.add('visible');
+    }, 750);
+  }, 2400);
+}
+
+function claimPuReward(equip) {
+  if (equip) savedPowerup = _puRewardCard;
+  document.getElementById('puRewardOverlay').style.display = 'none';
+  _puRewardCard = null;
+  if (_puRewardDone) { const cb = _puRewardDone; _puRewardDone = null; cb(); }
+}
+
 function updateHandHistory() {
   const el = document.getElementById('hhList');
   el.innerHTML = '';
@@ -3207,9 +3372,15 @@ function updatePuCount() {
 }
 
 function dealPowerupCards() {
-  // Pick 3 random unique cards from the pool
-  const shuffled = [...CARD_POOL].sort(() => Math.random() - 0.5);
-  equippedCards = shuffled.slice(0, 3);
+  // Pick 3 random unique cards from the pool; inject savedPowerup as first slot if set
+  const pool = savedPowerup
+    ? [...CARD_POOL].filter(c => c.id !== savedPowerup.id)
+    : [...CARD_POOL];
+  const shuffled = pool.sort(() => Math.random() - 0.5);
+  equippedCards = savedPowerup
+    ? [savedPowerup, ...shuffled.slice(0, 2)]
+    : shuffled.slice(0, 3);
+  savedPowerup = null; // consumed
   puUsed = [false, false, false];
 
   const panel = document.getElementById('powerupPanel');
@@ -3351,7 +3522,18 @@ function endRace() {
 
   const net = chips - startChips;
 
-  // Show chips popup → rep popup → race summary
+  // Determine post-rep callback: 1st place gets a power-up reward reveal
+  const afterRep = () => {
+    if (plPos === 1) {
+      const puPool = CARD_POOL.filter(c => c.type === 'powerup');
+      const wonCard = puPool[Math.floor(Math.random() * puPool.length)];
+      showPuReward(wonCard, () => showRaceSummary(sorted, plPos, net, repRow));
+    } else {
+      showRaceSummary(sorted, plPos, net, repRow);
+    }
+  };
+
+  // Show chips popup → rep popup → (1st only) power-up reveal → race summary
   showRaceRewardPopup(
     'UI assets/pokerRush_UI_chipIcon01.png',
     'Chips Earned',
@@ -3360,7 +3542,7 @@ function endRace() {
       'UI assets/pokerRush_UI_repPointIcon.png',
       'Rep Earned',
       repEarned,
-      () => showRaceSummary(sorted, plPos, net, repRow)
+      afterRep
     )
   );
 }
