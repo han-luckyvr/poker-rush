@@ -27,7 +27,7 @@ body { display: block; }
   overflow: hidden;
   min-height: 0;
 }
-.track-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0; position: relative; }
+.track-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0; position: relative; background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('UI assets/pokerRush_UI_raceBackground.png') no-repeat center center; background-size: cover; }
 .race-hud {
   display: flex; align-items: center; gap: 8px;
   padding: 6px 10px;
@@ -100,41 +100,70 @@ body { display: block; }
 /* ===== STANDINGS ===== */
 .standings-column {
   position: absolute; top: 44px; left: 8px; z-index: 10;
-  background: rgba(15,22,48,0.82); border: 1px solid rgba(233,69,96,0.18);
-  border-radius: 8px; backdrop-filter: blur(6px);
+  background: rgba(10,16,38,0.9); border: 1px solid rgba(233,69,96,0.2);
+  border-radius: 12px; backdrop-filter: blur(8px);
   display: flex; flex-direction: column; overflow: hidden;
-  min-width: 160px;
+  min-width: 230px;
 }
 .standings-title {
-  padding: 9px 10px; font-size: 14px; font-weight: 700;
+  padding: 10px 14px; font-size: 13px; font-weight: 700;
   letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase;
-  border-bottom: 1px solid rgba(255,255,255,0.06); flex-shrink: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07); flex-shrink: 0;
 }
 .standings-list {
-  flex: 1; padding: 6px; display: flex; flex-direction: column;
-  gap: 5px; overflow: hidden; min-height: 0; justify-content: space-evenly;
+  flex: 1; padding: 8px; display: flex; flex-direction: column;
+  gap: 6px; overflow: hidden; min-height: 0; justify-content: space-evenly;
 }
 .standing-row {
-  display: flex; align-items: center; gap: 6px; padding: 6px 7px;
-  border-radius: 8px; background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
+  display: flex; align-items: center; gap: 9px; padding: 9px 11px;
+  border-radius: 10px; background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
 }
-.standing-row.me { background: rgba(233,69,96,0.1); border-color: rgba(233,69,96,0.25); }
-.standing-pos { font-size: 12px; font-weight: 800; width: 18px; text-align: center; }
+.standing-row.me { background: rgba(233,69,96,0.1); border-color: rgba(233,69,96,0.28); }
+.standing-row.rank-1 {
+  border-color: rgba(240,165,0,0.45);
+  animation: goldGlow 2s ease-in-out infinite alternate;
+}
+@keyframes goldGlow {
+  from { box-shadow: 0 0 0 1px rgba(240,165,0,0.15), 0 0 10px 2px rgba(240,165,0,0.15); }
+  to   { box-shadow: 0 0 0 1px rgba(240,165,0,0.5),  0 0 20px 5px rgba(240,165,0,0.3); }
+}
+.standing-pos { font-size: 18px; font-weight: 900; width: 24px; text-align: center; }
 .standing-pos.p1 { color: var(--gold); }
 .standing-pos.p2 { color: #94a3b8; }
 .standing-pos.p3 { color: #cd7f32; }
 .standing-pos.other { color: var(--muted); }
 .standing-av {
-  width: 28px; height: 28px; border-radius: 50%;
+  width: 40px; height: 40px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 800; color: #fff; flex-shrink: 0;
+  font-size: 14px; font-weight: 800; color: #fff; flex-shrink: 0;
 }
-.standing-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.standing-name { font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.standing-speed { font-size: 10px; }
+.standing-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.standing-name { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.standing-speed { font-size: 11px; }
 .speed-up { color: var(--green); }
 .speed-dn { color: var(--red); }
+.standing-effects { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 3px; }
+.effect-badge {
+  font-size: 10px; font-weight: 800; padding: 2px 6px;
+  border-radius: 4px; letter-spacing: 0.2px; white-space: nowrap;
+}
+.effect-boost  { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.4); }
+.effect-hazard { background: rgba(233,69,96,0.15);  color: var(--red); border: 1px solid rgba(233,69,96,0.4); }
+.effect-shield { background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.4); }
+.standing-card-thumbs {
+  display: flex; flex-direction: row; gap: 4px;
+  margin-left: auto; flex-shrink: 0; align-items: center;
+}
+.standing-card-thumb {
+  width: 34px; height: 48px; object-fit: cover; object-position: top center;
+  border-radius: 5px; border: 2px solid rgba(74,222,128,0.8);
+  box-shadow: 0 0 8px rgba(74,222,128,0.5); flex-shrink: 0;
+}
+.standing-card-thumb.hazard {
+  border-color: rgba(233,69,96,0.8);
+  box-shadow: 0 0 8px rgba(233,69,96,0.5);
+}
 
 /* ===== POKER PANEL ===== */
 .poker-panel {
@@ -150,7 +179,7 @@ body { display: block; }
   flex: 0 0 210px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 8px 12px;
   background: rgba(0,0,0,0.25);
   border-right: 1px solid rgba(233,69,96,.15);
@@ -237,6 +266,9 @@ body { display: block; }
   background: rgba(240,165,0,0.1); border: 1px solid rgba(240,165,0,0.25);
   border-radius: 5px; padding: 3px 10px;
 }
+.chips-display.rep-display {
+  color: #a78bfa; background: rgba(167,139,250,0.1); border-color: rgba(167,139,250,0.25);
+}
 .player-name-badge {
   font-size: 13px; font-weight: 700; color: var(--teal);
   background: rgba(0,180,216,0.1); border: 1px solid rgba(0,180,216,0.25);
@@ -304,9 +336,10 @@ body { display: block; }
 .dd-modal {
   position: absolute; inset: 0; z-index: 10;
   background: rgba(6, 11, 22, 0.92);
+  overflow: hidden;
   backdrop-filter: blur(7px);
   display: none; flex-direction: column; align-items: center;
-  justify-content: center; gap: 9px; padding: 10px 20px;
+  justify-content: center; gap: 18px; padding: 20px 40px;
 }
 .dd-modal.show { display: flex; animation: ddIn 0.18s ease-out; }
 @keyframes ddIn { from { opacity:0; transform:scale(0.97); } to { opacity:1; transform:scale(1); } }
@@ -317,18 +350,19 @@ body { display: block; }
   100% { background: rgba(6,11,22,0.92); }
 }
 .dd-modal-title {
-  font-size: 14px; font-weight: 800; text-transform: uppercase;
-  letter-spacing: 2px; color: var(--gold);
+  font-size: 32px; font-weight: 900; text-transform: uppercase;
+  letter-spacing: 5px; color: var(--gold);
+  text-shadow: 0 0 24px rgba(240,165,0,0.45);
 }
-.dd-modal-title.mit { color: var(--red); }
-.dd-modal-sub { font-size: 11px; color: var(--muted); text-align: center; margin-top: -4px; }
+.dd-modal-title.mit { color: var(--red); text-shadow: 0 0 24px rgba(233,69,96,0.45); }
+.dd-modal-sub { font-size: 14px; color: var(--muted); text-align: center; margin-top: -8px; }
 
 /* Flip card */
 .dd-card-area {
   position: relative;
   display: flex; align-items: center; justify-content: center;
 }
-.dd-flip-wrap { perspective: 700px; width: 82px; height: 116px; }
+.dd-flip-wrap { perspective: 1400px; width: 164px; height: 232px; }
 .dd-flip-inner {
   width: 100%; height: 100%;
   transform-style: preserve-3d;
@@ -356,8 +390,8 @@ body { display: block; }
   );
 }
 .dd-mystery-q {
-  font-size: 40px; font-weight: 900; color: rgba(255,255,255,0.32); z-index: 1;
-  text-shadow: 0 0 18px rgba(255,255,255,0.18);
+  font-size: 80px; font-weight: 900; color: rgba(255,255,255,0.32); z-index: 1;
+  text-shadow: 0 0 36px rgba(255,255,255,0.18);
   animation: qPulse 1.6s ease-in-out infinite;
 }
 @keyframes qPulse {
@@ -370,9 +404,9 @@ body { display: block; }
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
 }
-.dd-rev-tl { position: absolute; top:5px; left:6px; font-weight:800; font-size:13px; line-height:1.1; color:#111; }
-.dd-rev-br { position: absolute; bottom:5px; right:6px; font-weight:800; font-size:13px; line-height:1.1; color:#111; transform:rotate(180deg); }
-.dd-rev-center { font-size: 30px; line-height: 1; color: #111; }
+.dd-rev-tl { position: absolute; top:10px; left:12px; font-weight:800; font-size:26px; line-height:1.1; color:#111; }
+.dd-rev-br { position: absolute; bottom:10px; right:12px; font-weight:800; font-size:26px; line-height:1.1; color:#111; transform:rotate(180deg); }
+.dd-rev-center { font-size: 60px; line-height: 1; color: #111; }
 .dd-rev-tl.red, .dd-rev-br.red, .dd-rev-center.red { color: #dc2626; }
 
 /* VFX */
@@ -410,8 +444,8 @@ body { display: block; }
   65%  { opacity:1; transform: translate(-50%,-50%) scale(1.12); }
   100% { opacity:1; transform: translate(-50%,-50%) scale(1); }
 }
-.dd-result-icon { font-size: 30px; font-weight: 900; line-height: 1; }
-.dd-result-msg  { font-size: 10px; font-weight: 800; margin-top: 2px; white-space: nowrap; letter-spacing: 0.5px; }
+.dd-result-icon { font-size: 60px; font-weight: 900; line-height: 1; }
+.dd-result-msg  { font-size: 20px; font-weight: 800; margin-top: 4px; white-space: nowrap; letter-spacing: 1px; }
 
 /* Particles */
 .dd-particles { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
@@ -425,16 +459,16 @@ body { display: block; }
 }
 
 /* Stake info & buttons */
-.dd-stake-info { font-size: 11px; color: var(--muted); text-align: center; }
+.dd-stake-info { font-size: 14px; color: var(--muted); text-align: center; }
 .dd-hand-name {
-  font-size: 15px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
-  color: var(--gold); text-align: center; margin: 2px 0 6px;
+  font-size: 22px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold); text-align: center; margin: 4px 0 12px;
 }
-.dd-buttons { display: flex; gap: 10px; align-items: center; justify-content: center; }
+.dd-buttons { display: flex; gap: 20px; align-items: center; justify-content: center; }
 .dd-choice-btn {
-  width: 88px; height: 60px; border-radius: 10px; border: 2px solid;
+  width: 176px; height: 120px; border-radius: 20px; border: 2px solid;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 3px; cursor: pointer; transition: all 0.13s; font-weight: 800;
+  gap: 6px; cursor: pointer; transition: all 0.13s; font-weight: 800;
 }
 .dd-choice-btn:hover:not(:disabled) { transform: translateY(-2px); }
 .dd-choice-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
@@ -442,19 +476,22 @@ body { display: block; }
 .dd-red-btn:hover:not(:disabled)  { background: rgba(220,38,38,0.28); box-shadow: 0 4px 16px rgba(220,38,38,0.3); }
 .dd-black-btn { background: rgba(15,25,45,0.8); border-color: rgba(100,116,139,0.44); color: #cbd5e1; }
 .dd-black-btn:hover:not(:disabled) { background: rgba(15,25,45,1); box-shadow: 0 4px 16px rgba(0,0,0,0.45); }
-.dd-btn-icon  { font-size: 20px; line-height: 1; }
-.dd-btn-label { font-size: 11px; letter-spacing: 1px; }
+.dd-btn-icon  { font-size: 40px; line-height: 1; }
+.dd-btn-label { font-size: 16px; letter-spacing: 2px; }
+.dd-btn-sub { font-size: 20px; font-weight: 900; letter-spacing: 1px; opacity: 0.9; }
 .dd-cashout-btn {
-  background: rgba(240,165,0,0.12); border: 1px solid rgba(240,165,0,0.4);
-  color: var(--gold); padding: 8px 14px; border-radius: 8px;
-  font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.13s;
+  background: rgba(240,165,0,0.12); border: 2px solid rgba(240,165,0,0.44);
+  color: var(--gold); border-radius: 20px; width: 176px; height: 120px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.13s;
 }
 .dd-cashout-btn:hover { background: rgba(240,165,0,0.22); }
 .dd-cashout-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .dd-accept-btn {
-  background: rgba(233,69,96,0.1); border: 1px solid rgba(233,69,96,0.35);
-  color: var(--red); padding: 8px 14px; border-radius: 8px;
-  font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.13s;
+  background: rgba(233,69,96,0.1); border: 2px solid rgba(233,69,96,0.44);
+  color: var(--red); border-radius: 20px; width: 176px; height: 120px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.13s;
 }
 .dd-accept-btn:hover { background: rgba(233,69,96,0.22); }
 .dd-accept-btn:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -463,7 +500,34 @@ body { display: block; }
 .poker-content {
   flex: 1; display: flex; flex-direction: column;
   justify-content: center; min-height: 0; overflow: visible;
+  background: url('UI assets/pokerRush_tableFelt.png') no-repeat center center;
+  background-size: cover; position: relative;
 }
+/* Hand result overlay */
+.hand-result-overlay {
+  position: absolute; inset: 0; z-index: 6;
+  display: none; align-items: center; justify-content: center;
+  pointer-events: none;
+  background: rgba(5,8,16,0.35);
+}
+.hand-result-overlay.show { display: flex; }
+@keyframes hrFade {
+  0%   { opacity:0; } 12% { opacity:1; } 78% { opacity:1; } 100% { opacity:0; }
+}
+.hr-badge {
+  background: rgba(5,8,16,0.92); border-radius: 18px; padding: 22px 48px;
+  text-align: center;
+  animation: hrPop 0.28s cubic-bezier(0.175,0.885,0.32,1.275) forwards;
+}
+@keyframes hrPop { from { transform: scale(0.65); } to { transform: scale(1); } }
+.hr-badge.win  { border: 2px solid rgba(74,222,128,0.6);  box-shadow: 0 0 40px rgba(74,222,128,0.25); }
+.hr-badge.loss { border: 2px solid rgba(233,69,96,0.5);   box-shadow: 0 0 40px rgba(233,69,96,0.2); }
+.hr-result { font-size: 30px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; }
+.hr-badge.win  .hr-result { color: #4ade80; }
+.hr-badge.loss .hr-result { color: var(--red); }
+.hr-delta  { font-size: 20px; font-weight: 700; margin-top: 6px; }
+.hr-badge.win  .hr-delta  { color: #4ade80; }
+.hr-badge.loss .hr-delta  { color: var(--red); }
 .cards-area {
   display: flex; gap: 12px; justify-content: center;
   align-items: center; min-height: 0; overflow: visible;
@@ -480,8 +544,26 @@ body { display: block; }
 }
 .card:hover { transform: translateY(-8px); box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
 .card.held {
-  border-color: #dc2626; transform: translateY(-12px);
-  box-shadow: 0 16px 40px rgba(220,38,38,0.4);
+  border-color: var(--teal); transform: translateY(-12px);
+  box-shadow: 0 0 0 2px var(--teal), 0 0 18px 5px rgba(0,180,216,0.55), 0 16px 40px rgba(0,180,216,0.25);
+  animation: heldPulse 1.2s ease-in-out infinite alternate;
+}
+@keyframes heldPulse {
+  from { box-shadow: 0 0 0 2px var(--teal), 0 0 12px 3px rgba(0,180,216,0.4),  0 16px 40px rgba(0,180,216,0.2); }
+  to   { box-shadow: 0 0 0 2px var(--teal), 0 0 26px 8px rgba(0,180,216,0.75), 0 16px 40px rgba(0,180,216,0.35); }
+}
+.card.winner {
+  border-color: #4ade80; transform: translateY(-12px);
+  box-shadow: 0 0 0 2px #4ade80, 0 0 20px 6px rgba(74,222,128,0.55), 0 16px 40px rgba(74,222,128,0.25);
+  animation: winnerPulse 0.9s ease-in-out infinite alternate;
+}
+@keyframes winnerPulse {
+  from { box-shadow: 0 0 0 2px #4ade80, 0 0 14px 4px rgba(74,222,128,0.4),  0 16px 40px rgba(74,222,128,0.15); }
+  to   { box-shadow: 0 0 0 2px #4ade80, 0 0 30px 9px rgba(74,222,128,0.75), 0 16px 40px rgba(74,222,128,0.35); }
+}
+.card.dimmed {
+  opacity: 0.28; filter: grayscale(1);
+  transition: opacity 0.35s, filter 0.35s;
 }
 .card.empty {
   background: rgba(255,255,255,0.04); border: 2px dashed rgba(255,255,255,0.1); cursor: default;
@@ -514,11 +596,11 @@ body { display: block; }
 .card.held::after {
   content: 'HOLD';
   position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%);
-  background: #dc2626; color: #fff; font-size: 18px; font-weight: 800;
+  background: var(--teal); color: #fff; font-size: 18px; font-weight: 800;
   padding: 2px 12px; border-radius: 6px 6px 0 0; letter-spacing: 0.5px;
 }
 
-.action-btn-row { display: flex; justify-content: center; margin-top: 16px; flex-shrink: 0; }
+.action-btn-row { display: flex; justify-content: center; margin-top: 41px; flex-shrink: 0; }
 #mainActionBtn {
   background: none; border: none; padding: 0;
   cursor: pointer; transition: opacity 0.2s, transform 0.1s;
@@ -725,6 +807,32 @@ body { display: block; }
 .race-vfx-flash.hazard-flash { background: radial-gradient(ellipse at 50% 40%, rgba(233,69,96,0.38) 0%, transparent 72%); }
 .race-vfx-flash.active { animation: raceFlashAnim 1.6s ease-out forwards; }
 
+/* ===== RACE COUNTDOWN ===== */
+.race-countdown {
+  position: absolute; inset: 0; z-index: 40;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+  background: rgba(5,10,24,0.45);
+}
+.rc-text {
+  font-size: 72px; font-weight: 900; text-transform: uppercase;
+  letter-spacing: 6px; text-align: center; line-height: 1;
+  color: #fff;
+  text-shadow: 0 0 50px rgba(233,69,96,0.7), 0 6px 24px rgba(0,0,0,0.9);
+  animation: rcPop 0.55s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+.rc-text.deal {
+  font-size: 130px; letter-spacing: 10px;
+  color: var(--gold);
+  text-shadow: 0 0 80px rgba(240,165,0,0.85), 0 6px 30px rgba(0,0,0,0.9);
+}
+@keyframes rcPop {
+  0%   { opacity: 0; transform: scale(0.4); }
+  65%  { opacity: 1; transform: scale(1.08); }
+  85%  { opacity: 1; transform: scale(0.97); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
 /* ===== RACE OVER ===== */
 .race-over-overlay {
   position: fixed; inset: 0; z-index: 1000;
@@ -767,8 +875,13 @@ body { display: block; }
   background: linear-gradient(135deg, var(--red2), var(--red));
   color: #fff; font-size: 14px; font-weight: 800; letter-spacing: 1px;
   cursor: pointer; box-shadow: 0 4px 16px rgba(233,69,96,0.4); transition: opacity 0.2s;
+  display: block; width: 100%; margin-top: 10px;
 }
 .play-again-btn:hover { opacity: 0.9; }
+.play-again-btn.restart-btn {
+  background: linear-gradient(135deg, #0d9488, #14b8a6);
+  box-shadow: 0 4px 16px rgba(20,184,166,0.4);
+}
 
 /* ===== SCREEN SYSTEM ===== */
 .screen { position: fixed; inset: 0; overflow: hidden; display: none; }
@@ -819,11 +932,23 @@ body { display: block; }
 }
 .mn-hdr-brand em { color: var(--red); font-style: normal; }
 .mn-hdr-chips {
-  display: flex; align-items: center; gap: 6px;
+  display: flex; align-items: center; gap: 10px;
   background: rgba(240,165,0,.1); border: 1px solid rgba(240,165,0,.25);
-  border-radius: 8px; padding: 5px 13px;
-  font-size: 13px; font-weight: 700; color: var(--gold);
+  border-radius: 14px; padding: 0 24px; height: 96px;
+  font-size: 22px; font-weight: 700; color: var(--gold);
 }
+.mn-hdr-rep {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(139,92,246,.1); border: 1px solid rgba(139,92,246,.3);
+  border-radius: 14px; padding: 0 24px; height: 96px;
+  font-size: 22px; font-weight: 700; color: #a78bfa;
+}
+.mn-hdr .player-name-badge {
+  height: 96px; padding: 0 24px; border-radius: 14px;
+  font-size: 22px; display: flex; align-items: center;
+}
+/* Rep column in final standings */
+.fs-rep { font-size: 12px; font-weight: 700; min-width: 52px; text-align: right; }
 .mn-tabs { display: flex; gap: 4px; margin-left: auto; }
 .mn-tab {
   padding: 8px 18px; border: 1px solid transparent; border-radius: 8px;
@@ -882,6 +1007,69 @@ body { display: block; }
 .mn-coming-soon .cs-icon { font-size: 50px; }
 .mn-coming-soon p { font-size: 14px; letter-spacing: 1px; }
 
+/* === RACE REWARD POPUP === */
+.race-reward-popup {
+  position: fixed; inset: 0; z-index: 1500;
+  display: none; align-items: center; justify-content: center;
+  background: rgba(5,8,16,0.88); backdrop-filter: blur(6px);
+}
+.race-reward-popup.show { display: flex; }
+.rrp-inner {
+  text-align: center;
+  animation: rrpIn 0.45s cubic-bezier(0.175,0.885,0.32,1.275) forwards;
+}
+@keyframes rrpIn { from { transform: scale(0.4); opacity:0; } to { transform: scale(1); opacity:1; } }
+.rrp-inner.out { animation: rrpOut 0.3s ease-in forwards; }
+@keyframes rrpOut { to { transform: scale(1.1); opacity:0; } }
+.rrp-icon { height: 110px; object-fit: contain; margin-bottom: 16px; }
+.rrp-label {
+  font-size: 14px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 10px;
+}
+.rrp-amount {
+  font-size: 90px; font-weight: 900; line-height: 1;
+  transition: color 0.2s;
+}
+.rrp-amount.pos { color: #4ade80; text-shadow: 0 0 40px rgba(74,222,128,0.4); }
+.rrp-amount.neg { color: var(--red); text-shadow: 0 0 40px rgba(233,69,96,0.4); }
+
+/* === GAME MODE TITLE === */
+.mn-game-title {
+  font-size: 30px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase;
+  color: #fff; text-align: center; margin-bottom: 22px; flex-shrink: 0;
+}
+.mn-game-title span { color: var(--red); }
+
+/* === PAY TABLE HOVER OVERLAY (inside card) === */
+.gm-pay-overlay {
+  position: absolute; inset: 0; z-index: 2;
+  background: rgba(5,8,16,0.96);
+  padding: 8px 10px;
+  opacity: 0; transition: opacity 0.18s;
+  pointer-events: none;
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.gm-card:hover .gm-pay-overlay { opacity: 1; }
+.gm-pt-title { font-size: 8px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; flex-shrink: 0; }
+.gm-pt-cols { display: flex; margin-bottom: 2px; flex-shrink: 0; }
+.gm-pt-col-hdr { font-size: 7px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; width: 36px; text-align: right; }
+.gm-pt-col-hdr.spd { color: var(--teal); }
+.gm-pt-col-hdr.chp { color: var(--gold); margin-left: 2px; }
+.gm-pt-rows { display: flex; flex-direction: column; flex: 1; overflow: hidden; justify-content: space-evenly; }
+.gm-pt-row { display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.gm-pt-row:last-child { border-bottom: none; }
+.gm-pt-hand { color: rgba(255,255,255,0.75); font-size: 8px; width: 50px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: 3px; }
+.gm-pt-cards { display: flex; gap: 2px; flex: 1; align-items: center; overflow: hidden; }
+.gm-mc {
+  background: #fff; border-radius: 2px; padding: 1px 2px;
+  font-size: 7px; font-weight: 900; line-height: 1.2; white-space: nowrap; flex-shrink: 0;
+}
+.gm-mc.red { color: #c0392b; }
+.gm-mc.blk { color: #1a1a2e; }
+.gm-mc.wild { background: #f0a500; color: #1a1a2e; }
+.gm-pt-spd { color: var(--teal); font-size: 9px; font-weight: 700; width: 36px; text-align: right; flex-shrink: 0; }
+.gm-pt-chp { color: var(--gold); font-size: 9px; font-weight: 700; width: 36px; text-align: right; flex-shrink: 0; margin-left: 2px; }
+
 /* === TRACK SELECTION OVERLAY === */
 .track-select-overlay {
   display:none; position:fixed; inset:0; z-index:100;
@@ -925,6 +1113,13 @@ body { display: block; }
 <body>
 
 <div id="toast"></div>
+<div id="raceRewardPopup" class="race-reward-popup">
+  <div class="rrp-inner" id="rrpInner">
+    <img class="rrp-icon" id="rrpIcon" src="" alt="">
+    <div class="rrp-label" id="rrpLabel"></div>
+    <div class="rrp-amount" id="rrpAmount">0</div>
+  </div>
+</div>
 
 <!-- NAME PROMPT -->
 <div id="namePrompt" style="display:none">
@@ -938,16 +1133,16 @@ body { display: block; }
 
 <!-- WELCOME SCREEN -->
 <div id="welcome-screen" class="screen">
-  <img class="wlc-img" src="Splash/pokerRush_splash01.png" alt="Poker Rush" id="heroImg">
-  <img class="wlc-start-img" src="UI assets/pokerRush_UI_startButton.png" alt="Start" onclick="startBGMusic();playSoundUI('Audio/ButtonSelect.mp3');showScreen('menu')">
+  <video class="wlc-img" src="Splash/pokerRush_UI_animatedSplash.mp4" autoplay loop muted playsinline></video>
+  <img class="wlc-start-img" src="UI assets/pokerRush_UI_startButton.png" alt="Start" onclick="playSoundUI('Audio/ButtonSelect.mp3');showScreen('menu')">
 </div>
 
 <!-- MENU SCREEN -->
 <div id="menu-screen" class="screen">
   <div class="mn-hdr">
-    <img class="mn-hdr-logo" src="Logos/pokerRush_logo_ design01b.png" alt="" onclick="mnShowPanel('games')">
-    <img class="mn-hdr-brand-img" src="Logos/pokerRush_logo_ small.png" alt="Poker Rush" onclick="mnShowPanel('games')" style="height:32px;object-fit:contain;cursor:pointer;">
-    <div class="mn-hdr-chips">💰 <span id="menuChips">10,000</span> chips</div>
+    <img src="Logos/pokerRush_logo_ small.png" alt="Poker Rush" onclick="mnShowPanel('games')" style="height:96px;object-fit:contain;cursor:pointer;">
+    <div class="mn-hdr-chips"><img src="UI assets/pokerRush_UI_chipIcon01.png" style="height:60px;object-fit:contain;"> <span id="menuChips">10,000</span></div>
+    <div class="mn-hdr-rep"><img src="UI assets/pokerRush_UI_repPointIcon.png" style="height:60px;object-fit:contain;"> <span id="menuRep">0</span></div>
     <div class="player-name-badge" id="menuPlayerNameBadge"></div>
     <div class="mn-tabs">
       <button class="mn-tab" data-panel="profile"      onclick="mnShowPanel('profile')">Player Profile</button>
@@ -957,7 +1152,7 @@ body { display: block; }
   </div>
   <div class="mn-body">
     <div class="mn-panel active" id="mn-panel-games">
-      <div class="mn-sect-label">Select Game Mode — Quick Play</div>
+      <div class="mn-game-title">Select <span>Game Mode</span></div>
       <div class="gm-grid" id="gm-grid"></div>
     </div>
     <div class="mn-panel" id="mn-panel-profile">
@@ -1013,6 +1208,9 @@ body { display: block; }
       <div class="hud-status" id="raceStatus">Racing</div>
       <button class="hud-back" onclick="backToMenu()">&#9664; Main Menu</button>
     </div>
+    <div id="raceCountdown" class="race-countdown" style="display:none">
+      <div class="rc-text" id="rcText"></div>
+    </div>
     <canvas id="raceCanvas"></canvas>
     <div class="standings-column">
       <div class="standings-title">Standings</div>
@@ -1030,7 +1228,8 @@ body { display: block; }
   <div class="poker-main">
     <div class="poker-panel-hdr">
       <div class="poker-title" id="pokerTitle">VIDEO POKER</div>
-      <div class="chips-display" id="chipsDisplay">10,000 chips</div>
+      <div class="chips-display" id="chipsDisplay"><img src="UI assets/pokerRush_UI_chipIcon01.png" style="height:14px;vertical-align:middle;margin-right:5px;"><span id="chipsAmount">10,000</span></div>
+      <div class="chips-display rep-display" id="pokerRepDisplay"><img src="UI assets/pokerRush_UI_repPointIcon.png" style="height:14px;vertical-align:middle;margin-right:5px;"><span id="pokerRepAmount">250</span></div>
       <div class="player-name-badge" id="playerNameBadge"></div>
       <div class="hand-result-area">
         <div class="hand-result-badge" id="handResultBadge"></div>
@@ -1074,16 +1273,24 @@ body { display: block; }
           <span class="dd-btn-icon">♠</span>
           <span class="dd-btn-label">BLACK</span>
         </button>
+        <button class="dd-cashout-btn" id="ddCashoutBtn" onclick="ddCashout()">
+          <span class="dd-btn-label">💰 Cash Out</span>
+          <span class="dd-btn-sub">+<span id="ddCashoutAmt">0</span>%</span>
+        </button>
+        <button class="dd-accept-btn" id="ddAcceptBtn" onclick="ddAcceptPenalty()">
+          <span class="dd-btn-label">✕ Take Penalty</span>
+          <span class="dd-btn-sub">(<span id="ddAcceptAmt"></span>% speed)</span>
+        </button>
       </div>
-      <button class="dd-cashout-btn" id="ddCashoutBtn" onclick="ddCashout()">
-        💰 Cash Out +<span id="ddCashoutAmt">0</span>%
-      </button>
-      <button class="dd-accept-btn" id="ddAcceptBtn" onclick="ddAcceptPenalty()">
-        ✕ Take Penalty (<span id="ddAcceptAmt"></span>% speed)
-      </button>
     </div>
 
     <div class="poker-content">
+      <div id="handResultOverlay" class="hand-result-overlay">
+        <div class="hr-badge" id="hrBadge">
+          <div class="hr-result" id="hrResult"></div>
+          <div class="hr-delta"  id="hrDelta"></div>
+        </div>
+      </div>
       <div class="cards-area" id="cardsArea"></div>
       <div class="action-btn-row">
         <button id="mainActionBtn" onclick="handleMainAction()"><img id="mainActionImg" src="UI assets/pokerRush_UI_dealButton.png" alt="Deal"></button>
@@ -1115,6 +1322,7 @@ body { display: block; }
     <div class="race-over-pos" id="raceOverPos"></div>
     <div class="final-standings" id="finalStandings"></div>
     <div class="chips-result" id="chipsResult"></div>
+    <button class="play-again-btn restart-btn" onclick="playSoundUI('Audio/ButtonSelect.mp3');launchGame(activeVariant)">&#8635; Restart Race</button>
     <button class="play-again-btn" onclick="playSoundUI('Audio/ButtonSelect.mp3');showScreen('menu')">&#9664; Back to Menu</button>
   </div>
 </div>
@@ -1174,6 +1382,16 @@ function startBGMusic() {
   bg.volume = 0.30;
   bg.play().catch(() => {});
 }
+// Start music on first interaction with the welcome screen
+(function() {
+  function _onFirstInteraction() {
+    startBGMusic();
+    window.removeEventListener('click',      _onFirstInteraction);
+    window.removeEventListener('touchstart', _onFirstInteraction);
+  }
+  window.addEventListener('click',      _onFirstInteraction);
+  window.addEventListener('touchstart', _onFirstInteraction);
+})();
 
 // ─────────────────────────────────────────────
 // PLAYER NAME
@@ -1233,6 +1451,11 @@ function submitPlayerName() {
 (function initChipsDisplay() {
   const menuEl = document.getElementById('menuChips');
   if (menuEl) menuEl.textContent = parseInt(localStorage.getItem('pokerRush_chips') || '10000').toLocaleString();
+})();
+
+(function initRepDisplay() {
+  const menuEl = document.getElementById('menuRep');
+  if (menuEl) menuEl.textContent = Math.max(250, parseInt(localStorage.getItem('pokerRush_rep') || '0')).toLocaleString();
 })();
 
 (function initPlayerName() {
@@ -1784,9 +2007,19 @@ let playerState = racerState.find(r => r.isPlayer);
 
 let chips      = parseInt(localStorage.getItem('pokerRush_chips') || '10000');
 let startChips = chips;
+let repPoints  = Math.max(250, parseInt(localStorage.getItem('pokerRush_rep') || '0'));
+
+const REP_TABLE = {
+  2: [+100, -50],
+  3: [+125, +25, -50],
+  4: [+150, +25, +10, -50],
+  5: [+175, +75, +15,  0, -50],
+  6: [+200, +100, +50, +10, -25, -50],
+};
 let raceTimer  = RACE_DURATION;
-let raceOver   = false;
-let finalLap   = false;
+let raceOver        = false;
+let raceCountingDown = false;
+let finalLap        = false;
 let finalLapThreshold = Infinity;
 let finishCount = 0;   // how many cars have crossed the final finish line
 let lastFrame  = performance.now();
@@ -1807,6 +2040,9 @@ let puUsed = [false, false, false];
 // Active variant & track
 let activeVariant = 'All American';
 let activeTrack   = TRACKS.track02;
+
+// Card highlight state (set during hand-result popup)
+let handHighlightIndices = null; // null = none, array = winning card indices
 
 // ─────────────────────────────────────────────
 // DECK / POKER UTILITIES
@@ -1925,6 +2161,8 @@ function applySpeedDelta(state, delta) {
   state.speedMod = (eff - 1) * 100;
   state._lastDelta = delta;
   state._lastSpeedUpdate = performance.now();
+  state._flashUntil = performance.now() + 1900;
+  state._flashType  = delta > 0 ? 'win' : 'loss';
 }
 
 // ─────────────────────────────────────────────
@@ -2103,9 +2341,8 @@ function renderCanvas(now) {
   const track = activeTrack;
   const trackImg = trackImgCache[track.id];
 
-  // 1. Clear to black
-  ctx.fillStyle = '#000';
-  ctx.fillRect(0, 0, W, H);
+  // 1. Clear canvas (transparent so CSS background shows through)
+  ctx.clearRect(0, 0, W, H);
 
   // 2. Draw track image (contain-fit, preserving aspect ratio)
   let drawX = 0, drawY = 0, drawW = W, drawH = H;
@@ -2205,7 +2442,7 @@ function renderCanvas(now) {
     const progress = state.distance % 1;
     const pos = getCarPos(progress, track, state.laneFraction, drawW, drawH);
     pos.x += drawX; pos.y += drawY;
-    const cS    = 90;
+    const cS    = 67.5;
     const cHalf = cS * 0.23;
 
     const isBoostActive  = state.boostUntil  > now;
@@ -2256,7 +2493,7 @@ function renderCanvas(now) {
     // heading + π aligns the left-facing image with the direction of travel
     ctx.rotate(pos.heading + Math.PI);
     ctx.shadowColor = isBoostActive ? '#fbbf24' : state.color;
-    ctx.shadowBlur  = (state.isPlayer || isBoostActive) ? 20 : 0;
+    ctx.shadowBlur  = isBoostActive ? 20 : 0;
     const img = state.carImg;
     if (img && img.complete && img.naturalWidth > 0) {
       ctx.drawImage(img, -cS / 2, -cS / 2, cS, cS);
@@ -2352,22 +2589,55 @@ function updateStandings() {
     const pc = ['p1','p2','p3','other'][i] || 'other';
     const boostBonus  = state.boostUntil  > now ? (state.boostPct  || 15) : 0;
     const debuffMalus = state.debuffUntil > now ? (state.debuffPct || 0)  : 0;
+    const shieldOn    = state.lockUntil   > now;
     const mod = state.speedMod + boostBonus - debuffMalus;
-    const boostTag  = boostBonus  ? ' ⚡' : '';
-    const debuffTag = debuffMalus ? ' 🌀' : '';
-    const shieldTag = (state.lockUntil > now) ? ' 🛡️' : '';
+
     const label = state.finishedAt
       ? `<span style="color:var(--gold);font-weight:700">Finished</span>`
-      : `<span class="${mod >= 0 ? 'speed-up' : 'speed-dn'}">${mod >= 0 ? '▲ +' : '▼ '}${mod.toFixed(1)}%${boostTag}${debuffTag}${shieldTag}</span>`;
-    const row  = document.createElement('div');
-    row.className = 'standing-row' + (state.isPlayer ? ' me' : '');
+      : `<span class="${mod >= 0 ? 'speed-up' : 'speed-dn'}">${mod >= 0 ? '▲ +' : '▼ '}${mod.toFixed(1)}%</span>`;
+
+    // Effect badges
+    let effectsHtml = '';
+    if (boostBonus || debuffMalus || shieldOn) {
+      effectsHtml = '<div class="standing-effects">';
+      if (boostBonus)  effectsHtml += `<span class="effect-badge effect-boost">⚡ +${boostBonus}%</span>`;
+      if (debuffMalus) effectsHtml += `<span class="effect-badge effect-hazard">🌀 -${debuffMalus}%</span>`;
+      if (shieldOn)    effectsHtml += `<span class="effect-badge effect-shield">🛡 Lock</span>`;
+      effectsHtml += '</div>';
+    }
+
+    // Active card thumbnails (filter out expired entries)
+    const activeCards = (state._activeCards || []).filter(c => c.until > now);
+    const thumbsHtml = activeCards.map(c =>
+      `<img class="standing-card-thumb${c.type === 'hazard' ? ' hazard' : ''}" src="${c.img}" alt="">`
+    ).join('');
+
+    const row = document.createElement('div');
+    row.className = 'standing-row' + (state.isPlayer ? ' me' : '') + (i === 0 ? ' rank-1' : '');
     row.innerHTML = `
       <div class="standing-pos ${pc}">${i+1}</div>
       <div class="standing-av" style="background:${state.grad}">${state.initials}</div>
       <div class="standing-info">
         <div class="standing-name">${state.name}${state.isPlayer ? ' ★' : ''}</div>
         <div class="standing-speed">${label}</div>
-      </div>`;
+        ${effectsHtml}
+      </div>
+      ${thumbsHtml ? `<div class="standing-card-thumbs">${thumbsHtml}</div>` : ''}`;
+
+    // Win/loss flash — computed per-frame so it fades smoothly even after DOM rebuild
+    if (state._flashUntil > now) {
+      const age   = now - (state._flashUntil - 1900);
+      const alpha = Math.max(0, 1 - age / 1900);
+      if (state._flashType === 'win') {
+        row.style.boxShadow = `0 0 0 2px rgba(74,222,128,${(alpha * 0.9).toFixed(2)}), 0 0 22px 5px rgba(74,222,128,${(alpha * 0.5).toFixed(2)})`;
+        row.style.background = `rgba(74,222,128,${(alpha * 0.18).toFixed(2)})`;
+      } else {
+        row.style.boxShadow = `0 0 0 2px rgba(233,69,96,${(alpha * 0.9).toFixed(2)}), 0 0 22px 5px rgba(233,69,96,${(alpha * 0.5).toFixed(2)})`;
+        row.style.background = `rgba(233,69,96,${(alpha * 0.18).toFixed(2)})`;
+      }
+      if (i === 0) row.style.animation = 'none';
+    }
+
     list.appendChild(row);
   });
 }
@@ -2400,10 +2670,56 @@ function updateLapBadge() {
 
 function updateChipsDisplay() {
   const fmt = chips.toLocaleString();
-  document.getElementById('chipsDisplay').textContent = fmt + ' chips';
+  const amtEl = document.getElementById('chipsAmount');
+  if (amtEl) amtEl.textContent = fmt;
   const menuEl = document.getElementById('menuChips');
   if (menuEl) menuEl.textContent = fmt;
   localStorage.setItem('pokerRush_chips', chips);
+}
+
+function updateRepDisplay() {
+  const menuEl = document.getElementById('menuRep');
+  if (menuEl) menuEl.textContent = repPoints.toLocaleString();
+  const pokerEl = document.getElementById('pokerRepAmount');
+  if (pokerEl) pokerEl.textContent = repPoints.toLocaleString();
+  localStorage.setItem('pokerRush_rep', repPoints);
+}
+
+function showRaceRewardPopup(iconSrc, label, amount, onDone) {
+  const popup  = document.getElementById('raceRewardPopup');
+  const inner  = document.getElementById('rrpInner');
+  const amtEl  = document.getElementById('rrpAmount');
+  document.getElementById('rrpIcon').src    = iconSrc;
+  document.getElementById('rrpLabel').textContent = label;
+  amtEl.textContent = '0';
+  amtEl.className   = 'rrp-amount ' + (amount >= 0 ? 'pos' : 'neg');
+  inner.classList.remove('out');
+  // force reflow
+  void inner.offsetWidth;
+  popup.classList.add('show');
+
+  // Count up/down animation over 1s
+  const sign    = amount >= 0 ? '+' : '';
+  const abs     = Math.abs(amount);
+  const dur     = 1000;
+  const start   = performance.now();
+  function tick(now) {
+    const t = Math.min((now - start) / dur, 1);
+    const cur = Math.round(t * abs) * (amount < 0 ? -1 : 1);
+    amtEl.textContent = sign + cur.toLocaleString();
+    if (t < 1) { requestAnimationFrame(tick); return; }
+    amtEl.textContent = sign + amount.toLocaleString();
+    // Hold 0.8s then fade out
+    setTimeout(() => {
+      inner.classList.add('out');
+      setTimeout(() => {
+        popup.classList.remove('show');
+        inner.classList.remove('out');
+        onDone();
+      }, 300);
+    }, 800);
+  }
+  requestAnimationFrame(tick);
 }
 
 function updateHandHistory() {
@@ -2427,6 +2743,70 @@ function updateHandHistory() {
 // ─────────────────────────────────────────────
 // CARD RENDERING
 // ─────────────────────────────────────────────
+function getWinningCardIndices(hand, result) {
+  if (!result || result === 'Loss') return [];
+  const all = [0,1,2,3,4];
+  // All five cards contribute
+  if (['Royal Flush','Natural Royal Flush','Wild Royal Flush',
+       'Straight Flush','Flush','Straight','Full House',
+       'Five of a Kind','Four Deuces','Four Aces+','Four 2-4+'].includes(result)) return all;
+  // Four-of-a-kind variants (without bonus kicker)
+  if (['Four of a Kind','Four Aces','Four 2-4','Four 5-K'].includes(result)) {
+    const counts = {};
+    hand.forEach((c,i) => { (counts[c.rank] = counts[c.rank]||[]).push(i); });
+    for (const idxs of Object.values(counts)) { if (idxs.length >= 4) return idxs.slice(0,4); }
+    const wilds = hand.map((c,i)=>c.rank==='W'?i:-1).filter(i=>i>=0);
+    for (const [r,idxs] of Object.entries(counts)) {
+      if (r!=='W' && idxs.length+wilds.length>=4) return [...idxs,...wilds].slice(0,4);
+    }
+    return all;
+  }
+  // Three of a Kind
+  if (result === 'Three of a Kind') {
+    const counts = {};
+    hand.forEach((c,i) => { (counts[c.rank] = counts[c.rank]||[]).push(i); });
+    for (const idxs of Object.values(counts)) { if (idxs.length >= 3) return idxs.slice(0,3); }
+    const wilds = hand.map((c,i)=>c.rank==='W'?i:-1).filter(i=>i>=0);
+    for (const [r,idxs] of Object.entries(counts)) {
+      if (r!=='W' && idxs.length+wilds.length>=3) return [...idxs,...wilds].slice(0,3);
+    }
+    return all;
+  }
+  // Two Pair
+  if (result === 'Two Pair') {
+    const counts = {};
+    hand.forEach((c,i) => { (counts[c.rank] = counts[c.rank]||[]).push(i); });
+    const out = [];
+    for (const idxs of Object.values(counts)) { if (idxs.length>=2) out.push(...idxs.slice(0,2)); if(out.length>=4) break; }
+    return out.slice(0,4);
+  }
+  // Pair hands
+  if (result === 'Jacks or Better' || result === 'Kings or Better') {
+    const qualify = result === 'Kings or Better' ? ['K','A'] : ['J','Q','K','A'];
+    const counts = {};
+    hand.forEach((c,i) => { (counts[c.rank] = counts[c.rank]||[]).push(i); });
+    for (const [r,idxs] of Object.entries(counts)) {
+      if (qualify.includes(r) && idxs.length>=2) return idxs.slice(0,2);
+    }
+    return all;
+  }
+  return all;
+}
+
+function showHandResultOverlay(result, speedDelta, duration) {
+  const overlay = document.getElementById('handResultOverlay');
+  const badge   = document.getElementById('hrBadge');
+  document.getElementById('hrResult').textContent = result;
+  document.getElementById('hrDelta').textContent  = (speedDelta > 0 ? '+' : '') + speedDelta + '% speed';
+  const cls = speedDelta > 0 ? 'win' : 'loss';
+  badge.className = 'hr-badge ' + cls;
+  overlay.style.animation = `hrFade ${duration / 1000}s ease forwards`;
+  overlay.classList.remove('show');
+  void overlay.offsetWidth;
+  overlay.classList.add('show');
+  setTimeout(() => overlay.classList.remove('show'), duration);
+}
+
 function renderCards() {
   const area = document.getElementById('cardsArea');
   area.innerHTML = '';
@@ -2443,19 +2823,24 @@ function renderCards() {
       area.appendChild(div);
       continue;
     }
+    const showHeld = card.held && handHighlightIndices === null;
     if (card.rank === 'W') {
-      div.className = 'card joker' + (card.held ? ' held' : '');
+      div.className = 'card joker' + (showHeld ? ' held' : '');
       div.innerHTML = `
         <div class="card-tl">WILD</div>
         <div class="card-center">🃏</div>
         <div class="card-br">WILD</div>`;
     } else {
       const red = isRed(card.suit) ? ' red' : '';
-      div.className = 'card' + (card.held ? ' held' : '');
+      div.className = 'card' + (showHeld ? ' held' : '');
       div.innerHTML = `
         <div class="card-tl${red}">${card.rank}</div>
         <div class="card-center${red}">${card.suit}</div>
         <div class="card-br${red}">${card.rank}</div>`;
+    }
+    if (handHighlightIndices !== null) {
+      if (handHighlightIndices.includes(i)) div.classList.add('winner');
+      else                                  div.classList.add('dimmed');
     }
     if (phase === 'deal') {
       div.addEventListener('click', () => { card.held = !card.held; playSoundUI('Audio/CardSelect.mp3'); renderCards(); });
@@ -2556,14 +2941,19 @@ function drawCards() {
     pendingDelta = finalDelta;
     ddAttempt    = 0;
 
+    // Highlight winning cards, dim the rest
+    handHighlightIndices = getWinningCardIndices(hand, currentResult);
+    renderCards();
     if (speedDelta > 0) {
       playSoundUI('Audio/HandWin.mp3');
       phase = 'doubledown';
-      setTimeout(() => showDDOverlay(false), 500);
+      showHandResultOverlay(currentResult, speedDelta, 2500);
+      setTimeout(() => { handHighlightIndices = null; showDDOverlay(false); }, 2500);
     } else {
       playSoundUI('Audio/HandLose.mp3');
       phase = 'mitigate';
-      setTimeout(() => showDDOverlay(true), 500);
+      showHandResultOverlay(currentResult, speedDelta, 1500);
+      setTimeout(() => { handHighlightIndices = null; showDDOverlay(true); }, 1500);
     }
   }, STEP * replacedIdx.length + 80);
 }
@@ -2849,6 +3239,19 @@ function activatePowerup(idx) {
   // Run the card effect
   card.activate();
 
+  // Tag affected racers so standings can show the card thumbnail
+  if (card.type === 'powerup') {
+    if (playerState.boostUntil > performance.now()) {
+      if (!playerState._activeCards) playerState._activeCards = [];
+      playerState._activeCards.push({ img: card.img, type: 'boost', until: playerState.boostUntil });
+    }
+  } else {
+    racerState.filter(r => !r.isPlayer).forEach(r => {
+      if (!r._activeCards) r._activeCards = [];
+      r._activeCards.push({ img: card.img, type: 'hazard', until: r.debuffUntil });
+    });
+  }
+
   // === VFX 1: Card burst animation ===
   slot.classList.add('activating');
   setTimeout(() => slot.classList.remove('activating'), 550);
@@ -2938,8 +3341,31 @@ function endRace() {
   playSoundUI('Audio/RaceComplete.mp3');
   document.getElementById('raceStatus').textContent = 'Finished';
 
-  const sorted  = [...racerState].sort((a, b) => a.finishPos - b.finishPos);
-  const plPos   = sorted.findIndex(s => s.isPlayer) + 1;
+  const sorted    = [...racerState].sort((a, b) => a.finishPos - b.finishPos);
+  const plPos     = sorted.findIndex(s => s.isPlayer) + 1;
+  const numP      = racerState.length;
+  const repRow    = REP_TABLE[numP] || REP_TABLE[4];
+  const repEarned = repRow[plPos - 1] ?? 0;
+  repPoints      += repEarned;
+  updateRepDisplay();
+
+  const net = chips - startChips;
+
+  // Show chips popup → rep popup → race summary
+  showRaceRewardPopup(
+    'UI assets/pokerRush_UI_chipIcon01.png',
+    'Chips Earned',
+    net,
+    () => showRaceRewardPopup(
+      'UI assets/pokerRush_UI_repPointIcon.png',
+      'Rep Earned',
+      repEarned,
+      () => showRaceSummary(sorted, plPos, net, repRow)
+    )
+  );
+}
+
+function showRaceSummary(sorted, plPos, net, repRow) {
   const posColors = ['', 'var(--gold)', '#94a3b8', '#cd7f32', 'var(--muted)'];
   const posLabels = ['', '1st Place', '2nd Place', '3rd Place', '4th Place'];
 
@@ -2949,24 +3375,26 @@ function endRace() {
   const fsEl = document.getElementById('finalStandings');
   fsEl.innerHTML = '';
   sorted.forEach((state, i) => {
-    const col = posColors[i+1] || 'var(--muted)';
-    const mod = state.speedMod;
-    const mStr = mod >= 0 ? `+${mod.toFixed(1)}%` : `${mod.toFixed(1)}%`;
-    const row = document.createElement('div');
+    const col   = posColors[i+1] || 'var(--muted)';
+    const mod   = state.speedMod;
+    const mStr  = mod >= 0 ? `+${mod.toFixed(1)}%` : `${mod.toFixed(1)}%`;
+    const rep   = repRow[i] ?? 0;
+    const rStr  = rep >= 0 ? `+${rep}` : `${rep}`;
+    const rCol  = rep >= 0 ? '#a78bfa' : 'var(--red)';
+    const row   = document.createElement('div');
     row.className = 'fs-row' + (state.isPlayer ? ' fs-me' : '');
     row.innerHTML = `
       <div class="fs-pos" style="color:${col}">${i+1}</div>
       <div class="fs-av" style="background:${state.grad}">${state.initials}</div>
       <div class="fs-name">${state.name}${state.isPlayer ? ' ★' : ''}</div>
-      <div class="fs-mod" style="color:${mod >= 0 ? 'var(--green)' : 'var(--red)'}">${mStr}</div>`;
+      <div class="fs-mod" style="color:${mod >= 0 ? 'var(--green)' : 'var(--red)'}">${mStr}</div>
+      <div class="fs-rep" style="color:${rCol}"><img src="UI assets/pokerRush_UI_repPointIcon.png" style="height:12px;vertical-align:middle;margin-right:2px;">${rStr}</div>`;
     fsEl.appendChild(row);
   });
 
-  const net = chips - startChips;
+  const sign = net >= 0 ? '+' : '';
   document.getElementById('chipsResult').textContent =
-    net >= 0
-      ? `Finished with ${chips.toLocaleString()} chips (+${net.toLocaleString()})`
-      : `Finished with ${chips.toLocaleString()} chips (${net.toLocaleString()})`;
+    `Finished with ${chips.toLocaleString()} chips (${sign}${net.toLocaleString()})`;
 
   document.getElementById('raceOverOverlay').classList.add('show');
 }
@@ -2977,6 +3405,12 @@ function endRace() {
 function gameLoop(now) {
   const dt = Math.min(now - lastFrame, 100);
   lastFrame = now;
+
+  if (raceCountingDown) {
+    renderCanvas(now);
+    rafId = requestAnimationFrame(gameLoop);
+    return;
+  }
 
   if (!raceOver) {
     // 1. Race timer
@@ -3096,8 +3530,9 @@ function mnShowPanel(panel) {
 // ─── Track selection flow ───
 let pendingVariant = null;
 function openTrackSelect(variant) {
-  pendingVariant = variant;
-  document.getElementById('trackSelectOverlay').classList.add('show');
+  const trackKeys = Object.keys(TRACKS);
+  activeTrack = TRACKS[trackKeys[Math.floor(Math.random() * trackKeys.length)]];
+  launchGame(variant);
 }
 function closeTrackSelect() {
   document.getElementById('trackSelectOverlay').classList.remove('show');
@@ -3122,13 +3557,14 @@ function launchGame(variant) {
     debuffUntil:0, debuffPct:0,
     lockUntil:0,
     nextBotHand: performance.now() + 1000 + Math.random() * 2000,
-    _lastDelta:0, _lastSpeedUpdate:0, finishedAt:0, finishPos:0,
+    _lastDelta:0, _lastSpeedUpdate:0, finishedAt:0, finishPos:0, _activeCards:[],
   }));
   playerState     = racerState.find(r => r.isPlayer);
   startChips      = chips;
   raceTimer       = 0;
-  raceOver        = false;
-  finalLap        = false;
+  raceOver         = false;
+  raceCountingDown = true;
+  finalLap         = false;
   finalLapThreshold = Infinity;
   finishCount     = 0;
   phase           = 'idle';
@@ -3159,12 +3595,72 @@ function launchGame(variant) {
   pickCarImages();
   renderCards();
   updateChipsDisplay();
+  updateRepDisplay();
   updateHandHistory();
   updateStandings();
   resizeCanvas();
   lastFrame = performance.now();
   rafId = requestAnimationFrame(gameLoop);
+  startRaceCountdown();
 }
+
+function startRaceCountdown() {
+  const overlay = document.getElementById('raceCountdown');
+  const textEl  = document.getElementById('rcText');
+  overlay.style.display = 'flex';
+
+  const steps = [
+    { text: 'On your mark!', cls: '',     ms: 1400 },
+    { text: 'Breath in!',    cls: '',     ms: 1200 },
+    { text: 'DEAL!',         cls: 'deal', ms: 900  },
+  ];
+
+  let i = 0;
+  function next() {
+    if (i >= steps.length) {
+      overlay.style.display = 'none';
+      raceCountingDown = false;
+      lastFrame = performance.now(); // reset dt so first live frame is clean
+      return;
+    }
+    const step = steps[i++];
+    textEl.className = 'rc-text' + (step.cls ? ' ' + step.cls : '');
+    textEl.textContent = step.text;
+    // Force reflow to restart the CSS animation
+    void textEl.offsetWidth;
+    textEl.style.animation = 'none';
+    void textEl.offsetWidth;
+    textEl.style.animation = '';
+    setTimeout(next, step.ms);
+  }
+  next();
+}
+
+// ─────────────────────────────────────────────
+// HAND → CARD VISUALS (for game mode overlay)
+// ─────────────────────────────────────────────
+const HAND_CARDS = {
+  'Royal Flush':         [{r:'10',s:'♥'},{r:'J',s:'♥'},{r:'Q',s:'♥'},{r:'K',s:'♥'},{r:'A',s:'♥'}],
+  'Natural Royal Flush': [{r:'10',s:'♥'},{r:'J',s:'♥'},{r:'Q',s:'♥'},{r:'K',s:'♥'},{r:'A',s:'♥'}],
+  'Wild Royal Flush':    [{r:'10',s:'♥'},{r:'J',s:'♥'},{r:'Q',s:'♥'},{r:'K',s:'♥'},{r:'W',s:'★'}],
+  'Straight Flush':      [{r:'5',s:'♦'},{r:'6',s:'♦'},{r:'7',s:'♦'},{r:'8',s:'♦'},{r:'9',s:'♦'}],
+  'Five of a Kind':      [{r:'A',s:'♠'},{r:'A',s:'♥'},{r:'A',s:'♦'},{r:'A',s:'♣'},{r:'W',s:'★'}],
+  'Four Deuces':         [{r:'2',s:'♠'},{r:'2',s:'♥'},{r:'2',s:'♦'},{r:'2',s:'♣'}],
+  'Four of a Kind':      [{r:'K',s:'♠'},{r:'K',s:'♥'},{r:'K',s:'♦'},{r:'K',s:'♣'}],
+  'Four Aces+':          [{r:'A',s:'♠'},{r:'A',s:'♥'},{r:'A',s:'♦'},{r:'A',s:'♣'},{r:'2',s:'♥'}],
+  'Four Aces':           [{r:'A',s:'♠'},{r:'A',s:'♥'},{r:'A',s:'♦'},{r:'A',s:'♣'}],
+  'Four 2-4+':           [{r:'2',s:'♠'},{r:'2',s:'♥'},{r:'2',s:'♦'},{r:'2',s:'♣'},{r:'A',s:'♦'}],
+  'Four 2-4':            [{r:'3',s:'♠'},{r:'3',s:'♥'},{r:'3',s:'♦'},{r:'3',s:'♣'}],
+  'Four 5-K':            [{r:'K',s:'♠'},{r:'K',s:'♥'},{r:'K',s:'♦'},{r:'K',s:'♣'}],
+  'Full House':          [{r:'K',s:'♠'},{r:'K',s:'♥'},{r:'K',s:'♦'},{r:'3',s:'♠'},{r:'3',s:'♥'}],
+  'Flush':               [{r:'A',s:'♥'},{r:'J',s:'♥'},{r:'8',s:'♥'},{r:'5',s:'♥'},{r:'2',s:'♥'}],
+  'Straight':            [{r:'5',s:'♠'},{r:'6',s:'♥'},{r:'7',s:'♦'},{r:'8',s:'♣'},{r:'9',s:'♠'}],
+  'Three of a Kind':     [{r:'Q',s:'♠'},{r:'Q',s:'♥'},{r:'Q',s:'♦'}],
+  'Two Pair':            [{r:'A',s:'♠'},{r:'A',s:'♥'},{r:'K',s:'♠'},{r:'K',s:'♥'}],
+  'Jacks or Better':     [{r:'J',s:'♠'},{r:'J',s:'♥'}],
+  'Kings or Better':     [{r:'K',s:'♠'},{r:'K',s:'♥'}],
+  'Loss':                [{r:'2',s:'♠'},{r:'5',s:'♥'},{r:'9',s:'♦'},{r:'J',s:'♣'}],
+};
 
 // ─────────────────────────────────────────────
 // BUILD GAME MODE CARDS
@@ -3181,18 +3677,39 @@ function launchGame(variant) {
     { name:'Triple Double Draw Poker',  img:'Game type headers/pokerRush_UI_tripleDoubleDrawPoker_header.png',    available:true },
   ];
   const grid = document.getElementById('gm-grid');
-  grid.innerHTML = MODES.map(m => `
+  grid.innerHTML = MODES.map(m => {
+    const cfg = VARIANTS[m.name];
+    const payOverlay = cfg ? (
+      `<div class="gm-pay-overlay">` +
+      `<div class="gm-pt-title">Pay Table</div>` +
+      `<div class="gm-pt-cols"><span style="flex:1"></span><span class="gm-pt-col-hdr spd">Speed</span><span class="gm-pt-col-hdr chp">Chips</span></div>` +
+      `<div class="gm-pt-rows">` +
+      cfg.payRows.map(r => {
+        const cards = HAND_CARDS[r.hand];
+        const cardsHtml = cards
+          ? cards.map(c => {
+              const cls = c.s === '★' ? 'wild' : (c.s === '♥' || c.s === '♦' ? 'red' : 'blk');
+              return `<div class="gm-mc ${cls}">${c.r}${c.s}</div>`;
+            }).join('')
+          : '';
+        return `<div class="gm-pt-row"><span class="gm-pt-hand">${r.label}</span><div class="gm-pt-cards">${cardsHtml}</div><span class="gm-pt-spd">${r.speed > 0 ? '+' : ''}${r.speed}%</span><span class="gm-pt-chp">${r.chips}x</span></div>`;
+      }).join('') +
+      `</div></div>`
+    ) : '';
+    return `
     <div class="gm-card ${m.available ? 'available' : 'locked'}"${m.available ? ` onclick="openTrackSelect('${m.name}')"` : ''}>
       <div class="gm-img-wrap">
         <img src="${m.img}" alt="${m.name}">
         ${!m.available ? '<div class="gm-lock-ov"><span>🔒</span></div>' : ''}
+        ${payOverlay}
       </div>
       <div class="gm-foot">
         <button class="gm-cta ${m.available ? 'play' : 'buy'}"${m.available ? ` onclick="event.stopPropagation();openTrackSelect('${m.name}')"` : ' disabled'}>
           ${m.available ? '&#9654; Quick Play' : '🔒 Buy Now'}
         </button>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 })();
 </script>
 <audio id="bgMusic" src="Audio/BGMusic.mp3" loop></audio>
